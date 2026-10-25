@@ -3,12 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="RoboDojo 首轮行为对照：Low、历史Medium与High的指标、逐任务结果和事件证据。">
+  <meta name="description" content="RoboDojo 首轮Low与High行为分析结论、26项指标、逐任务结果和事件证据。历史实验作为独立参照。">
   <title>RoboDojo · Effort 行为对照</title>
   <link rel="stylesheet" href="style.css">
   <script defer src="lucide.min.js"></script>
   <script defer src="data.js"></script>
   <script defer src="core.js"></script>
+  <script defer src="findings.js"></script>
   <script defer src="app.js"></script>
 </head>
 <body>
@@ -19,14 +20,14 @@
     <p class="nav-label">研究工作区</p>
     <nav aria-label="主导航">
       <a href="#overview"><i data-lucide="layout-dashboard"></i>实验总览</a>
-      <a href="#metrics"><i data-lucide="chart-no-axes-combined"></i>26项指标</a>
-      <a href="#tasks"><i data-lucide="table-properties"></i>逐任务对照</a>
-      <a href="#evidence"><i data-lucide="scan-eye"></i>事件与证据</a>
-      <a href="#relations"><i data-lucide="git-compare-arrows"></i>实验对应关系</a>
-      <a href="#methods"><i data-lucide="file-text"></i>口径与数据</a>
+      <a href="#metrics"><i data-lucide="chart-no-axes-combined"></i>指标统计</a>
+      <a href="#tasks"><i data-lucide="table-properties"></i>任务对照</a>
+      <a href="#evidence"><i data-lucide="scan-eye"></i>事件证据</a>
+      <a href="#relations"><i data-lucide="git-compare-arrows"></i>实验配置</a>
+      <a href="#methods"><i data-lucide="file-text"></i>数据与方法</a>
     </nav>
     <div class="sidebar-bottom">
-      <strong>从差异，回到证据。</strong>
+      <strong>项目来源</strong>
       <a href="https://na-wen.github.io/robodojo-board/" target="_blank" rel="noopener">原行为看板 <i data-lucide="arrow-up-right"></i></a>
       <a href="https://zefanw.github.io/robodojo-l3-dashboard/" target="_blank" rel="noopener">原结果看板 <i data-lucide="arrow-up-right"></i></a>
       <span>独立研究预览 · 非官方提交</span>
@@ -36,7 +37,7 @@
     <header class="topbar"><div>RoboDojo <span>/</span> <b id="breadcrumb">实验总览</b></div><div class="snapshot"><span class="dot"></span> 固定数据快照 <time>2026.10.25</time></div></header>
     <main id="content">
       <section class="page-heading">
-        <div><p class="eyebrow">EFFORT / FIRST ROUND</p><h1 id="page-title">同一基线，不同思考强度</h1><p id="page-subtitle">Low · 历史 Medium · High</p></div>
+        <div><p class="eyebrow">EFFORT / FIRST ROUND</p><h1 id="page-title">实验总览</h1><p id="page-subtitle">Low / High · 首轮行为分析</p></div>
         <button id="export" class="button"><i data-lucide="download"></i>导出当前统计</button>
       </section>
       <section class="filterbar" aria-label="数据筛选">
@@ -46,7 +47,7 @@
           <label>任务<select id="task"><option value="">全部任务</option></select></label>
           <label>Variant<select id="variant"><option value="">全部</option><option value="standard">standard</option><option value="random">random</option></select></label>
           <label>指标证据<select id="policy"><option value="bounds">已确认 + 确认下界</option><option value="confirmed">仅已确认</option></select></label>
-          <button id="other-groups" class="text-button"><i data-lucide="sliders-horizontal"></i>其他配置</button>
+          <button id="other-groups" class="text-button"><i data-lucide="sliders-horizontal"></i>外部参照</button>
         </div>
         <div id="extra-groups" hidden></div>
         <div id="scope-summary" class="scope-summary" aria-live="polite"></div>

@@ -1,6 +1,7 @@
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const C = require("./core.js");
+const F = require("./findings.js");
 const D = JSON.parse(fs.readFileSync("data.json","utf8"));
 const tests=[];
 function test(name,fn){fn();tests.push(name);console.log("PASS",name);}
@@ -29,4 +30,38 @@ test("no raw private material in public dataset",()=>{
   for(const s of ["/Users/","/data/user/","/home/","note_quote","rawreasoning","rpc_body","github_pat_","ghp_"])assert.ok(!data.includes(s),s);
 });
 test("source SHA bindings are complete",()=>{for(const r of D.runs.filter(r=>["low","high"].includes(r.group)))assert.match(r.source.analysis_sha256,/^[a-f0-9]{64}$/);});
+test("overview provides six sourced findings",()=>{
+  const rows=F.build(D,state,["low","high"]);assert.equal(rows.length,6);
+  for(const row of rows){assert.ok(row.fields.length);for(const key of row.fields)assert.ok(D.metrics.some(m=>m.key===key));}
+  assert.match(rows[0].title,/未提高成功率/);assert.match(rows[0].text,/0.0037/);
+});
+test("distribution uses the exact paired score cohort",()=>{
+  const p=F.summarize(D,state,"score",["low","high"]);
+  assert.deepEqual(p.leftBins,{zero:21,partial:8,full:12});
+  assert.deepEqual(p.rightBins,{zero:17,partial:13,full:11});
+});
+test("behavior findings preserve different effective denominators",()=>{
+  const empty=F.summarize(D,state,"empty_retry",["low","high"]);
+  const placement=F.summarize(D,state,"fine_placement_fail",["low","high"]);
+  assert.deepEqual([empty.n,empty.left.total,empty.right.total],[39,32,42]);
+  assert.deepEqual([placement.n,placement.left.total,placement.right.total],[36,26,22]);
+});
+test("empty and one-group selections cannot produce conclusions",()=>{
+  assert.deepEqual(F.build(D,{...state,task:"push_T"},["low","high"]),[]);
+  assert.deepEqual(F.build(D,state,null),[]);
+});
+test("findings follow evidence and task filters",()=>{
+  assert.deepEqual(F.build(D,{...state,policy:"confirmed"},["low","high"]).map(row=>row.id),["outcomes","distribution","effort"]);
+  const rows=F.build(D,{...state,task:"align_blocks"},["low","high"]);
+  assert.match(rows[0].text,/1对/);assert.doesNotMatch(rows[0].text,/41对/);
+});
+test("historical selections do not contaminate the named pair",()=>{
+  assert.deepEqual(F.build(D,state,["low","high"]),F.build(D,{...state,groups:["low","high"]},["low","high"]));
+  assert.ok(F.build(D,state,["persistent","high"])[0].text.includes("历史 Medium"));
+});
+test("all page headings are direct labels and defaults exclude Medium",()=>{
+  const app=fs.readFileSync("app.js","utf8"),html=fs.readFileSync("index.html","utf8");
+  for(const old of ["同一基线","把平均值拆回","每个判断","可复算，也保留未知"])assert.ok(!app.includes(old)&&!html.includes(old));
+  assert.match(app,/const state = \{groups:\["low","high"\]/);
+});
 console.log(`\n${tests.length} tests passed.`);

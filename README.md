@@ -1,8 +1,9 @@
 # RoboDojo Effort Comparison
 
-An independent, read-only research preview of first-round Low / historical
-Medium / High behavior audits, with optional comparisons to published control
-and observation configurations.
+An independent, read-only research preview of first-round Low / High behavior
+audits, with historical Medium and published configurations as optional external
+references. The default overview shows six evidence-linked findings before the
+statistics, distributions and task comparisons.
 
 **Preview:** https://sxw1174.github.io/robot-audit-comparison/
 
@@ -50,6 +51,10 @@ directory must retain its original `sources/` tree for SHA verification.
 Statistics and CSV downloads use `core.js`. Sample standard deviation uses
 `n-1`; quartiles use linear interpolation. There is no synthetic behavior score,
 causal significance claim, or estimate of token use, costs, or wall time.
+`findings.js` recomputes conclusions from the current task, variant and evidence
+filters using the named pair's metric-specific intersection. Evidence buttons
+open that exact paired scope even when additional groups are selected. Empty
+intersections produce no conclusions. External groups are excluded by default.
 
 ## Credits
 

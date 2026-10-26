@@ -11,12 +11,20 @@ GROUPS = [
      "a914bee7842dceb173378f5813a0cacd00c2a80a696f195588f8259d2bc8f628", 40),
     ("o456", "O456 Clear", "#b06b3f", "persistent-cap20-o456-clear",
      "e74a4b2bdf132b02ebec8150d04102ce8cbc2c883748d9e69ed36064602def1c", 41),
+    ("o1standard", "O1 Standard", "#b24e70", "persistent-cap20-o1",
+     "0b2f853b9a3a3aa4feded62643e6b1b3a1261fdf6dbd0ed8dac8052bd5f797cd", 41),
 ]
 NOTE = "O1 Compact与O456 Clear分别收录40/42、41/42项程序校验且当前复核批准的结果；整批最终验收未完成。三项缺失不进入指标、事件或配对统计。"
+STANDARD_NOTE = "O1 Standard收录41/42项程序校验且当前复核批准的结果；push_T因HTTP 413缺失，整批最终验收未完成。该组为独立标准配置，不是O1 Compact，不进入已有固定四组结论。"
 
 
 def public_run(row, gid, profile):
     result = row["result"]
+    if "native" in row:
+        native = row["native"]
+        assert native["run_id"] == row["run"]["run_id"]
+        assert native["protocol"]["profile"] == profile
+        assert native["result_sha256"] == row["source_files"]["result.json"]["sha256"]
     item = {
         "id": row["run"]["run_id"], "group": gid,
         **{k: row["run"][k] for k in ("task", "variant", "seed", "scene")},
@@ -37,6 +45,8 @@ def public_run(row, gid, profile):
             "files": [{"kind": name, **entry} for name, entry in row["source_files"].items()],
         },
     }
+    if "native" in row:
+        item["source"]["native_snapshot_id"] = row["native"]["snapshot_id"]
     for m in result["metrics"]:
         key = FIELDS[int(m["id"][1:]) - 1]
         status = {
@@ -73,18 +83,23 @@ def public_run(row, gid, profile):
 
 
 def merge(data, export, input_sha):
-    gids = {g[0] for g in GROUPS}
+    selected = [g for g in GROUPS if g[0] in export["groups"]]
+    gids = {g[0] for g in selected}
+    assert gids and gids == set(export["groups"])
+    expected_runs = sum(r["group"] not in gids for r in data["runs"]) + sum(g[5] for g in selected)
+    input_name = "approved-o1-standard-export" if gids == {"o1standard"} else "approved-o-export"
     data["groups"] = [g for g in data["groups"] if g["id"] not in gids]
     data["runs"] = [r for r in data["runs"] if r["group"] not in gids]
     data["missing"] = [r for r in data.get("missing", []) if r["group"] not in gids]
-    data["notes"] = [n for n in data.get("notes", []) if not n.startswith("O1 Compact与O456 Clear")]
-    data["inputs"] = [i for i in data.get("inputs", []) if i["name"] != "approved-o-export"]
-    for gid, name, color, profile, experiment, expected in GROUPS:
+    data["notes"] = [n for n in data.get("notes", []) if not (
+        {"o1compact", "o456"} <= gids and n == NOTE or "o1standard" in gids and n == STANDARD_NOTE)]
+    data["inputs"] = [i for i in data.get("inputs", []) if i["name"] != input_name]
+    for gid, name, color, profile, experiment, expected in selected:
         group = export["groups"][gid]
         assert group["approved"] == group["program_validated"] == len(group["rows"]) == expected
         assert not group["actual_owners"] and not group["batch_complete"]
         description = f"官方首轮42；{expected}项程序校验且当前复核批准。整批最终验收未完成，缺失项不纳入统计。"
-        data["groups"].append({
+        metadata = {
             "id": gid, "name": name, "long_name": f"{profile} · medium · 首轮42",
             "color": color, "effort": "medium", "family": profile,
             "planned": 42, "completed": expected, "needs_attention": 42 - expected,
@@ -95,7 +110,10 @@ def merge(data, export, input_sha):
             "observed_at": datetime.fromtimestamp(group["observed_unix"]).astimezone().isoformat(),
             "batch_complete": False, "review_state_sha256": group["review_state_sha256"],
             "aggregate_sha256": group["aggregate_sha256"],
-        })
+        }
+        if "source_snapshot_id" in group:
+            metadata["source_snapshot_id"] = group["source_snapshot_id"]
+        data["groups"].append(metadata)
         data["runs"].extend(public_run(row, gid, profile) for row in group["rows"])
         for row in group["omitted"]:
             task = row["run"]["task"]
@@ -105,13 +123,20 @@ def merge(data, export, input_sha):
                 "reason": "用户排除：安全限制，未通过程序校验和复核。" if task == "build_tower"
                           else "HTTP 413请求体限制，未通过程序校验和复核。",
             })
-    order = ["low", "persistent", "high", "o1compact", "o456"]
+    order = ["low", "persistent", "high", "o1compact", "o456", "o1standard"]
     data["groups"].sort(key=lambda g: order.index(g["id"]) if g["id"] in order else 100)
-    data["o_audit_observed"] = datetime.fromtimestamp(export["observed_unix"]).astimezone().isoformat()
+    observed = datetime.fromtimestamp(export["observed_unix"]).astimezone().isoformat()
+    if {"o1compact", "o456"} & gids:
+        data["o_audit_observed"] = observed
+    if "o1standard" in gids:
+        data["o1_standard_audit_observed"] = observed
     data["audit_observed"] = "2026-10-25 03:37 +08:00"
-    data["notes"].append(NOTE)
-    data["inputs"].append({"name": "approved-o-export", "sha256": input_sha})
-    assert len(data["runs"]) == len({r["id"] for r in data["runs"]}) == 416
+    if {"o1compact", "o456"} <= gids:
+        data["notes"].append(NOTE)
+    if "o1standard" in gids:
+        data["notes"].append(STANDARD_NOTE)
+    data["inputs"].append({"name": input_name, "sha256": input_sha})
+    assert len(data["runs"]) == len({r["id"] for r in data["runs"]}) == expected_runs
     return data
 
 

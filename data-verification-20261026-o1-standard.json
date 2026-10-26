@@ -1,0 +1,352 @@
+{
+  "schema_version": "additive-approved-audit-verification-v1",
+  "verified_at": "2026-10-26T20:21:35.292216+08:00",
+  "data_sha256": "4c5642a0470e4301dc2c5f42d3d4eaa120dd64819a583d87158260d114bbad4c",
+  "previous_data_sha256": "fc27c6bc5ba31b61b9d1065b0252424e7bd0454ffb5e67af0a1837e05d9f0fc5",
+  "previous_revision": "083480d",
+  "previous_four_group_verification_sha256": "12ca9889b5ea566750d67c031cb52cbef5a6493aa1566498bc1889998aa48db2",
+  "preserved_runs": 416,
+  "added_group": "o1standard",
+  "added_runs": 41,
+  "source_metrics_checked": 5330,
+  "source_events_checked": 1382,
+  "added_source_metrics_checked": 1066,
+  "added_source_events_checked": 304,
+  "source_metric_mismatches": 0,
+  "source_event_mismatches": 0,
+  "source_native_mismatches": 0,
+  "approval_export_sha256": "d1579f39ee8bdbdbd1ee4119707291516d32ee294b5f9dedf30be64c23ad980c",
+  "approval_receipt_sha256": "218b1b4d673735e2a0c5205242f97324e3002ca39c023dcb8bff7a4ef5142190",
+  "source_observed_at": "2026-10-26T20:20:13.679999+08:00",
+  "source_snapshot_id": "9cc90e9164d97decb705a24ebb0313c1caf6972bd5bf480d2e0e075901369c4d",
+  "approved_native_summary": {
+    "n": 41,
+    "success": 10,
+    "score_total": 13.3
+  },
+  "source_native_checks": [
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-align_blocks-standard-s0-scene0",
+      "result_sha256": "6b3ecd828aa2bf640b104d063c9d74e78c9519e355074fa1865b30caa40e1c3d",
+      "analysis_sha256": "ecca79b0357b67eb9998cdfcca03de7d71a05ba7cecfca7b79f35b063998dcbb",
+      "review_fingerprint": "e5ca6eee1dcb2898a139d067f8087a38b84d825419969de7f811e56ba81f201f"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-retry01-20261017-arrange_largest_number-random-s0-scene0",
+      "result_sha256": "b74643d4a2739bc0acf7667ac1f34e66701b26ec3102eb375299715c5a89fb3f",
+      "analysis_sha256": "6b46213b2c5884f3446b8acc5493493824707f19c43d0a4d90a58e62944fce43",
+      "review_fingerprint": "344f38d7496b44f68dbd43bdbfa575dcc10891e1c7ece026131650455e1287f8"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-retry01-20261017-build_tower-standard-s0-scene0",
+      "result_sha256": "fa57df839c7e03fc400b1461f69970b5bad7a2f009b7d6bbd5c26e8a73af57c3",
+      "analysis_sha256": "1ee527cd30a043daa53ba41cb06c8d7a9316fc3a7bfac023749ef81bfa4fde74",
+      "review_fingerprint": "61e9ec7b48be3d21ca104dd06da3fd14acfad8c21407e810395b70431e821ecd"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-retry01-20261017-classify_objects-standard-s0-scene0",
+      "result_sha256": "6866bf6cf25c24fb87836fb50d21eb66f5eb53578cbe29f0fac76a206b77af3e",
+      "analysis_sha256": "f7530f33eb68a90c7c402d34daa822b15f69cdfd6baa83f4a58d0cf20255e9f6",
+      "review_fingerprint": "6959be0b5f07d5258fbc5708e0aa13aa2cf1d5c44b6bfa4bd60ab03594aebb4a"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-classify_objects_by_language-standard-s0-scene0",
+      "result_sha256": "caccaa3a625d73fe581944ec8416ba95c576262b9566a4c369a0da5676f85c79",
+      "analysis_sha256": "86632ba5efcfdf07fb814b2dfc2ae399e838c0991c8862565e5351dcbd2afe0f",
+      "review_fingerprint": "ed0cb54c8e95b2c2bf2d8400c764481e5ae4280327c8bcf623eb01be43732112"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-cover_blocks-standard-s0-scene0",
+      "result_sha256": "9525cc1ac88bf5b72c377be4d5c3b40f216bca7c36cf12b8b7c8d3f5016af21e",
+      "analysis_sha256": "4b1d838b9ddaa7061032932af28ae9def3c01c1d3517a86e79ba7326b550542c",
+      "review_fingerprint": "9b697777d36de188146ab2b8b9c4bb955d3dcf455e4f986127025a47703221d5"
+    },
+    {
+      "run_id": "l3-o1-precision4-20261016-v1-deposit_coin-standard-s0-scene0",
+      "result_sha256": "aa360d2746d76d90c565081f2d04347a9711ae1d1dd23e6b3bb782990545f4c8",
+      "analysis_sha256": "30d601a9fe1fa31135f832426c1365819f86bcfc3462ee9930767e05e3eeb7d7",
+      "review_fingerprint": "175f8e02318159ef424b4427015d3ae441fe4b1da3b33a5dfda8b6f4533cd997"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-retry01-20261017-fasten_screws-standard-s0-scene0",
+      "result_sha256": "f6dafec5ccdfeec4fd072a69905c07ebaef555912fe8e2537bea04f54c3e3b85",
+      "analysis_sha256": "096392f01dadeb1c94cea9b935e131d7e94f89630148ff70eb0b2272bc2649d6",
+      "review_fingerprint": "5e7836a2fc1be1144bed851b8fb647c7623e17f649039f9989ca995e147eaa3f"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-retry01-20261017-fill_egg_holder-standard-s0-scene0",
+      "result_sha256": "7c0727e1785ab762a5f44535bd8d1b227325c8afebed57cb48727565e1e1cd91",
+      "analysis_sha256": "7c87669d57bd14d390e40598f544bcadab3f9fde8693541a12c1116fb29faf67",
+      "review_fingerprint": "d8ab43655f0cb9013fc5ba05288303f1b862cfc5fa7371176f3bdf166fb9e75b"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-retry01-20261017-fill_pen_holder-standard-s0-scene0",
+      "result_sha256": "9cc548cd5c1a5202254eba6cdf4a971be40df0d9d419f340261a8fd16e45dd9e",
+      "analysis_sha256": "67ddb9a737259446dc20005f9b696e4b44ebc72b08ac4da61924ed04f4418b34",
+      "review_fingerprint": "9dd677f4d10443e1adda30ea9b4ed0a0edcee0aba09a4ce2de56e2a9c3be8553"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-fold_clothes-random-s0-scene0",
+      "result_sha256": "9433445b9971d9800e1656c2373290931952a84f9b4a78e84db49592b849ac6e",
+      "analysis_sha256": "0ceb93a984ff36fb1b9375e2d87d886b406c0afcbcefd7ae19f8fa460f4892f4",
+      "review_fingerprint": "29678e1eb20d1864421d10c47f7a754fa967b7628ac28e7a53903d942e9bdebf"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-general_pickup-standard-s0-scene0",
+      "result_sha256": "e12846d9463c8a36a3826ad22617fe187658b6254598b34e3f0fb53e706723d6",
+      "analysis_sha256": "e12e8c8adcfbde3d6c532a7f938e600ead1c5eeb59d2c1e6484b966b42c5b3f5",
+      "review_fingerprint": "b65a37e9edd57a3e0316436582041504a6c953f31c179d04b0a444fbd0333b39"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-retry01-20261017-hang_mugs-random-s0-scene0",
+      "result_sha256": "9001888b2eb8ee2d4db120758ca899bd5f91d0f9d66b47517ed5ebc278144502",
+      "analysis_sha256": "978bd7b6ec9b586dc8ff2e1410d8e601bd0a63deee73d0ca8329e6aa72f8f6e0",
+      "review_fingerprint": "7d0e4f89329e7d0c6bb76a3feee2074a246fdc854db69f0980a1ca4760578195"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-imitate_sorting_sequence-standard-s0-scene0",
+      "result_sha256": "9e0aed2aa8b027a968627de5c2a5a30aa01bf39de67b8ee8857661ea7e3cc630",
+      "analysis_sha256": "abc021c3f3d17e9fb758d6f129f464114dbc6d6dbd89686b9ece556fcbc721e3",
+      "review_fingerprint": "868cb1d982c1492587834305c85c16f588346952e35f68391221cb04f7ea52be"
+    },
+    {
+      "run_id": "l3-o1-precision4-20261016-v1-insert_key-standard-s0-scene0",
+      "result_sha256": "ee7eaafbc1fe0f93db6b522328240b8090c9cf75a9b3c2fd6edae7c1770ffe3b",
+      "analysis_sha256": "916406c761e479fd02d770dc1e7b20e45d1db2bca410c6c83bb3fabffb4e0ecb",
+      "review_fingerprint": "74abddf399140374719b206700f1c2788a30d1d12c54419c29c3da83fca8504c"
+    },
+    {
+      "run_id": "l3-o1-precision4-20261016-v1-insert_tubes-standard-s0-scene0",
+      "result_sha256": "babe175372192f9fef2825cffa824f350abd64c620bb505ae8c763bcff1b67da",
+      "analysis_sha256": "ff0de3d856c64093d127c75318dbfa6877e04c51e8a5f71751c0798df5573743",
+      "review_fingerprint": "63bb7b7eb2a47cbb08bfa0deb471b43038f7ce1df9ff55789ab61812327701bb"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-make_kong-standard-s0-scene0",
+      "result_sha256": "5b36b1dac94f6ccdf89f5e342d0b472eecc2521e970c389f684cb041713afc5a",
+      "analysis_sha256": "6660bbb3262f47ff1d685069e67c56ee856f68745e6c4e06aca4bec1cb2845dd",
+      "review_fingerprint": "869399704e721c88aca302a6b2da0cee9c2cee53f55f178068f70f81f25a50ba"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-retry01-20261017-make_toast-random-s0-scene0",
+      "result_sha256": "f087bb3625a280d723ab4adaf78ce33b031bb8cb815dfd977461ef85794f1996",
+      "analysis_sha256": "97a41f8850fbd5ec8ea860f68319feb5c70475a17459df10f3100c5902b180f5",
+      "review_fingerprint": "b449e40b4c4402bf04a4a53b076c6841008f3668244936f0f9b721600a3b9824"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-match_and_pick_from_conveyor-standard-s0-scene0",
+      "result_sha256": "d56f8dafba7b2f8d188f205ed4973ce399957fc856556f085c20cb530deaec2e",
+      "analysis_sha256": "73ac314aa8a95221ff41fe9ee09dbe96dbc55abad6eed8741482dd1a976c4d0f",
+      "review_fingerprint": "a8c1795016ab3ff62085210932ceafda545f6a5a20f51a629d48e8ed5af32769"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-organize_table-standard-s0-scene0",
+      "result_sha256": "ff75e0811b73e16eee0006d6fd601ca0e1a362cc706f0676f2e1f1ecd075129b",
+      "analysis_sha256": "b35931041001c40f838a2b5e1bd3bbe65478fff384e0fd91da9089d38797bff5",
+      "review_fingerprint": "036e85a032f283ce19bcda34bc6f7b24fc30f39ce406f0d1d464f58a14ae645f"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-retry01-20261017-pack_objects_into_box-random-s0-scene0",
+      "result_sha256": "49993f95db3baf5cbad1af2235042964c87b15a8be23c5978f90400df58db386",
+      "analysis_sha256": "50063aff7dce273140f5cac69b28a48aa00cc3c8900dc020ad47bb0c085e5631",
+      "review_fingerprint": "eee94b4fcbbf727917ee0f78b615e6a48e1d96f9b2c523b07b8a503aeee0edec"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-pick_from_conveyor_by_image-standard-s0-scene0",
+      "result_sha256": "3f768df41c398a0be04689c35fe972195ac03216ff38037a8063c8a73ac088f2",
+      "analysis_sha256": "57bc3913568ad1466deacecf0030cb6098437832f120c4c2e0df4f37f23302a4",
+      "review_fingerprint": "75d8085e1bd260fa476d01cc1983313ca90093d4634201664fd8f494229d0d4e"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-retry01-20261017-play_Xylophone-standard-s0-scene0",
+      "result_sha256": "220b3156f308d2da58e9c8e0640fe73c8f3f4c1465a7115e5938ee00f114de2f",
+      "analysis_sha256": "7e97d3064543cb0721f3c5e321e003c6856af7ee9a79557ce5edb0780dfb6217",
+      "review_fingerprint": "f84e803e7a0194c6f0f06748451f03e75cbf868267ad8742a463cdb2feddb3a9"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-play_stacking_toy-standard-s0-scene0",
+      "result_sha256": "3976862cecf449c2a922cf42e03fb602eef8061ded63e4fe773dae0a8d39978c",
+      "analysis_sha256": "a6d53548e02fb7abc113376bb1d7a98d0e4278e45758064846d6011ba020837e",
+      "review_fingerprint": "a5e2ed363b77b2dff55dc597bdf672b5380bb47a4b72491cf335e10a3597864c"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-retry01-20261017-play_tic_tac_toe-standard-s0-scene0",
+      "result_sha256": "1ba1ea2f071ed8eb5560acd1123896b10ec66695dc55e7cc2c9a8e9be1eea51b",
+      "analysis_sha256": "e8b623e63b423e4e6602d94851b12e42a584e6ac5eda4038ad3d044a4ae7b558",
+      "review_fingerprint": "c11802c76d327223e169d85ee10bf45ad5cec867019fc479d7f9158ae2a6a0a6"
+    },
+    {
+      "run_id": "l3-o1-precision4-20261016-v1-plug_in_charger-standard-s0-scene0",
+      "result_sha256": "f478b44bccaa84050a007d9fe4f608af33799d4e4ad3974022f2d89e2a551ccd",
+      "analysis_sha256": "be10f9c85c78208630c7b63c5928681fbcb3992c654603f233f79bb55aa78fae",
+      "review_fingerprint": "3da3d41731762f72af126274f05ad893b18d31000957d6aa9ba80409eee6a6a2"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-pour_balls_into_vase-standard-s0-scene0",
+      "result_sha256": "cf8851be930fc2573aa1fb548a5a2f96692c9f2605a8ee16bc3a7d7e0c8f9273",
+      "analysis_sha256": "a5d0bef2adc6f83e63725e0de1448adb22f229796fcbc6c41cff7ef9d9499c66",
+      "review_fingerprint": "7bab2edcd1ce2528e7109327e03379aee809afd1c6e6b64976bc0098209e818d"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-pour_by_language-standard-s0-scene0",
+      "result_sha256": "d411d3a9bbb64b19a0ec4e3fb0983096f5f03903c79f7e4c5595823f45e60fce",
+      "analysis_sha256": "444b1f2de0f4de86d04878165e79248784017104990ae6166b87ca0a11056b13",
+      "review_fingerprint": "d8e49bc63fb2f5cb1403bed77483bf9845b590908e58ea96f20b0c9fa57e1a2f"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-pour_liquid_into_cup-random-s0-scene0",
+      "result_sha256": "84387df8e4ef19ddb499621770c073454f74798d363f8c82eb23b481e5fec21b",
+      "analysis_sha256": "76faa5039912521076e7020e922980b69889f38b5fa4914bc190d35dfba86a03",
+      "review_fingerprint": "d3c4f312bbfd1bda69d044a77715f1d5755930d78f0b516db1d1174cad240c6d"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-press_by_number-standard-s0-scene0",
+      "result_sha256": "562ab0d2a02a3b9759cdf8f15dfe93f6f797edadf80c243794455a1f09d7a322",
+      "analysis_sha256": "35bc1a57d8bb897595d5bd719108a8e557e8449832bd0a04d77d3903378b8dac",
+      "review_fingerprint": "12aa6ac04d41a7ccbe290fc03ceeb6f4b1c2ca69dd0e1cafef100776b031e8af"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-retry01-20261017-put_bottles_into_dustbin-standard-s0-scene0",
+      "result_sha256": "0e26529b962e4dd15aa97374753aa2879e312baf9799ed53cca56e0f5519f676",
+      "analysis_sha256": "fd20a53d7f1054c15997ce07034012aac9a24a4de9f65d1a755cc1d8b6fef69c",
+      "review_fingerprint": "e6c1ccc62d9ff4a576d3e75a2043c2aea1d9e4bfb37c4567cfc6917d41ddd693"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-solve_equation-standard-s0-scene0",
+      "result_sha256": "5a21d893e01de82fbe74a730680843c201bfc86f1d3409e0d78a67799f1f8993",
+      "analysis_sha256": "48ad2b0c0a2f9fab4e6d181c72957308b8b8d8ad6f33cbe96f7036814cf877d6",
+      "review_fingerprint": "5e12a943406dfc31232eea95c48fffb5f1ec5830b409b7c81b25b0d7afb3749e"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-retry01-20261017-sort_nesting_dolls_by_size-random-s0-scene0",
+      "result_sha256": "5a0b86eca58e551a3dc0cc8e304a86893756bced792ae862b4f8a9ff541c7593",
+      "analysis_sha256": "7f2319e2de35dbf35d339984b3e2e734f7826332337637366e769c15f008e6ff",
+      "review_fingerprint": "db66c0f8fc64add8b718ee64329db9f4d211b1657cca7f93d637b6b396057bf5"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-stack_blocks-random-s0-scene0",
+      "result_sha256": "9c626f237ed4e45122e26e685b0b5cccec79fe736eb596975a0abde9e83a145e",
+      "analysis_sha256": "c44fca6a10e57590673664eec6fe71b8d2b4d0e786d6bab383861bf498c461ae",
+      "review_fingerprint": "f7ae6625378ce2d71d6ceea00da3f60a523ec00caf016b94eaf40e24a5b5a287"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-stack_blocks_by_language-standard-s0-scene0",
+      "result_sha256": "1cf6a2783b18fa589ad6b834402c407e1e4f4c59e3276b0939c6a23f7d2a5204",
+      "analysis_sha256": "94cccaab644d975d7bad25d2e036972a449efa8071438159d33be249b60701ef",
+      "review_fingerprint": "2d4d7030522fcb11b27a80c58fa550aace4f2043dc7aa58a822d9a2032227649"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-stack_bowls-random-s0-scene0",
+      "result_sha256": "5753bf85bf05a2e6219c8e1b6f803ddf18607d55c48e7727893fc7fa515ceba1",
+      "analysis_sha256": "af96d335c9dd41e5988ab40def4cf1c751b690b87d20177b03f7704305a0dd43",
+      "review_fingerprint": "7a09870c2460fbb6fef417b7bf5a6e6ea2e0b66d0b1d2ee73d116f50294c6b85"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-store_laptop_and_headphones-random-s0-scene0",
+      "result_sha256": "70c04b7320c8d365cd2b379394c6cf66c64f42612848df5caaf76f0dc02eafe9",
+      "analysis_sha256": "73066978c9c46038b98898b5e365e331f70ba35039369d22092757eb6864a0ac",
+      "review_fingerprint": "f6ca083c64c3b37cab8d5f0820760e211f0e76a9c1a463c2e53c78b12ddf8033"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-store_tools_in_toolbox-standard-s0-scene0",
+      "result_sha256": "ad60203c9465d5405d0ca12f7404d2abf6aafb4ad0ffd7dfbfd1f77d8f432073",
+      "analysis_sha256": "8ab12f13116350a0ed5ea43cf74580cd50d94906222ffd2bd8f85b61382f7ae1",
+      "review_fingerprint": "8d17795ba4c3c92872d452f7afbd441779fb2b45dd933bf2a8b611bb0038ef6e"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-swap_T-standard-s0-scene0",
+      "result_sha256": "db3b0ce03496967c095b21ff93a48c9530070436aefe57734ac2ce551257f07e",
+      "analysis_sha256": "4462c18824536132eb74c11db831957b5e8845bd32a90e1024897ad2c121038e",
+      "review_fingerprint": "0826d90e9fe160d42bed26a75ee7c5321f7568d6570e4586f1f68e0ab19f195f"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-swap_blocks-standard-s0-scene0",
+      "result_sha256": "1eabd7c2b671f8ad92fac762e40b4a4ed1ba4262e5b199b161b30bb4ff7f000c",
+      "analysis_sha256": "510a7bb96a0dbfdade1a1a993d9ea11158d3bf5d6a7ccd467fdd7c9d437a896e",
+      "review_fingerprint": "9301eadecbd4dd79e0ff026b5187d094740a19d8fa6b8d13f7d7914efe3830e2"
+    },
+    {
+      "run_id": "l3-o1-r1-mixed42-20261016-sweep_blocks-random-s0-scene0",
+      "result_sha256": "3d5c7b0898891c1a0b52170c2d8ff92c7b2ee9b3cd0b9ce7a4cb98471405897b",
+      "analysis_sha256": "40a8e4e9217230de657703c33079bb8e46bf462fc94db56ace8f0dd05fc8344c",
+      "review_fingerprint": "81023736cc828d8f97c7cb48728ebe131f4c9d207336a5e8240956d2b31de4f8"
+    }
+  ],
+  "o456_scope_reconciliation": {
+    "published_batch": {
+      "n": 81,
+      "success": 36,
+      "rate": 0.4444444444444444,
+      "mean_score": 0.5024691358024692
+    },
+    "first_round": {
+      "n": 42,
+      "success": 11,
+      "rate": 0.2619047619047619,
+      "mean_score": 0.325,
+      "five_capability_equal_rate": 0.2833333333333333,
+      "five_capability_equal_score": 0.3458333333333333,
+      "at_decision_limit": [
+        {
+          "run_id": "l3-o456-clear-olm22-medium-r1-20261019-fill_pen_holder-standard-s0-scene0",
+          "task": "fill_pen_holder",
+          "decisions": 100,
+          "success": false
+        },
+        {
+          "run_id": "l3-o456-clear-olm22-medium-r1-20261019-play_tic_tac_toe-standard-s0-scene0",
+          "task": "play_tic_tac_toe",
+          "decisions": 100,
+          "success": false
+        },
+        {
+          "run_id": "l3-o456-clear-generalization12-20261019-v1-sort_nesting_dolls_by_size-random-s0-scene0",
+          "task": "sort_nesting_dolls_by_size",
+          "decisions": 100,
+          "success": false
+        },
+        {
+          "run_id": "l3-o456-clear-olm22-medium-r1-20261019-swap_blocks-standard-s0-scene0",
+          "task": "swap_blocks",
+          "decisions": 100,
+          "success": false
+        }
+      ]
+    },
+    "approved_audits": {
+      "n": 41,
+      "success": 11,
+      "rate": 0.2682926829268293
+    },
+    "four_group_common": {
+      "n": 40,
+      "success": 11,
+      "rate": 0.275
+    },
+    "additional_published_devset": {
+      "n": 39,
+      "success": 25
+    },
+    "omitted_first_round": [
+      {
+        "run_id": "l3-o456-clear-generalization12-20261019-v1-push_T-random-s0-scene0",
+        "episode": {
+          "capability": "Generalization",
+          "scene": 0,
+          "seed": 0,
+          "task": "push_T",
+          "variant": "random"
+        },
+        "success": false,
+        "score": 0
+      }
+    ]
+  },
+  "limits": [
+    "The original 416 public rows are unchanged; prior four-group checks are reused.",
+    "The new 41 rows match current approved canonical results and saved original native responses.",
+    "No model calls, video re-audit, robot rerun or whole-batch acceptance.",
+    "O1 Standard push_T is missing after HTTP 413; no placeholder numeric row.",
+    "Fixed four-group conclusions do not include the new O1 Standard group."
+  ]
+}

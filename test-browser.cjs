@@ -11,6 +11,7 @@ const {chromium} = require("playwright");
       const page = await browser.newPage({viewport});
       page.on("pageerror", error => errors.push(error.message));
       await page.goto(process.env.AUDIT_TEST_URL || pathToFileURL(path.join(__dirname, "index.html")).href);
+      assert.equal(await page.locator("[data-group=o1standard]").isChecked(),true);
       const fixedText=await page.locator("#fixed-findings").innerText();
       for (const checkbox of await page.locator("[data-group]").all()) {
         if (await checkbox.isChecked()) await checkbox.uncheck();
@@ -33,6 +34,20 @@ const {chromium} = require("playwright");
       await page.locator("#detail-body [data-run]").last().click();
       assert.match(await page.locator("#detail-body").innerText(), /原分析 SHA-256/);
       await page.keyboard.press("Escape");
+      for(const checkbox of await page.locator("[data-group]").all())if(await checkbox.isChecked())await checkbox.uncheck();
+      await page.locator("[data-group=o1standard]").check();
+      await page.locator("#task").selectOption("");
+      await page.locator("#policy").selectOption("bounds");
+      await page.locator("#scope").selectOption("all");
+      assert.match(await page.locator("#scope-summary").innerText(),/41/);
+      assert.equal(await page.locator("#fixed-findings").innerText(),fixedText);
+      await page.locator(".sidebar a[href='#tasks']").click();
+      assert.equal(await page.locator("#view tbody tr").count(),41);
+      await page.locator("#view [data-task=align_blocks]").click();
+      assert.equal(await page.locator("#detail-body [data-run]").count(),1);
+      await page.locator("#detail-body [data-run]").click();
+      assert.match(await page.locator("#detail-body").innerText(),/原分析 SHA-256/);
+      await page.keyboard.press("Escape");
       for (const route of ["analysis", "metrics", "tasks", "evidence", "relations", "methods", "overview"]) {
         await page.evaluate(route => {location.hash = route;}, route);
         await page.waitForFunction(route => document.querySelector(".sidebar nav a.active")?.hash === "#" + route, route);
@@ -48,7 +63,7 @@ const {chromium} = require("playwright");
       await page.close();
     }
     assert.deepEqual(errors, []);
-    console.log("PASS desktop/mobile fixed four-group findings, nested evidence scopes, seven routes, no page errors or overflow");
+    console.log("PASS desktop/mobile O1 Standard, fixed four-group findings, nested evidence scopes, seven routes, no page errors or overflow");
   } finally {
     await browser.close();
   }

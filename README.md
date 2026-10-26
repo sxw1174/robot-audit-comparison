@@ -1,7 +1,7 @@
 # RoboDojo Behavior Comparison
 
 An independent, read-only research preview of first-round behavior audits.
-Low, High, O1 Compact and O456 Clear are the groups analyzed in this round.
+Low, High, O1 Compact, O456 Clear and O1 Standard are the groups analyzed in this round.
 Historical and interim groups imported from the public behavior board remain
 ordinary selectable reference groups and are labeled by source. The overview
 keeps six fixed, evidence-linked findings from all four groups' common first
@@ -17,19 +17,27 @@ event evidence below, but never rewrite the conclusions.
   `build_tower` and `push_T` are excluded and documented as missing.
 - O456 Clear: 41/42 program-valid, currently review-approved analyses.
   `push_T` is missing because the provider returned HTTP 413.
-- Neither O batch has final whole-batch acceptance. Only the 81 approved
+- O1 Standard: 41/42 program-valid, currently review-approved analyses.
+  Its profile is `persistent-cap20-o1`, not O1 Compact. `push_T` remains missing
+  after HTTP 413; there are no placeholder metrics for this task.
+- None of the three O batches has final whole-batch acceptance. Only the 122 approved
   canonical results enter metrics, events and pair comparisons. Robot model:
   gpt-6-astra medium; audit/review model: gpt-6.1-sol medium.
 - Historical Medium: 42 published runs, with 25 Sim5.1 and 17 Sim6 records.
 - Five other published groups are available as separate configuration references.
 - O23 Compact and O23 DepthPro remain explicitly marked interim.
-- 416 run records in total. Matching a task tuple is not proof of an otherwise
+- 457 run records in total. Matching a task tuple is not proof of an otherwise
   controlled experiment. This is not an official submission to the source board.
 
 The O merge uses `tools/merge_o_audits.py` with a private, receipt-bound canonical
 export, not the aggregate report or filenames as identities. Every included row
 has an exact assignment tuple, canonical result SHA and current approval
 fingerprint. Private exports and transport receipts are not distributed here.
+The O1 Standard addition preserves every one of the original 416 records.
+`tools/verify_o1_standard.py` binds its 1,066 metric values/statuses, 304 event
+identities/locations and 41 original native outcomes to current approved source
+results. The independent export observed no active owners and performed no model
+calls or remote writes.
 `node test.cjs` checks statistics and public-data invariants.
 `node test-browser.cjs` runs desktop/mobile checks when Playwright and Chromium
 are available.
@@ -46,6 +54,8 @@ The fixed analysis uses 40 matching task/variant/seed/scene tuples and excludes
 uses its own four-way valid intersection; visual unknowns are not filled with
 zero. The detailed analysis route includes all metrics, task outcomes,
 event references and empty-grasp source evidence notes.
+O1 Standard is selectable in the statistics, task, event and configuration views,
+but is not silently added to the existing four-group findings or report.
 
 O456's lower confirmed empty-grasp count describes the original coverage,
 not a verified improvement in grasping ability. No new model calls or
@@ -58,6 +68,9 @@ also distinguishes O456's 36/81 published-batch success rate (44.4%),
 11/42 full first round (26.2%), 11/41 approved audits (26.8%) and
 11/40 four-group common tasks (27.5%).
 The first-round five-capability-equal success rate is a separate 28.3%.
+The immutable original verification record is retained;
+`data-verification-20261026-o1-standard.json` binds the current additive snapshot
+and reuses the original four-group verification without claiming a new video audit.
 
 `four-group-analysis.md` and `four-group-analysis.json` are reproducible
 descriptive reports, not revised robot outcomes or new audit approvals.
@@ -84,6 +97,14 @@ node test.cjs
 node tools/analysis_report.cjs
 python3 tools/build_dataset.py --approved APPROVED_RESULTS_JSON \
   --index SOURCE_INDEX_JSON --cache PUBLIC_INPUT_DIRECTORY --out .
+```
+
+For the additive O1 Standard import, use its private receipt-bound export:
+
+```sh
+python3 tools/merge_o_audits.py --base data.json --export APPROVED_O1_STANDARD_EXPORT --out data.json
+python3 tools/verify_o1_standard.py --export APPROVED_O1_STANDARD_EXPORT \
+  --previous-revision 083480d --out data-verification-20261026-o1-standard.json
 ```
 
 The input cache contains `groups.json`, `runs.json`, `definitions.json`, and

@@ -6,7 +6,7 @@ const D = JSON.parse(fs.readFileSync("data.json","utf8"));
 const tests=[];
 function test(name,fn){fn();tests.push(name);console.log("PASS",name);}
 const state={groups:["low","persistent","high"],scope:"common",policy:"bounds",task:"",variant:"",includeInterim:false};
-test("416 unique run identities",()=>{assert.equal(D.runs.length,416);assert.equal(new Set(D.runs.map(r=>r.id)).size,416);});
+test("457 unique run identities",()=>{assert.equal(D.runs.length,457);assert.equal(new Set(D.runs.map(r=>r.id)).size,457);});
 test("26 complete metrics for every run",()=>{for(const r of D.runs)assert.equal(Object.keys(r.metrics).length,26);});
 test("41 three-way matched native outcomes",()=>{for(const s of C.summaries(D,state,"score"))assert.equal(s.n,41);});
 test("original low/high native totals preserved",()=>{
@@ -25,9 +25,9 @@ test("strict status policy excludes visual lower bounds",()=>{for(const s of C.s
 test("self-report excluded without altering original source state",()=>{for(const r of D.runs)for(const m of Object.values(r.metrics))if(m.status==="self_report")assert.equal(m.value,null);});
 test("interim groups excluded unless explicitly selected",()=>{assert.equal(C.rowsFor(D,{...state,groups:["o23-compact-medium-r1"]}).length,0);assert.equal(C.rowsFor(D,{...state,groups:["o23-compact-medium-r1"],includeInterim:true}).length,42);});
 test("O groups retain partial completion without unapproved numeric rows",()=>{
-  const o1=D.groups.find(g=>g.id==="o1compact"), o456=D.groups.find(g=>g.id==="o456");
-  assert.deepEqual([o1.completed,o1.needs_attention,o456.completed,o456.needs_attention],[40,2,41,1]);
-  for(const [id,n,missing] of [["o1compact",40,2],["o456",41,1]]){
+  const o1=D.groups.find(g=>g.id==="o1compact"), o456=D.groups.find(g=>g.id==="o456"), standard=D.groups.find(g=>g.id==="o1standard");
+  assert.deepEqual([o1.completed,o1.needs_attention,o456.completed,o456.needs_attention,standard.completed,standard.needs_attention],[40,2,41,1,41,1]);
+  for(const [id,n,missing] of [["o1compact",40,2],["o456",41,1],["o1standard",41,1]]){
     const rows=D.runs.filter(r=>r.group===id);
     assert.equal(rows.length,n);assert.ok(rows.every(r=>r.audit==="approved"));
     assert.equal(D.missing.filter(r=>r.group===id).length,missing);
@@ -38,7 +38,7 @@ test("O groups retain partial completion without unapproved numeric rows",()=>{
   assert.equal(C.pair(D,state,"score","o1compact","o456").n,40);
 });
 test("O canonical provenance, event keys and models are explicit",()=>{
-  for(const r of D.runs.filter(r=>["o1compact","o456"].includes(r.group))){
+  for(const r of D.runs.filter(r=>["o1compact","o456","o1standard"].includes(r.group))){
     for(const key of ["analysis_sha256","assignment_sha256","review_fingerprint"])assert.match(r.source[key],/^[a-f0-9]{64}$/);
     assert.equal(r.config.model,"gpt-6-astra");assert.deepEqual(r.source.models,["gpt-6.1-sol"]);
     assert.equal(r.videos.length,3);
@@ -46,6 +46,28 @@ test("O canonical provenance, event keys and models are explicit",()=>{
   }
   assert.ok(Date.parse(D.o_audit_observed)<=Date.parse(D.built_at));
   assert.equal(D.audit_observed,"2026-10-25 03:37 +08:00");
+});
+test("O1 Standard is a separate selected group with canonical source verification",()=>{
+  const g=D.groups.find(g=>g.id==="o1standard"), v=require("./data-verification-20261026-o1-standard.json");
+  assert.equal(g.family,"persistent-cap20-o1");assert.equal(g.source,"本批批准分析");
+  assert.equal(g.batch_complete,false);assert.equal(g.completed,41);
+  assert.equal(v.preserved_runs,416);assert.equal(v.added_runs,41);
+  assert.equal(v.added_source_metrics_checked,41*26);assert.equal(v.source_native_mismatches,0);
+  assert.equal(v.added_source_events_checked,304);
+  assert.equal(v.approved_native_summary.success,10);
+  assert.ok(Math.abs(v.approved_native_summary.score_total-13.3)<1e-8);
+  assert.equal(C.summaries(D,{...state,groups:["o1standard"],scope:"all"},"success")[0].total,10);
+  assert.equal(v.source_native_checks.length,41);
+  assert.equal(C.pair(D,state,"score","o1standard","o1compact").n,40);
+  assert.equal(C.pair(D,state,"score","o1standard","o456").n,41);
+  for(const r of D.runs.filter(r=>r.group==="o1standard")){
+    assert.equal(r.config.profile,"persistent-cap20-o1");
+    assert.match(r.source.native_snapshot_id,/^[a-f0-9]{64}$/);
+    const proof=v.source_native_checks.find(p=>p.run_id===r.id);
+    assert.equal(r.source.analysis_sha256,proof.analysis_sha256);
+    assert.equal(r.source.review_fingerprint,proof.review_fingerprint);
+  }
+  assert.ok(!F.scope.groups.includes("o1standard"));
 });
 test("single-task and variant filters respected",()=>{assert.equal(C.pair(D,{...state,task:"align_blocks"},"score").n,1);assert.equal(C.pair(D,{...state,task:"align_blocks",variant:"random"},"score").n,0);});
 test("empty summary uses null, n=1 sd is null",()=>{assert.equal(C.stats([]).mean,null);assert.equal(C.stats([4]).sd,null);assert.equal(C.stats([1,3]).median,2);});
@@ -105,9 +127,9 @@ test("all editorial event examples are bound to confirmed source events",()=>{
   assert.equal(new Set(F.sections.flatMap(s=>s.fields)).size,26);
 });
 test("native scope reconciliation is source-bound and not substituted for audit metrics",()=>{
-  const v=require("./data-verification-20261026-v2.json");
+  const v=require("./data-verification-20261026-o1-standard.json");
   const digest=require("node:crypto").createHash("sha256").update(fs.readFileSync("data.json")).digest("hex");
-  assert.equal(v.data_sha256,digest);assert.equal(v.source_metrics_checked,164*26);
+  assert.equal(v.data_sha256,digest);assert.equal(v.source_metrics_checked,205*26);
   assert.equal(v.source_metric_mismatches,0);
   const r=v.o456_scope_reconciliation;
   assert.deepEqual([r.published_batch.success,r.published_batch.n],[36,81]);

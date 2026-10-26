@@ -81,7 +81,7 @@ function overview(){
   const top=ids?C.pair(D,state,"score",...ids).pairs.sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta)).slice(0,6):[];
   return `<section id="fixed-findings">
     ${section("01","主要结论","本次四组首轮 · 固定40个共同任务 · 各指标独立有效N",'<a href="#analysis">详细分析 '+icon("arrow-right")+"</a>")}
-    <p class="conclusion-scope">固定来源：Low 42/42、High 41/42、O1 Compact 40/42、O456 Clear 41/42项获批分析；四组共同40项，统一排除build_tower与push_T。数字顺序为Low / High / O1 / O456。仅本次四组进入结论，不随筛选改变。</p>
+    <p class="conclusion-scope">固定来源：Low 42/42、High 41/42、O1 Compact 40/42、O456 Clear 41/42项获批分析；四组共同40项，统一排除build_tower与push_T。数字顺序为Low / High / O1 / O456。仅这四组进入结论，不随筛选改变；新增O1 Standard不纳入本节结论。</p>
     <p class="caption">成功与得分已逐条对照原生结果。视觉事件为原审核覆盖内的确认下界；“统计已核对”不等于本次重新看过所有视频。以下不是因果或显著性结论。</p>
     ${findings}
     </section><section id="selected-results">
@@ -120,7 +120,7 @@ function analysis(){
   const reviewRows=F.reviewTasks.map(item=>`<tr><td><button class="text-button" data-task="${esc(item.task)}" data-fixed-proof="true">${esc(item.task)}</button></td>
     ${F.scope.groups.map(g=>{const r=A.data.runs.find(r=>r.group===g&&r.task===item.task),m=r.metrics.empty_retry;return `<td>${fmt(m.value)}${m.status==="lower_bound"?"†":""}<span class="cell-sub">${statusBadge(m.status)}</span></td>`}).join("")}<td class="reason">${esc(item.reason)}</td></tr>`).join("");
   return `<div class="analysis-report">
-    <div class="notice green">本次Low、High、O1 Compact、O456 Clear四组首轮分析。固定40个task / variant / seed / scene共同条件，逐指标取四组有效交集；不包含历史公开组或后补devset。</div>
+    <div class="notice green">本节为Low、High、O1 Compact、O456 Clear四组首轮分析。固定40个task / variant / seed / scene共同条件，逐指标取四组有效交集；不包含新增O1 Standard、历史公开组或后补devset。</div>
     <p class="caption">所有并列数字按Low / High / O1 / O456排列。164条分析的4264个指标值及状态、1078条事件定位与来源已核对；本次未重新进行全视频审核。O配置整批最终验收尚未完成，只使用已获单项批准的结果。</p>
     ${section("01","指标全集","26项全部列出 · 单格为合计及均值 · † 为纳入确认下界")}
     <div class="table-wrap sticky-table"><table><thead><tr><th>指标 / 四组有效N</th>${columns}</tr></thead><tbody>${metricRows}</tbody></table></div>
@@ -144,7 +144,7 @@ function analysis(){
     <p>未分析的push_T原生失败，不能把它加入行为指标并填零。后补39条有25条成功，解释全部发布成绩为何较高。原实验看板的首轮五能力等权成功率为28.3%，与上述逐记录等权指标也不同。</p>
     ${section("06","来源与复现","结果SHA、当前复核指纹和原视频定位保留在逐运行来源中")}
     <p>单次首轮、非控制变量的四组描述性比较；Low/High审核含gpt-6-sol与gpt-6.1-sol历史混合来源，O组审核为gpt-6.1-sol medium。机器人均为gpt-6-astra；O组是独立配置，不是单纯改变effort。</p>
-    <div class="download-list"><a class="button" href="four-group-analysis.md" download>${icon("file-text")}完整分析文档</a><a class="button" href="four-group-analysis.json" download>${icon("download")}统计与证据索引</a><a class="button" href="data-verification-20261026-v2.json" download>${icon("file-check")}数据核对记录</a></div>
+    <div class="download-list"><a class="button" href="four-group-analysis.md" download>${icon("file-text")}完整分析文档</a><a class="button" href="four-group-analysis.json" download>${icon("download")}统计与证据索引</a><a class="button" href="data-verification-20261026-o1-standard.json" download>${icon("file-check")}数据核对记录</a></div>
     </div>`;
 }
 function metricTable(keys,sections=false){
@@ -226,11 +226,14 @@ function relations(){
 }
 function methods(){
   const counts=D.groups.map(g=>`${g.name} ${D.runs.filter(r=>r.group===g.id).length}`).join(" · ");
+  const own=D.groups.filter(g=>g.source==="本批批准分析");
+  const ownNames=own.map(g=>esc(g.name)).join(" · ");
+  const partial=own.filter(g=>g.audit==="partial").map(g=>`${esc(g.name)} ${g.completed}/${g.planned}`).join("、");
   return `<div class="methods"><div class="notice green">v0.1 独立研究预览。没有提交或覆盖原行为看板，也没有为此页面重新运行模型。</div>
-    <h2>01 / 数据范围</h2><p>${esc(counts)}。本轮实际分析包括 Low、High、O1 Compact 和 O456 Clear；其中 O1 Compact 与 O456 Clear 分别有40/42、41/42项程序校验且当前复核批准，整批最终验收未完成。历史 Medium、Semantic EEF、Action Horizon、EEF Sequence来自公开行为看板；O23 Compact和O23 DepthPro为阶段性公开数据。</p>
-    <p>Low/High来源观察：${esc(D.audit_observed)}；O配置来源观察：${esc(D.o_audit_observed)}；网页生成：${esc(D.built_at)}。页面不会自动轮询实验状态。</p>
+    <h2>01 / 数据范围</h2><p>${esc(counts)}。本轮实际分析包括 ${ownNames}；其中${partial}项程序校验且当前复核批准，整批最终验收未完成。O1 Standard为persistent-cap20-o1，与O1 Compact的persistent-cap20-o1-compact是独立配置。历史 Medium、Semantic EEF、Action Horizon、EEF Sequence来自公开行为看板；O23 Compact和O23 DepthPro为阶段性公开数据。</p>
+    <p>Low/High来源观察：${esc(D.audit_observed)}；O1 Compact与O456 Clear来源观察：${esc(D.o_audit_observed)}；O1 Standard来源观察：${esc(D.o1_standard_audit_observed)}；网页生成：${esc(D.built_at)}。页面不会自动轮询实验状态。</p>
     <h3>来源分类</h3><div class="table-wrap"><table><thead><tr><th>来源</th><th>实验组</th><th>说明</th></tr></thead><tbody>
-      <tr><td>本次实际分析</td><td>Low · High · O1 Compact · O456 Clear</td><td class="reason">本轮行为分析输出；O配置按单项复核状态标注。</td></tr>
+      <tr><td>本次实际分析</td><td>${ownNames}</td><td class="reason">本轮行为分析输出；O配置按单项复核状态标注。固定四组结论暂不包含新增O1 Standard。</td></tr>
       <tr><td>历史公开数据</td><td>历史 Medium · Semantic EEF · Action Horizon · EEF Sequence</td><td class="reason">从公开行为看板导入，未在本轮重新分析。</td></tr>
       <tr><td>阶段性公开数据</td><td>O23 Compact · O23 DepthPro</td><td class="reason">公开看板中的阶段性结果，未在本轮重新分析。</td></tr>
     </tbody></table></div>
@@ -245,7 +248,7 @@ function methods(){
       <li>单次首轮对照，不提供多seed稳定性或因果显著性结论。相关行为多不自动等于行为更好。</li>
     </ul>
     <h2>03 / 证据边界</h2><p>已批准是分析结果的审核状态，不是机器人成功。视频帧与决策未精确同步时，保留时间/帧位置，不补造精确对应。Low/High公开包仅包含审核后的指标理由、视觉证据摘要和SHA，不包含会话、原始模型推理、认证内容或本地路径。其视频未随此预览上传。</p>
-    <p>O1 Compact和O456 Clear保留原公开三视角视频链接、审核事件及当前复核指纹。历史Medium视频链接来自原公开提交。视频均由原云盘提供，本页未重新上传；外部链接可用性不由本网站保证。其他历史配置的完整事件仍在原报告。</p>
+    <p>O1 Compact、O456 Clear和O1 Standard保留原公开三视角视频链接、审核事件及当前复核指纹。历史Medium视频链接来自原公开提交。视频均由原云盘提供，本页未重新上传；外部链接可用性不由本网站保证。其他历史配置的完整事件仍在原报告。</p>
     <h2>04 / 来源与下载</h2><div class="download-list"><a class="button" href="data.json" download>${icon("download")}脱敏数据 JSON</a><button class="button" id="download-all">${icon("download")}全量指标 CSV</button><a class="button" href="https://na-wen.github.io/robodojo-board/protocol.md" target="_blank" rel="noopener">${icon("file-text")}原指标协议</a><a class="button" href="https://github.com/sxw1174/robot-audit-comparison" target="_blank" rel="noopener">${icon("github")}页面源码</a></div>
     <p>脱敏数据不是原始审核JSON的逐字节副本。每条本批记录保留原始分析SHA及输入文件SHA；页面使用同一份数据生成表格和下载。所有原始私有文件保持不变。</p>
     <div class="table-wrap"><table><thead><tr><th>输入来源</th><th>SHA-256</th></tr></thead><tbody>${D.inputs.map(x=>`<tr><td>${esc(x.name)}</td><td class="hash">${x.sha256}</td></tr>`).join("")}</tbody></table></div>

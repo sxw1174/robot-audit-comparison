@@ -6,7 +6,8 @@ const C = require("../core.js"), F = require("../findings.js");
 const root = path.resolve(__dirname, "..");
 const raw = fs.readFileSync(path.join(root, "data.json"));
 const D = JSON.parse(raw), A = F.analyze(D, C);
-const verification = JSON.parse(fs.readFileSync(path.join(root, "data-verification-20261026-v2.json")));
+const verificationPath = path.join(root, "data-verification-20261026-o1-standard.json");
+const verification = JSON.parse(fs.readFileSync(verificationPath));
 const digest = bytes => crypto.createHash("sha256").update(bytes).digest("hex");
 assert.equal(digest(raw), verification.data_sha256);
 assert.equal(A.tasks.length, 40);
@@ -19,7 +20,7 @@ for (const [field, expected] of Object.entries(F.expected)) {
 const summary = s => Object.fromEntries(["n", "total", "mean", "median", "sd", "q1", "q3", "min", "max", "nonzero", "bounds"].map(k => [k, s[k]]));
 const report = {
   schema_version: "four-group-descriptive-analysis-v1",
-  source_data_sha256: digest(raw), verification_sha256: digest(fs.readFileSync(path.join(root, "data-verification-20261026-v2.json"))),
+  source_data_sha256: digest(raw), verification_sha256: digest(fs.readFileSync(verificationPath)),
   source_observations: {low_high: D.audit_observed, o_groups: D.o_audit_observed},
   scope: F.scope, common_task_n: A.tasks.length, exclusions: ["build_tower", "push_T"],
   visual_rereview_performed: false,
@@ -50,6 +51,7 @@ const num = x => x == null ? "—" : Number(x.toFixed(4)).toString();
 const lines = [
   "# 四组首轮行为分析", "",
   "Low / High / O1 Compact / O456 Clear。仅本次四组，不包含历史看板分析与后补devset。",
+  "新增O1 Standard的41份批准分析单独展示，不纳入本报告的固定四组结论。",
   "", "## 范围与数据核对", "",
   "各组已获单项批准分析42 / 41 / 40 / 41份；共同40个task / variant / seed / scene，统一排除build_tower和push_T。每项指标再取四组有效交集。",
   `原生成功、得分及任务条件逐条核对164条；与原批准结果核对4264个指标值与状态、1078条事件定位。数据SHA：\`${digest(raw)}\`。`,

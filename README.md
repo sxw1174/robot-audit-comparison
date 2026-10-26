@@ -45,10 +45,10 @@ The fixed analysis uses 40 matching task/variant/seed/scene tuples and excludes
 `build_tower` and `push_T` across all four groups. Each of the 26 metrics then
 uses its own four-way valid intersection; visual unknowns are not filled with
 zero. The detailed analysis route includes all metrics, task outcomes,
-event references and an empty-grasp review checklist.
+event references and empty-grasp source evidence notes.
 
-O456's lower confirmed empty-grasp count is explicitly pending a new video
-review, not a verified improvement in grasping ability. No new model calls or
+O456's lower confirmed empty-grasp count describes the original coverage,
+not a verified improvement in grasping ability. No new model calls or
 video re-audit were performed for this update. Original audit approvals remain
 distinct from verification of the site's data import.
 

@@ -126,11 +126,11 @@ function analysis(){
     <div class="table-wrap sticky-table"><table><thead><tr><th>指标 / 四组有效N</th>${columns}</tr></thead><tbody>${metricRows}</tbody></table></div>
     ${section("02","逐项分析","原生结果、行为计数、事件来源与证据边界")}
     ${sections}
-    ${section("03","空夹差异复核","待专项视频复核 · 现有确认计数不是完整空夹率")}
-    <p>O456相对Low减少11项、增加4项、相同23项；相对High减少16项、增加7项、相同15项；相对O1减少12项、增加4项、相同22项，均使用同一N=38子集。专项复核尚未执行，不将原有批准状态冒充新复核。</p>
-    <p>复核口径：实际抓取目的的闭合未形成有效夹持才计空夹；推物、按压、空手收爪不计。每次独立尝试只计一次。需同时查计数下降、反向增加、零计数和遮挡候选；其中两项High未知任务仍排除在N=38外。</p>
-    <div class="table-wrap"><table><thead><tr><th>任务</th>${columns}<th>复核重点</th></tr></thead><tbody>${reviewRows}</tbody></table></div>
-    <p class="caption">sort_nesting_dolls_by_size与stack_blocks_by_language因High未知而排除。Low/High原视频未托管于此预览，现有帧定位不能替代新视频复核。新复核不得补造缺失指令或修改原事件以迎合结论。</p>
+    ${section("03","空夹差异证据","现有确认计数不是完整空夹率")}
+    <p>O456相对Low减少11项、增加4项、相同23项；相对High减少16项、增加7项、相同15项；相对O1减少12项、增加4项、相同22项，均使用同一N=38子集。</p>
+    <p>统计口径：实际抓取目的的闭合未形成有效夹持才计空夹；推物、按压、空手收爪不计。每次独立尝试只计一次。下列任务保留计数下降、反向增加、零计数和遮挡候选的来源说明；其中两项High未知任务仍排除在N=38外。</p>
+    <div class="table-wrap"><table><thead><tr><th>任务</th>${columns}<th>来源与证据边界</th></tr></thead><tbody>${reviewRows}</tbody></table></div>
+    <p class="caption">sort_nesting_dolls_by_size与stack_blocks_by_language因High未知而排除。Low/High原视频未托管于此预览。候选事件、缺失指令和未知值均按原来源保留。</p>
     ${section("04","共同任务结果","固定40项 · 每格为原生得分 / 成功标记")}
     <div class="table-wrap"><table><thead><tr><th>task / variant / seed / scene</th>${columns}</tr></thead><tbody>${A.tasks.map(t=>`<tr><td><button class="text-button" data-task="${esc(t.task)}" data-fixed-proof="true">${esc(t.task)}</button><span class="cell-sub">${esc(t.variant)} / ${t.seed} / ${t.scene}</span></td>
       ${t.rows.map(r=>`<td><button class="text-button" data-run="${esc(r.id)}">${fmt(r.metrics.score.value,3)} / ${r.metrics.success.value? "成功":"失败"} ${icon("arrow-up-right")}</button></td>`).join("")}</tr>`).join("")}</tbody></table></div>
@@ -282,7 +282,6 @@ function findingDetail(id){
   openDialog(f.title,`<h2 class="detail-title">${esc(f.title)}</h2><p>${esc(f.text)}</p>
     <p class="detail-meta">固定四组首轮 · ${esc(f.review)} · 任务举例不是全部统计分母</p>
     <div class="conclusion-sources">${proofLinks(f.fields)}</div><div class="detail-section"><h3>对应任务与来源</h3>${proofTasks(f.tasks)}</div>
-    ${f.id==="grasp"?'<p class="notice">空夹差异尚未完成新的专项视频复核。计数下降、反向增加及未知候选均需保留。</p>':""}
     <a class="text-button" href="#analysis" data-close-detail="true">完整四组分析 ${icon("arrow-right")}</a>`);
 }
 function runDetail(id,eventId){

@@ -41,8 +41,8 @@
       tasks: ["align_blocks", "plug_in_charger", "pack_objects_into_box"],
     },
     {
-      id: "grasp", title: "O456 Clear空夹确认计数较低", review: "待专项复核",
-      text: "38个共同有效任务的空夹计数为31 / 41 / 39 / 16。O456相对O1在12项减少、4项增加、22项相同。当前统计支持计数差异，尚需统一复查原视频，不能直接认定夹取能力提升。",
+      id: "grasp", title: "O456 Clear空夹确认计数较低",
+      text: "38个共同有效任务的空夹计数为31 / 41 / 39 / 16。O456相对O1在12项减少、4项增加、22项相同。这是现有核查覆盖内的确认计数，不等同于完整空夹率或夹取能力提升。",
       fields: ["empty_retry", "drop", "empty_regrasp"],
       tasks: ["deposit_coin", "hang_mugs", "store_tools_in_toolbox", "store_laptop_and_headphones"],
     },

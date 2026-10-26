@@ -203,8 +203,7 @@
     {
       "id": "grasp",
       "title": "O456 Clear空夹确认计数较低",
-      "review": "待专项复核",
-      "text": "38个共同有效任务的空夹计数为31 / 41 / 39 / 16。O456相对O1在12项减少、4项增加、22项相同。当前统计支持计数差异，尚需统一复查原视频，不能直接认定夹取能力提升。",
+      "text": "38个共同有效任务的空夹计数为31 / 41 / 39 / 16。O456相对O1在12项减少、4项增加、22项相同。这是现有核查覆盖内的确认计数，不等同于完整空夹率或夹取能力提升。",
       "fields": [
         "empty_retry",
         "drop",
@@ -235,6 +234,7 @@
         "variant": "",
         "includeInterim": false
       },
+      "review": "统计已核对",
       "evidence": {
         "empty_retry": [
           38,
@@ -545,7 +545,7 @@
       "tasks": []
     }
   ],
-  "pending_empty_grasp_review": [
+  "empty_grasp_evidence_notes": [
     {
       "task": "deposit_coin",
       "reason": "O1确认5次空夹，O456为0；重点核对实际抓取闭合与未形成夹持的尝试。"
@@ -57308,7 +57308,7 @@
   "limits": [
     "Four-way metric intersections; confirmation lower bounds and unknowns preserved.",
     "One first round; no causal attribution or statistical significance inference.",
-    "Empty-grasp differences remain pending a new source-video review.",
+    "Empty-grasp differences describe confirmed counts within the original coverage, not complete failure rates.",
     "Import checks are not a new independent visual audit."
   ]
 }

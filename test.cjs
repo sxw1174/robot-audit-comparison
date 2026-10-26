@@ -85,8 +85,9 @@ test("fixed task distributions and pair directions support findings",()=>{
   assert.deepEqual([p.metrics.empty_retry.n,p.metrics.empty_retry.less,p.metrics.empty_retry.more,p.metrics.empty_retry.equal],[38,12,4,22]);
   for(const p of A.pairs)for(const m of D.metrics)assert.equal(p.metrics[m.key].n,F.expected[m.key][0]);
 });
-test("empty-grasp difference remains pending, unknown candidate tasks stay excluded",()=>{
-  assert.equal(F.fixed.find(f=>f.id==="grasp").review,"待专项复核");
+test("empty-grasp finding has no pending badge and unknown candidate tasks stay excluded",()=>{
+  assert.equal(F.fixed.find(f=>f.id==="grasp").review,"统计已核对");
+  assert.doesNotMatch(F.fixed.find(f=>f.id==="grasp").text,/待复核|尚需/);
   const A=F.analyze(D,C);
   for(const task of ["sort_nesting_dolls_by_size","stack_blocks_by_language"]){
     assert.ok(!A.metrics.empty_retry[0].rows.some(r=>r.task===task));

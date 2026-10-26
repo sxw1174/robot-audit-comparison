@@ -41,7 +41,7 @@ const {chromium} = require("playwright");
         assert.equal(overflow, false, `${route} overflows at ${viewport.width}`);
         if(route==="analysis"){
           assert.equal(await page.locator(".analysis-report table").first().locator("tbody tr").count(),26);
-          assert.match(await page.locator("#view").innerText(),/待专项视频复核/);
+          assert.match(await page.locator("#view").innerText(),/空夹差异证据/);
         }
       }
       await page.screenshot({path: `/tmp/audit-o-${viewport.width}.png`, fullPage: true});

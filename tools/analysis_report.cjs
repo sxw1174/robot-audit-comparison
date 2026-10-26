@@ -23,7 +23,7 @@ const report = {
   source_observations: {low_high: D.audit_observed, o_groups: D.o_audit_observed},
   scope: F.scope, common_task_n: A.tasks.length, exclusions: ["build_tower", "push_T"],
   visual_rereview_performed: false,
-  findings: F.fixed, discussions: F.sections, pending_empty_grasp_review: F.reviewTasks,
+  findings: F.fixed, discussions: F.sections, empty_grasp_evidence_notes: F.reviewTasks,
   metrics: D.metrics.map(m => ({...m, groups: A.metrics[m.key].map(s => ({
     group: s.group, ...summary(s), included: s.rows.map(r => ({
       run_id: r.id, analysis_sha256: r.source.analysis_sha256,
@@ -42,7 +42,7 @@ const report = {
   limits: [
     "Four-way metric intersections; confirmation lower bounds and unknowns preserved.",
     "One first round; no causal attribution or statistical significance inference.",
-    "Empty-grasp differences remain pending a new source-video review.",
+    "Empty-grasp differences describe confirmed counts within the original coverage, not complete failure rates.",
     "Import checks are not a new independent visual audit.",
   ],
 };
@@ -53,7 +53,7 @@ const lines = [
   "", "## 范围与数据核对", "",
   "各组已获单项批准分析42 / 41 / 40 / 41份；共同40个task / variant / seed / scene，统一排除build_tower和push_T。每项指标再取四组有效交集。",
   `原生成功、得分及任务条件逐条核对164条；与原批准结果核对4264个指标值与状态、1078条事件定位。数据SHA：\`${digest(raw)}\`。`,
-  "O配置整批最终验收尚未完成。统计核对不是新的全视频审核；空夹差异待专项视频复核。",
+  "O配置整批最终验收尚未完成。统计核对不是新的全视频审核；空夹差异描述原核查覆盖内的确认计数。",
   "下文所有四组数字按Low / High / O1 / O456顺序排列。视觉数值均为声明核查覆盖内的确认下界，未知不补零。", "",
   "## 主要结论", "",
 ];
@@ -74,7 +74,7 @@ for (const s of F.sections) {
   }
   lines.push("");
 }
-lines.push("## 空夹专项复核清单（未执行）", "",
+lines.push("## 空夹差异来源与证据边界", "",
   "实际抓取目的的闭合未形成有效夹持才计空夹；推物、按压和空手收爪不计。每次独立尝试只计一次。保留空夹/掉落分类候选，不补造指令或确认帧记录。",
   "相对Low：O456减少11项、增加4项、相同23项；相对High为16 / 7 / 15，相对O1为12 / 4 / 22，均N=38。",
   "下面包含被排除的未知任务，用于核查而不是补入数值分母。Low/High原视频未托管在此预览。", "");

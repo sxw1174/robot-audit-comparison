@@ -45,6 +45,7 @@ test("O canonical provenance, event keys and models are explicit",()=>{
     for(const e of r.events)for(const k of e.metrics)assert.ok(D.metrics.some(m=>m.key===k),k);
   }
   assert.ok(Date.parse(D.o_audit_observed)<=Date.parse(D.built_at));
+  assert.equal(D.audit_observed,"2026-10-25 03:37 +08:00");
 });
 test("single-task and variant filters respected",()=>{assert.equal(C.pair(D,{...state,task:"align_blocks"},"score").n,1);assert.equal(C.pair(D,{...state,task:"align_blocks",variant:"random"},"score").n,0);});
 test("empty summary uses null, n=1 sd is null",()=>{assert.equal(C.stats([]).mean,null);assert.equal(C.stats([4]).sd,null);assert.equal(C.stats([1,3]).median,2);});

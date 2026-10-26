@@ -108,6 +108,7 @@ def merge(data, export, input_sha):
     order = ["low", "persistent", "high", "o1compact", "o456"]
     data["groups"].sort(key=lambda g: order.index(g["id"]) if g["id"] in order else 100)
     data["o_audit_observed"] = datetime.fromtimestamp(export["observed_unix"]).astimezone().isoformat()
+    data["audit_observed"] = "2026-10-25 03:37 +08:00"
     data["notes"].append(NOTE)
     data["inputs"].append({"name": "approved-o-export", "sha256": input_sha})
     assert len(data["runs"]) == len({r["id"] for r in data["runs"]}) == 416

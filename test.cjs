@@ -59,11 +59,68 @@ test("source SHA bindings are complete",()=>{for(const r of D.runs.filter(r=>["l
 test("overview provides six fixed sourced findings",()=>{
   const rows=F.fixed;assert.equal(rows.length,6);
   for(const row of rows){assert.ok(row.fields.length);for(const key of row.fields)assert.ok(D.metrics.some(m=>m.key===key));}
-  assert.match(rows[0].title,/High成功率未高于Low/);assert.match(rows[0].text,/0.0037/);
+  assert.match(rows[0].title,/O1 Compact/);assert.match(rows[0].text,/32.5%/);
 });
 test("fixed findings do not change with selected groups or filters",()=>{
-  assert.deepEqual(F.fixed.map(row=>row.ids),F.fixed.map(()=>["low","high"]));
-  assert.equal(F.scope.groups.join(","),"low,high");
+  assert.deepEqual(F.fixed.map(row=>row.ids),F.fixed.map(()=>["low","high","o1compact","o456"]));
+  assert.equal(F.scope.groups.join(","),"low,high,o1compact,o456");
+  assert.equal(F.scope.task,"");assert.equal(F.scope.policy,"bounds");
+});
+test("all 26 fixed metric denominators and totals match reviewed evidence",()=>{
+  const A=F.analyze(D,C);assert.equal(A.tasks.length,40);assert.equal(A.data.runs.length,160);
+  assert.ok(A.data.runs.every(r=>!["build_tower","push_T"].includes(r.task)));
+  for(const [key,expected] of Object.entries(F.expected))for(const [i,s] of A.metrics[key].entries()){
+    assert.equal(s.n,expected[0],key);
+    if(expected[i+1]===null)assert.equal(s.total,null);
+    else assert.ok(Math.abs(s.total-expected[i+1])<1e-8,key);
+  }
+  for(const f of F.fixed)for(const [k,v] of Object.entries(f.evidence))assert.deepEqual(v,F.expected[k]);
+});
+test("fixed task distributions and pair directions support findings",()=>{
+  const A=F.analyze(D,C),values=t=>t.rows.map(r=>r.metrics.score.value);
+  assert.equal(A.tasks.filter(t=>new Set(values(t)).size===1).length,20);
+  assert.equal(A.tasks.filter(t=>values(t).every(x=>x===0)).length,10);
+  assert.equal(A.tasks.filter(t=>t.rows.every(r=>r.metrics.success.value===1)).length,7);
+  const p=A.pairs.find(p=>p.groups.join(",")==="o1compact,o456");
+  assert.deepEqual([p.metrics.empty_retry.n,p.metrics.empty_retry.less,p.metrics.empty_retry.more,p.metrics.empty_retry.equal],[38,12,4,22]);
+  for(const p of A.pairs)for(const m of D.metrics)assert.equal(p.metrics[m.key].n,F.expected[m.key][0]);
+});
+test("empty-grasp difference remains pending, unknown candidate tasks stay excluded",()=>{
+  assert.equal(F.fixed.find(f=>f.id==="grasp").review,"待专项复核");
+  const A=F.analyze(D,C);
+  for(const task of ["sort_nesting_dolls_by_size","stack_blocks_by_language"]){
+    assert.ok(!A.metrics.empty_retry[0].rows.some(r=>r.task===task));
+    assert.ok(F.reviewTasks.some(r=>r.task===task));
+  }
+  assert.equal(F.reviewTasks.length,8);
+});
+test("all editorial event examples are bound to confirmed source events",()=>{
+  const A=F.analyze(D,C);
+  for(const s of F.sections)for(const ref of s.events||[]){
+    const r=A.data.runs.find(r=>r.group===ref.group&&r.task===ref.task);
+    assert.ok(r);assert.equal(r.events.find(e=>e.id===ref.event)?.status,"confirmed");
+    assert.match(r.source.analysis_sha256,/^[a-f0-9]{64}$/);
+  }
+  assert.equal(new Set(F.sections.flatMap(s=>s.fields)).size,26);
+});
+test("native scope reconciliation is source-bound and not substituted for audit metrics",()=>{
+  const v=require("./data-verification-20261026-v2.json");
+  const digest=require("node:crypto").createHash("sha256").update(fs.readFileSync("data.json")).digest("hex");
+  assert.equal(v.data_sha256,digest);assert.equal(v.source_metrics_checked,164*26);
+  assert.equal(v.source_metric_mismatches,0);
+  const r=v.o456_scope_reconciliation;
+  assert.deepEqual([r.published_batch.success,r.published_batch.n],[36,81]);
+  assert.deepEqual([r.first_round.success,r.first_round.n],[11,42]);
+  assert.equal(r.first_round.at_decision_limit.length,4);
+  assert.equal(r.omitted_first_round[0].score,0);
+});
+test("report and UI keep evidence scope through nested links",()=>{
+  const report=require("./four-group-analysis.json"),app=fs.readFileSync("app.js","utf8");
+  assert.equal(report.visual_rereview_performed,false);
+  assert.equal(report.common_task_n,40);assert.equal(report.metrics.length,26);
+  assert.equal(report.pairs.length,6);assert.equal(report.tasks.length,40);
+  assert.match(app,/detailData=fixedProof\?A\.data:D/);
+  assert.match(app,/taskDetail\(t\.dataset\.task,t\.dataset\.fixedProof==="true"\)/);
 });
 test("pair columns appear only for exactly two selected groups",()=>{
   assert.deepEqual(C.selectedPair({...state,groups:["low"]}),null);

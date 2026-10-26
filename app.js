@@ -1,6 +1,7 @@
 /* All views and downloads share the same metric eligibility functions. */
 "use strict";
 const D = window.AUDIT_DATA, C = window.AuditCore;
+const F = window.AuditFindings, A = F.analyze(D, C);
 const $ = id => document.getElementById(id);
 const esc = x => String(x ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt = (n, digits = 2) => n == null || !Number.isFinite(n) ? "—" : n.toLocaleString("zh-CN", {maximumFractionDigits: digits});
@@ -12,7 +13,8 @@ const defaultGroups = () => D.groups.filter(g=>g.source==="本批批准分析").
 const state = {groups:defaultGroups(),scope:"all",task:"",variant:"",policy:"bounds",includeInterim:false};
 const local = {taskSearch:"", taskSort:"task", taskMetric:"score", eventSearch:"", eventStatus:"", eventMetric:"", eventPage:0};
 const titles = {
-  overview:["实验总览","实验总览","首轮行为分析 · Low / High"],
+  overview:["实验总览","实验总览","四组首轮行为分析"],
+  analysis:["四组分析","四组分析","Low / High / O1 Compact / O456 Clear · 固定40个共同任务"],
   metrics:["指标统计","指标统计","26项指标 · 结果、夹取、恢复、换手、观察与操作误差"],
   tasks:["任务对照","任务对照","task / variant / seed / scene"],
   evidence:["事件证据","事件证据","视觉事件、帧定位与来源指纹"],
@@ -53,14 +55,14 @@ function render(){
   }
   document.querySelectorAll(".sidebar nav a").forEach(a=>a.classList.toggle("active",a.hash==="#"+page));
   renderFilters();
-  $("view").innerHTML=!state.groups.length&&["metrics","tasks","evidence","relations"].includes(page)?'<div class="empty">未选择实验组。</div>':({overview,metrics,tasks,evidence,relations,methods}[page])();
+  $("view").innerHTML=!state.groups.length&&["metrics","tasks","evidence","relations"].includes(page)?'<div class="empty">未选择实验组。</div>':({overview,analysis,metrics,tasks,evidence,relations,methods}[page])();
   refreshIcons();
 }
 function overview(){
   const fields=["success","score","turns","actions"];
   const kpis=fields.map(field=>{
     const def=metric(field), summaries=C.summaries(D,state,field);
-    return `<div class="kpi"><h3>${def.label==="成功"?"原生成功率":def.label==="得分"?"任务等权均分":def.label}</h3>${summaries.map(s=>
+    return `<div class="kpi"><h3>${def.label==="成功"?"分析样本原生成功率":def.label==="得分"?"任务等权均分":def.label}</h3>${summaries.map(s=>
       `<div class="kpi-value">${groupName(s.group)}<strong>${s.n?(field==="success"?fmt(s.mean*100,1)+"%":fmt(s.mean,field==="score"?3:1)):"—"}</strong></div>
        <small>${esc(group(s.group).name)} · ${field==="success"?`${fmt(s.total,0)} / ${s.n} 成功`:`n=${s.n}${field==="turns"||field==="actions"?" · 合计 "+fmt(s.total,0):""}`}</small>`).join("")}</div>`;
   }).join("");
@@ -71,20 +73,21 @@ function overview(){
       <div class="bar-stack" role="img" aria-label="${esc(group(s.group).name)}：零分${zero}，部分得分${partial}，满分${full}">${s.n?
       `<span class="zero" style="width:${zero/s.n*100}%"></span><span class="partial" style="width:${partial/s.n*100}%"></span><span class="full" style="width:${full/s.n*100}%"></span>`:""}</div></div>`;
   }).join("");
-  const ids=pairIds(), conclusions=window.AuditFindings.fixed;
+  const ids=pairIds(), conclusions=F.fixed;
   const findings=conclusions.length?`<div class="conclusion-list">${conclusions.map((f,i)=>`<article class="conclusion" data-finding="${f.id}">
-    <div class="conclusion-number">${String(i+1).padStart(2,"0")}</div><div><h3>${esc(f.title)}</h3><p>${esc(f.text)}</p>
-    <div class="conclusion-sources">${f.fields.map(field=>`<button class="text-button" data-proof-metric="${field}">${metric(field).id} ${esc(metric(field).label)} ${icon("arrow-up-right")}</button>`).join("")}</div></div>
-    </article>`).join("")}</div>`:'<div class="empty">当前范围没有足够的两组配对证据，未生成结论。</div>';
+    <div class="conclusion-number">${String(i+1).padStart(2,"0")}</div><div><h3>${esc(f.title)}</h3>${f.review==="待专项复核"?'<span class="badge warn">待专项复核 · 未重新审核原视频</span>':""}<p>${esc(f.text)}</p>
+    <div class="conclusion-sources">${proofLinks(f.fields)}<button class="text-button" data-finding-detail="${f.id}">任务来源 ${icon("arrow-up-right")}</button></div></div>
+    </article>`).join("")}</div>`:'<div class="empty">本次四组暂无已整理的固定结论。</div>';
   const top=ids?C.pair(D,state,"score",...ids).pairs.sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta)).slice(0,6):[];
   return `<section id="fixed-findings">
-    ${section("01","主要结论","Low / High官方首轮 · 固定41对任务 · 各指标独立有效N")}
-    <p class="conclusion-scope">固定来源：Low 42份、High 41份获批分析，High push_T缺失；本节不受实验组、任务或证据筛选影响。以下为单次首轮的描述性发现，不是因果或显著性结论。</p>
+    ${section("01","主要结论","本次四组首轮 · 固定40个共同任务 · 各指标独立有效N",'<a href="#analysis">详细分析 '+icon("arrow-right")+"</a>")}
+    <p class="conclusion-scope">固定来源：Low 42/42、High 41/42、O1 Compact 40/42、O456 Clear 41/42项获批分析；四组共同40项，统一排除build_tower与push_T。数字顺序为Low / High / O1 / O456。仅本次四组进入结论，不随筛选改变。</p>
+    <p class="caption">成功与得分已逐条对照原生结果。视觉事件为原审核覆盖内的确认下界；“统计已核对”不等于本次重新看过所有视频。以下不是因果或显著性结论。</p>
     ${findings}
     </section><section id="selected-results">
     ${section("02","所选实验组统计",state.groups.length?state.groups.map(id=>esc(group(id).name)).join(" · "):"未选择实验组")}
     ${!state.groups.length?'<div class="empty">未选择实验组。</div></section>':`
-    <div class="notice">跨配置数值差异不等于单一因素的效果。各组审核状态、覆盖范围及缺失项见实验配置与数据来源。</div>
+    <div class="notice">以下仅统计纳入本页分析的记录，不是原实验全部已发布结果的成绩。跨配置差异不等于单一因素效果；完整统计范围核对见四组分析。</div>
     <div class="kpi-grid">${kpis}</div>
     ${section("03","得分分布","原生得分；部分得分指 0 < score < 1")}
     <div class="chart-area">${bars}<div class="bar-legend"><span class="legend-item"><i class="swatch" style="background:#ccd4d0"></i>零分</span><span class="legend-item"><i class="swatch" style="background:#b2c8b9"></i>部分得分</span><span class="legend-item"><i class="swatch" style="background:#447d62"></i>满分</span></div></div>
@@ -96,6 +99,53 @@ function overview(){
 }
 function metricCell(s,field){
   return s.n?`<span class="value">${fmt(s.mean,field==="score"?3:2)}${s.bounds?"†":""}</span><span class="cell-sub">n=${s.n} · 合计 ${fmt(s.total)}</span>`:'<span class="muted">—</span><span class="cell-sub">n=0</span>';
+}
+function proofLinks(fields){
+  return fields.map(field=>`<button class="text-button" data-proof-metric="${field}">${metric(field).id} ${esc(metric(field).label)} ${icon("arrow-up-right")}</button>`).join("");
+}
+function proofTasks(tasks){
+  return tasks.map(task=>`<button class="text-button" data-task="${esc(task)}" data-fixed-proof="true">${esc(task)} ${icon("arrow-up-right")}</button>`).join("");
+}
+function analysis(){
+  const columns=F.scope.groups.map(g=>`<th>${groupName(g)}</th>`).join("");
+  const metricRows=D.metrics.map(m=>`<tr class="click-row" data-proof-metric="${m.key}" tabindex="0" role="button" aria-label="查看固定四组${esc(m.label)}证据">
+    <td><span class="metric-name"><span class="metric-id">${m.id}</span>${esc(m.label)}</span><span class="cell-sub">${esc(m.unit)} · N=${A.metrics[m.key][0].n}</span></td>
+    ${A.metrics[m.key].map(s=>`<td>${s.n?`<strong>${fmt(s.total)}${s.bounds?"†":""}</strong><span class="cell-sub">均值 ${fmt(s.mean,4)} · 下界N ${s.bounds}</span>`:'—<span class="cell-sub">N=0 · 不填零</span>'}</td>`).join("")}</tr>`).join("");
+  const sections=F.sections.map((s,i)=>`<section class="analysis-section" id="analysis-${s.id}">
+    <h2>${String(i+1).padStart(2,"0")} / ${esc(s.title)}</h2><p>${esc(s.text)}</p><p class="analysis-limit">${esc(s.extra)}</p>
+    <div class="conclusion-sources">${proofLinks(s.fields)}${proofTasks(s.tasks)}</div>
+    ${(s.events||[]).map(ref=>{const r=A.data.runs.find(r=>r.group===ref.group&&r.task===ref.task),e=r.events.find(e=>e.id===ref.event);
+      return `<p class="analysis-event"><button class="text-button" data-run="${esc(r.id)}" data-event="${esc(e.id)}">${esc(group(r.group).name)} · ${esc(r.task)} · ${esc(e.id)} ${icon("arrow-up-right")}</button><span class="cell-sub">${eventLocation(e)} · ${esc(e.result)}</span></p>`;
+    }).join("")}</section>`).join("");
+  const reviewRows=F.reviewTasks.map(item=>`<tr><td><button class="text-button" data-task="${esc(item.task)}" data-fixed-proof="true">${esc(item.task)}</button></td>
+    ${F.scope.groups.map(g=>{const r=A.data.runs.find(r=>r.group===g&&r.task===item.task),m=r.metrics.empty_retry;return `<td>${fmt(m.value)}${m.status==="lower_bound"?"†":""}<span class="cell-sub">${statusBadge(m.status)}</span></td>`}).join("")}<td class="reason">${esc(item.reason)}</td></tr>`).join("");
+  return `<div class="analysis-report">
+    <div class="notice green">本次Low、High、O1 Compact、O456 Clear四组首轮分析。固定40个task / variant / seed / scene共同条件，逐指标取四组有效交集；不包含历史公开组或后补devset。</div>
+    <p class="caption">所有并列数字按Low / High / O1 / O456排列。164条分析的4264个指标值及状态、1078条事件定位与来源已核对；本次未重新进行全视频审核。O配置整批最终验收尚未完成，只使用已获单项批准的结果。</p>
+    ${section("01","指标全集","26项全部列出 · 单格为合计及均值 · † 为纳入确认下界")}
+    <div class="table-wrap sticky-table"><table><thead><tr><th>指标 / 四组有效N</th>${columns}</tr></thead><tbody>${metricRows}</tbody></table></div>
+    ${section("02","逐项分析","原生结果、行为计数、事件来源与证据边界")}
+    ${sections}
+    ${section("03","空夹差异复核","待专项视频复核 · 现有确认计数不是完整空夹率")}
+    <p>O456相对Low减少11项、增加4项、相同23项；相对High减少16项、增加7项、相同15项；相对O1减少12项、增加4项、相同22项，均使用同一N=38子集。专项复核尚未执行，不将原有批准状态冒充新复核。</p>
+    <p>复核口径：实际抓取目的的闭合未形成有效夹持才计空夹；推物、按压、空手收爪不计。每次独立尝试只计一次。需同时查计数下降、反向增加、零计数和遮挡候选；其中两项High未知任务仍排除在N=38外。</p>
+    <div class="table-wrap"><table><thead><tr><th>任务</th>${columns}<th>复核重点</th></tr></thead><tbody>${reviewRows}</tbody></table></div>
+    <p class="caption">sort_nesting_dolls_by_size与stack_blocks_by_language因High未知而排除。Low/High原视频未托管于此预览，现有帧定位不能替代新视频复核。新复核不得补造缺失指令或修改原事件以迎合结论。</p>
+    ${section("04","共同任务结果","固定40项 · 每格为原生得分 / 成功标记")}
+    <div class="table-wrap"><table><thead><tr><th>task / variant / seed / scene</th>${columns}</tr></thead><tbody>${A.tasks.map(t=>`<tr><td><button class="text-button" data-task="${esc(t.task)}" data-fixed-proof="true">${esc(t.task)}</button><span class="cell-sub">${esc(t.variant)} / ${t.seed} / ${t.scene}</span></td>
+      ${t.rows.map(r=>`<td><button class="text-button" data-run="${esc(r.id)}">${fmt(r.metrics.score.value,3)} / ${r.metrics.success.value? "成功":"失败"} ${icon("arrow-up-right")}</button></td>`).join("")}</tr>`).join("")}</tbody></table></div>
+    ${section("05","统计范围核对","O456成功率的不同分母 · 2026年10月26日公开快照")}
+    <div class="table-wrap"><table><thead><tr><th>范围</th><th>成功数 / N</th><th>逐记录成功率</th></tr></thead><tbody>
+      <tr><td>全部已发布结果，含后补devset</td><td>36 / 81</td><td>44.4%</td></tr>
+      <tr><td>完整首轮机器人实验</td><td>11 / 42</td><td>26.2%</td></tr>
+      <tr><td>已获批首轮分析</td><td>11 / 41</td><td>26.8%</td></tr>
+      <tr><td>本节四组共同任务</td><td>11 / 40</td><td>27.5%</td></tr>
+    </tbody></table></div>
+    <p>未分析的push_T原生失败，不能把它加入行为指标并填零。后补39条有25条成功，解释全部发布成绩为何较高。原实验看板的首轮五能力等权成功率为28.3%，与上述逐记录等权指标也不同。</p>
+    ${section("06","来源与复现","结果SHA、当前复核指纹和原视频定位保留在逐运行来源中")}
+    <p>单次首轮、非控制变量的四组描述性比较；Low/High审核含gpt-6-sol与gpt-6.1-sol历史混合来源，O组审核为gpt-6.1-sol medium。机器人均为gpt-6-astra；O组是独立配置，不是单纯改变effort。</p>
+    <div class="download-list"><a class="button" href="four-group-analysis.md" download>${icon("file-text")}完整分析文档</a><a class="button" href="four-group-analysis.json" download>${icon("download")}统计与证据索引</a><a class="button" href="data-verification-20261026-v2.json" download>${icon("file-check")}数据核对记录</a></div>
+    </div>`;
 }
 function metricTable(keys,sections=false){
   let last="";const ids=pairIds();
@@ -207,24 +257,33 @@ function openDialog(title,html){
   $("detail").scrollTop=0;refreshIcons();
 }
 function metricDetail(field,fixedProof=false){
-  const detailState=fixedProof?window.AuditFindings.scope:state;
-  const m=metric(field),summaries=C.summaries(D,detailState,field),ids=C.selectedPair(detailState),p=ids?C.pair(D,detailState,field,...ids):null;
-  const raw=C.rowsFor(D,detailState),keys=[...new Set(raw.map(r=>r.task))].sort();
+  const detailState=fixedProof?F.scope:state,detailData=fixedProof?A.data:D;
+  const m=metric(field),summaries=C.summaries(detailData,detailState,field),ids=C.selectedPair(detailState),p=ids?C.pair(detailData,detailState,field,...ids):null;
+  const raw=C.rowsFor(detailData,detailState),keys=[...new Set(raw.map(r=>r.task))].sort(),eligibleKeys=new Set(C.eligible(detailData,detailState,field).map(C.key));
   openDialog(`${m.id} ${m.label}`,`<h2 class="detail-title">${esc(m.label)}</h2><p class="metric-definition">${esc(m.definition)}</p>
-    <p class="detail-meta">单位 ${m.unit} · ${fixedProof?"固定结论证据 · Low / High · 全任务":detailState.scope==="common"?"所选组共同有效子集":"各组独立有效子集"} · ${detailState.policy==="bounds"?"含确认下界":"仅已确认"}</p>
+    <p class="detail-meta">单位 ${m.unit} · ${fixedProof?"固定四组结论证据 · 40个共同任务 · 本指标逐项有效N":detailState.scope==="common"?"所选组共同有效子集":"各组独立有效子集"} · ${detailState.policy==="bounds"?"含确认下界":"仅已确认"}</p>
     <div class="table-wrap"><table><thead><tr><th>实验</th><th>N / 范围N</th><th>合计</th><th>均值</th><th>中位数</th><th>样本SD</th><th>Q1–Q3</th><th>最小–最大</th><th>非零任务</th><th>下界N</th></tr></thead><tbody>
       ${summaries.map(s=>`<tr><td>${groupName(s.group)}</td><td>${s.n} / ${s.rawN}</td><td>${fmt(s.total)}</td><td>${fmt(s.mean,3)}</td><td>${fmt(s.median)}</td><td>${fmt(s.sd)}</td><td>${fmt(s.q1)}–${fmt(s.q3)}</td><td>${fmt(s.min)}–${fmt(s.max)}</td><td>${s.n?`${s.nonzero} / ${s.n}`:"—"}</td><td>${s.bounds}</td></tr>`).join("")}
     </tbody></table></div>
-    ${p?`<p class="notice green" style="margin-top:18px">${pairLabel(ids)}：有效 ${p.n} 对，平均差 ${signed(p.mean)}，中位差 ${signed(p.median)}；减少 ${p.less} / 持平 ${p.equal} / 增加 ${p.more}。这是两组子集，可能与三组共同N不同。</p>`:""}
-    <div class="detail-section"><h3>逐任务原始数值与状态</h3><div class="table-wrap"><table><thead><tr><th>任务</th>${detailState.groups.map(g=>`<th>${groupName(g)}</th>`).join("")}</tr></thead><tbody>${keys.map(task=>`<tr><td><button class="text-button" data-task="${esc(task)}">${esc(task)}</button></td>${detailState.groups.map(g=>{const r=raw.find(r=>r.group===g&&r.task===task),v=r?.metrics[field];return `<td>${v?`${fmt(v.value)}${v.status==="lower_bound"?"†":""}<span class="cell-sub">${statusBadge(v.status)}</span>`:"缺失"}</td>`}).join("")}</tr>`).join("")}</tbody></table></div></div>`);
+    ${p?`<p class="notice green" style="margin-top:18px">${pairLabel(ids)}：有效 ${p.n} 对，平均差 ${signed(p.mean)}，中位差 ${signed(p.median)}；减少 ${p.less} / 持平 ${p.equal} / 增加 ${p.more}。这是两组子集，可能与所选多组共同N不同。</p>`:""}
+    <div class="detail-section"><h3>逐任务原始数值与状态</h3><div class="table-wrap"><table><thead><tr><th>任务</th>${detailState.groups.map(g=>`<th>${groupName(g)}</th>`).join("")}</tr></thead><tbody>${keys.map(task=>{const base=raw.find(r=>r.task===task);return `<tr><td><button class="text-button" data-task="${esc(task)}" ${fixedProof?'data-fixed-proof="true"':""}>${esc(task)}</button>${detailState.scope==="common"&&!eligibleKeys.has(C.key(base))?'<span class="cell-sub">本指标未纳入共同统计</span>':""}</td>${detailState.groups.map(g=>{const r=raw.find(r=>r.group===g&&r.task===task),v=r?.metrics[field];return `<td>${v?`${fmt(v.value)}${v.status==="lower_bound"?"†":""}<span class="cell-sub">${statusBadge(v.status)}</span>`:"缺失"}</td>`}).join("")}</tr>`}).join("")}</tbody></table></div></div>`);
 }
-function taskDetail(task){
-  const rows=C.rowsFor(D,{...state,task});
-  const missing=D.missing.filter(r=>r.task===task&&state.groups.includes(r.group)&&(!state.variant||r.variant===state.variant));
+function taskDetail(task,fixedProof=false){
+  const detailState=fixedProof?F.scope:state;
+  const rows=C.rowsFor(fixedProof?A.data:D,{...detailState,task});
+  const missing=D.missing.filter(r=>r.task===task&&detailState.groups.includes(r.group)&&(!detailState.variant||r.variant===detailState.variant));
   openDialog(task,`<h2 class="detail-title">${esc(task)}</h2><p class="detail-meta">同名任务逐运行保留；完整条件列于各组来源。</p>
     <div class="table-wrap"><table><thead><tr><th>26项指标</th>${rows.map(r=>`<th>${groupName(r.group)}<span class="cell-sub">${r.variant} / s${r.seed} / scene${r.scene}</span></th>`).join("")}</tr></thead><tbody>${D.metrics.map(m=>`<tr><td>${m.id} ${m.label}</td>${rows.map(r=>{const v=r.metrics[m.key];return `<td>${fmt(v.value)}${v.status==="lower_bound"?"†":""}<span class="cell-sub">${statusBadge(v.status)}</span></td>`}).join("")}</tr>`).join("")}</tbody></table></div>
     <div class="detail-section"><h3>来源与事件</h3>${rows.map(r=>`<div class="finding"><h3>${groupName(r.group)} ${statusBadge(r.audit)}</h3><p class="hash">${esc(r.id)}</p><p>${r.events.length}条已导入事件 · ${esc(r.config.simulator||"环境版本见源配置")}</p><button class="button" data-run="${esc(r.id)}">来源、指标理由与事件 ${icon("arrow-right")}</button></div>`).join("")}</div>
     ${missing.map(r=>`<p class="notice">${esc(group(r.group).name)} ${esc(r.task)}：${esc(r.reason)}</p>`).join("")}`);
+}
+function findingDetail(id){
+  const f=F.fixed.find(f=>f.id===id);if(!f)return;
+  openDialog(f.title,`<h2 class="detail-title">${esc(f.title)}</h2><p>${esc(f.text)}</p>
+    <p class="detail-meta">固定四组首轮 · ${esc(f.review)} · 任务举例不是全部统计分母</p>
+    <div class="conclusion-sources">${proofLinks(f.fields)}</div><div class="detail-section"><h3>对应任务与来源</h3>${proofTasks(f.tasks)}</div>
+    ${f.id==="grasp"?'<p class="notice">空夹差异尚未完成新的专项视频复核。计数下降、反向增加及未知候选均需保留。</p>':""}
+    <a class="text-button" href="#analysis" data-close-detail="true">完整四组分析 ${icon("arrow-right")}</a>`);
 }
 function runDetail(id,eventId){
   const r=D.runs.find(r=>r.id===id),g=group(r.group);if(!r)return;
@@ -273,15 +332,17 @@ document.addEventListener("change",e=>{
   }
 });
 document.addEventListener("click",e=>{
-  const t=e.target.closest("[data-metric],[data-proof-metric],[data-task],[data-run],[data-page],#download-all");if(!t)return;
+  const t=e.target.closest("[data-metric],[data-proof-metric],[data-task],[data-run],[data-page],[data-finding-detail],[data-close-detail],#download-all");if(!t)return;
   if(t.dataset.proofMetric)metricDetail(t.dataset.proofMetric,true);
   else if(t.dataset.metric)metricDetail(t.dataset.metric);
-  else if(t.dataset.task)taskDetail(t.dataset.task);
+  else if(t.dataset.task)taskDetail(t.dataset.task,t.dataset.fixedProof==="true");
   else if(t.dataset.run)runDetail(t.dataset.run,t.dataset.event);
   else if(t.dataset.page){local.eventPage+=Number(t.dataset.page);render();$("view").scrollIntoView({block:"start"});}
+  else if(t.dataset.findingDetail)findingDetail(t.dataset.findingDetail);
+  else if(t.dataset.closeDetail)$("detail").close();
   else if(t.id==="download-all")exportAll();
 });
-document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches("tr[data-metric]")){e.preventDefault();metricDetail(e.target.dataset.metric);}});
+document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches("tr[data-metric],tr[data-proof-metric]")){e.preventDefault();metricDetail(e.target.dataset.metric||e.target.dataset.proofMetric,!!e.target.dataset.proofMetric);}});
 let searchTimer;
 document.addEventListener("input",e=>{
   const field={"task-search":"taskSearch","event-search":"eventSearch"}[e.target.id];

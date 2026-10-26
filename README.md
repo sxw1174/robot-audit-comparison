@@ -4,9 +4,9 @@ An independent, read-only research preview of first-round behavior audits.
 Low, High, O1 Compact and O456 Clear are the groups analyzed in this round.
 Historical and interim groups imported from the public behavior board remain
 ordinary selectable reference groups and are labeled by source. The overview
-keeps six fixed, evidence-linked findings from the reviewed Low / High first
-round; selected groups control the statistics, distributions, task tables and
-event evidence below.
+keeps six fixed, evidence-linked findings from all four groups' common first
+round. Selected groups control the statistics, distributions, task tables and
+event evidence below, but never rewrite the conclusions.
 
 **Preview:** https://sxw1174.github.io/robot-audit-comparison/
 
@@ -39,6 +39,29 @@ within declared coverage. Unknown values are never filled with zero. Budget
 self-reports are excluded from objective comparisons. Original statuses and
 source SHA-256 values are retained.
 
+## Four-Group Analysis
+
+The fixed analysis uses 40 matching task/variant/seed/scene tuples and excludes
+`build_tower` and `push_T` across all four groups. Each of the 26 metrics then
+uses its own four-way valid intersection; visual unknowns are not filled with
+zero. The detailed analysis route includes all metrics, task outcomes,
+event references and an empty-grasp review checklist.
+
+O456's lower confirmed empty-grasp count is explicitly pending a new video
+review, not a verified improvement in grasping ability. No new model calls or
+video re-audit were performed for this update. Original audit approvals remain
+distinct from verification of the site's data import.
+
+`data-verification-20261026-v2.json` binds checks of 164 native outcomes and
+4,264 metric values/statuses to approved source exports. Its public snapshot
+also distinguishes O456's 36/81 published-batch success rate (44.4%),
+11/42 full first round (26.2%), 11/41 approved audits (26.8%) and
+11/40 four-group common tasks (27.5%).
+The first-round five-capability-equal success rate is a separate 28.3%.
+
+`four-group-analysis.md` and `four-group-analysis.json` are reproducible
+descriptive reports, not revised robot outcomes or new audit approvals.
+
 ## Sources
 
 - https://na-wen.github.io/robodojo-board/
@@ -58,6 +81,7 @@ Open `index.html` locally or serve the directory with a static HTTP server.
 
 ```sh
 node test.cjs
+node tools/analysis_report.cjs
 python3 tools/build_dataset.py --approved APPROVED_RESULTS_JSON \
   --index SOURCE_INDEX_JSON --cache PUBLIC_INPUT_DIRECTORY --out .
 ```
@@ -69,10 +93,12 @@ directory must retain its original `sources/` tree for SHA verification.
 Statistics and CSV downloads use `core.js`. Sample standard deviation uses
 `n-1`; quartiles use linear interpolation. There is no synthetic behavior score,
 causal significance claim, or estimate of token use, costs, or wall time.
-`findings.js` recomputes conclusions from the current task, variant and evidence
-filters using the named pair's metric-specific intersection. Evidence buttons
-open that exact paired scope even when additional groups are selected. Empty
-intersections produce no conclusions. External groups are excluded by default.
+`findings.js` contains reviewed fixed conclusions and a locked four-group
+evidence scope. Evidence buttons and nested task links retain that scope even
+when display filters select other groups, one task, or confirmed-only values.
+Fixed analysis pair summaries use the same four-way metric intersection.
+Ordinary selected-group pair columns continue to use their own pair intersection.
+Historical groups are excluded from the fixed conclusions.
 
 ## Credits
 

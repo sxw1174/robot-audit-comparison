@@ -1,0 +1,141 @@
+{
+  "schema_version": "four-group-data-verification-v1",
+  "verified_at": "2026-10-26T11:42:31.789Z",
+  "data_sha256": "fc27c6bc5ba31b61b9d1065b0252424e7bd0454ffb5e67af0a1837e05d9f0fc5",
+  "audit_sources": [
+    {
+      "sha256": "16f40cce0a77365e4754039b73251dd9f333481e2f55ded5ae14fb3eff6bf2bd",
+      "receipt_sha256": "031c81c3956aabcbec70157b860f634661fcf5b0e27d5d6f00a9dbf95ad8fac7"
+    },
+    {
+      "sha256": "525c0a991cbb335f50fb55baaca10690b2b68f313c8b34cc220f76cd2256abf1",
+      "receipt_sha256": "f99d6930c0d84b90677bcb6f74c9a5f79659939363a78b96b9339371784d4511"
+    }
+  ],
+  "source_metrics_checked": 4264,
+  "source_events_checked": 1078,
+  "public_native_checks": [
+    {
+      "group": "low",
+      "runs": 42,
+      "successful_runs": 13,
+      "score_total": 15.2,
+      "mismatches": 0
+    },
+    {
+      "group": "high",
+      "runs": 41,
+      "successful_runs": 11,
+      "score_total": 14.350000000000001,
+      "mismatches": 0
+    },
+    {
+      "group": "o1compact",
+      "runs": 40,
+      "successful_runs": 13,
+      "score_total": 15.149999999999999,
+      "mismatches": 0
+    },
+    {
+      "group": "o456",
+      "runs": 41,
+      "successful_runs": 11,
+      "score_total": 13.65,
+      "mismatches": 0
+    }
+  ],
+  "source_metric_mismatches": 0,
+  "source_event_mismatches": 0,
+  "source_event_identifier_redactions": [
+    {
+      "run_id": "l3-high-mixed42-20261013-solve_equation-standard-s0-scene0",
+      "public_event_id": "ta[private path omitted]"
+    }
+  ],
+  "public_snapshot_id": "aa6ae76513e0c50a5ab5510284ca309d026b188c50cfb9632f8c9dab286fb7af",
+  "public_inputs": [
+    {
+      "url": "https://zefanw.github.io/robodojo-l3-dashboard/api/v1/results.json",
+      "sha256": "0471e312540dffabf782ec1f21e108556b96d35033a603473afef9de044f3cde"
+    },
+    {
+      "url": "https://zefanw.github.io/robodojo-l3-dashboard/api/v1/experiments/e74a4b2bdf132b02ebec8150d04102ce8cbc2c883748d9e69ed36064602def1c.json",
+      "sha256": "cf2329e5a96aa49da94ac37c2aabc2d873d8fc97c5c6ab708367e333f092f565"
+    }
+  ],
+  "o456_scope_reconciliation": {
+    "published_batch": {
+      "n": 81,
+      "success": 36,
+      "rate": 0.4444444444444444,
+      "mean_score": 0.5024691358024692
+    },
+    "first_round": {
+      "n": 42,
+      "success": 11,
+      "rate": 0.2619047619047619,
+      "mean_score": 0.325,
+      "five_capability_equal_rate": 0.2833333333333333,
+      "five_capability_equal_score": 0.3458333333333333,
+      "at_decision_limit": [
+        {
+          "run_id": "l3-o456-clear-olm22-medium-r1-20261019-fill_pen_holder-standard-s0-scene0",
+          "task": "fill_pen_holder",
+          "decisions": 100,
+          "success": false
+        },
+        {
+          "run_id": "l3-o456-clear-olm22-medium-r1-20261019-play_tic_tac_toe-standard-s0-scene0",
+          "task": "play_tic_tac_toe",
+          "decisions": 100,
+          "success": false
+        },
+        {
+          "run_id": "l3-o456-clear-generalization12-20261019-v1-sort_nesting_dolls_by_size-random-s0-scene0",
+          "task": "sort_nesting_dolls_by_size",
+          "decisions": 100,
+          "success": false
+        },
+        {
+          "run_id": "l3-o456-clear-olm22-medium-r1-20261019-swap_blocks-standard-s0-scene0",
+          "task": "swap_blocks",
+          "decisions": 100,
+          "success": false
+        }
+      ]
+    },
+    "approved_audits": {
+      "n": 41,
+      "success": 11,
+      "rate": 0.2682926829268293
+    },
+    "four_group_common": {
+      "n": 40,
+      "success": 11,
+      "rate": 0.275
+    },
+    "additional_published_devset": {
+      "n": 39,
+      "success": 25
+    },
+    "omitted_first_round": [
+      {
+        "run_id": "l3-o456-clear-generalization12-20261019-v1-push_T-random-s0-scene0",
+        "episode": {
+          "capability": "Generalization",
+          "scene": 0,
+          "seed": 0,
+          "task": "push_T",
+          "variant": "random"
+        },
+        "success": false,
+        "score": 0
+      }
+    ]
+  },
+  "limits": [
+    "Import integrity and public native outcomes verified; no new visual re-audit or model call.",
+    "Original unknowns and confirmation lower bounds preserved; not proof of exhaustive event detection.",
+    "Published batch is 81 observed results, not complete P50_111 acceptance."
+  ]
+}

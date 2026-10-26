@@ -1,20 +1,36 @@
 # RoboDojo Effort Comparison
 
-An independent, read-only research preview of first-round Low / High behavior
-audits, with historical Medium and published configurations as optional external
-references. The default overview shows six evidence-linked findings before the
-statistics, distributions and task comparisons.
+An independent, read-only research preview of first-round behavior audits,
+including Low / High, O1 Compact and O456 Clear, with historical Medium and
+published configurations as optional references. The default overview shows
+six evidence-linked findings before the statistics, distributions and task
+comparisons.
 
 **Preview:** https://sxw1174.github.io/robot-audit-comparison/
 
 ## Scope
 
 - Low: 42 approved analyses. High: 41 approved analyses; `push_T` remains missing.
+- O1 Compact: 40/42 program-valid, currently review-approved analyses.
+  `build_tower` and `push_T` are excluded and documented as missing.
+- O456 Clear: 41/42 program-valid, currently review-approved analyses.
+  `push_T` is missing because the provider returned HTTP 413.
+- Neither O batch has final whole-batch acceptance. Only the 81 approved
+  canonical results enter metrics, events and pair comparisons. Robot model:
+  gpt-6-astra medium; audit/review model: gpt-6.1-sol medium.
 - Historical Medium: 42 published runs, with 25 Sim5.1 and 17 Sim6 records.
 - Five other published groups are available as separate configuration references.
 - O23 Compact and O23 DepthPro remain explicitly marked interim.
-- 335 run records in total. Matching a task tuple is not proof of an otherwise
+- 416 run records in total. Matching a task tuple is not proof of an otherwise
   controlled experiment. This is not an official submission to the source board.
+
+The O merge uses `tools/merge_o_audits.py` with a private, receipt-bound canonical
+export, not the aggregate report or filenames as identities. Every included row
+has an exact assignment tuple, canonical result SHA and current approval
+fingerprint. Private exports and transport receipts are not distributed here.
+`node test.cjs` checks statistics and public-data invariants.
+`node test-browser.cjs` runs desktop/mobile checks when Playwright and Chromium
+are available.
 
 Original visual confirmed / zero-confirmed counts are represented as lower bounds
 within declared coverage. Unknown values are never filled with zero. Budget

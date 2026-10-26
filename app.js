@@ -22,21 +22,22 @@ function route(){return Object.hasOwn(titles,location.hash.slice(1))?location.ha
 function groupName(id){const g=group(id);return `<span class="group-name"><span class="swatch" style="background:${g.color}"></span>${esc(g.name)}</span>`;}
 function statusBadge(status){
   const labels={confirmed:"已确认",lower_bound:"确认下界",unknown:"未知",na:"未覆盖",pending:"待审核",self_report:"仅自述",
-    approved:"已批准",interim:"阶段性",logs_images:"日志与图像核查",uncertain:"待确认",candidate:"候选"};
-  return `<span class="badge ${["pending","interim","self_report","uncertain","candidate"].includes(status)?"warn":["unknown","na"].includes(status)?"muted":""}">${esc(labels[status]||status)}</span>`;
+    approved:"已批准",partial:"部分完成",complete:"程序完成",needs_attention:"需关注",interim:"阶段性",logs_images:"日志与图像核查",uncertain:"待确认",candidate:"候选"};
+  return `<span class="badge ${["pending","partial","needs_attention","interim","self_report","uncertain","candidate"].includes(status)?"warn":["unknown","na"].includes(status)?"muted":""}">${esc(labels[status]||status)}</span>`;
 }
 function section(n,title,sub="",link=""){
   return `<div class="section-head"><div><h2><span class="section-number">${n}</span>${title}</h2>${sub?`<p>${sub}</p>`:""}</div>${link}</div>`;
 }
 function chip(g){
-  return `<label class="group-chip" style="--group-color:${g.color}"><input type="checkbox" data-group="${g.id}" ${state.groups.includes(g.id)?"checked":""}><span class="swatch"></span>${esc(g.name)}${g.audit==="interim"?"<small>阶段性</small>":""}</label>`;
+  const suffix=g.audit==="interim"?"阶段性":g.audit==="partial"?`${g.completed}/${g.planned}`:"";
+  return `<label class="group-chip" style="--group-color:${g.color}"><input type="checkbox" data-group="${g.id}" ${state.groups.includes(g.id)?"checked":""}><span class="swatch"></span>${esc(g.name)}${suffix?`<small>${esc(suffix)}</small>`:""}</label>`;
 }
 function pairIds(){return state.groups.includes("low")&&state.groups.includes("high")?["low","high"]:state.groups.length>1?[state.groups[0],state.groups[state.groups.length-1]]:null;}
 function pairLabel(ids){return ids?`${esc(group(ids[1]).name)} − ${esc(group(ids[0]).name)}`:"至少选择两组";}
 function refreshIcons(){if(window.lucide)window.lucide.createIcons();}
 function renderFilters(){
-  $("group-picker").innerHTML=D.groups.filter(g=>["low","high"].includes(g.id)).map(chip).join("");
-  $("extra-groups").innerHTML=`<p class="caption">外部历史参照 · 非本次同流程分析</p><div class="group-picker">${D.groups.filter(g=>!["low","high"].includes(g.id)).map(chip).join("")}</div>
+  $("group-picker").innerHTML=D.groups.filter(g=>["low","high","o1compact","o456"].includes(g.id)).map(chip).join("");
+  $("extra-groups").innerHTML=`<p class="caption">历史配置参照</p><div class="group-picker">${D.groups.filter(g=>!["low","high","o1compact","o456"].includes(g.id)).map(chip).join("")}</div>
     <label class="inline-check"><input type="checkbox" id="include-interim" ${state.includeInterim?"checked":""}>纳入阶段性结果</label>`;
   $("scope").value=state.scope;$("task").value=state.task;$("variant").value=state.variant;$("policy").value=state.policy;
   const raw=C.rowsFor(D,state), sets=C.summaries(D,state,"score"), min=Math.min(...sets.map(s=>s.n));
@@ -74,9 +75,10 @@ function overview(){
     <div class="conclusion-sources">${f.fields.map(field=>`<button class="text-button" data-proof-metric="${field}" data-pair-a="${ids[0]}" data-pair-b="${ids[1]}">${metric(field).id} ${esc(metric(field).label)} ${icon("arrow-up-right")}</button>`).join("")}</div></div>
     </article>`).join("")}</div>`:'<div class="empty">当前范围没有足够的两组配对证据，未生成结论。</div>';
   const top=ids?C.pair(D,state,"score",...ids).pairs.sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta)).slice(0,6):[];
-  return `${state.groups.some(id=>!["low","high"].includes(id))?'<div class="notice">已选择外部历史参照。历史Medium与本批存在模拟器版本和分析流程差异，组间差异不能仅归因于effort。</div>':""}
+  return `${state.groups.some(id=>!["low","high"].includes(id))?'<div class="notice">已选择其他配置或历史参照。不同配置可能存在模型、模拟器或审核流程差异，组间差异不能仅归因于effort。</div>':""}
     ${section("01","主要结论",ids?`${pairLabel(ids)} · 当前任务筛选下的两组有效配对 · 各指标独立分母`:"")}
-    <p class="conclusion-scope">本批Low42 / High41；High push_T缺失。视觉计数为已核查覆盖内的确认下界，以下为首轮样本的描述性结果。</p>
+    <p class="conclusion-scope">${state.groups.map(id=>`${esc(group(id).name)} ${D.runs.filter(r=>r.group===id).length}/${group(id).planned}`).join(" · ")}。视觉计数为已核查覆盖内的确认下界，以下为首轮样本的描述性结果。</p>
+    ${state.groups.some(id=>["o1compact","o456"].includes(id))?'<div class="notice">O1 Compact 40/42、O456 Clear 41/42项程序校验且当前复核批准；整批最终验收未完成。缺失项不纳入任何指标或事件统计。</div>':""}
     ${findings}
     ${section("02","结果统计","原生结果与执行记录")}
     <div class="kpi-grid">${kpis}</div>
@@ -162,16 +164,17 @@ function relations(){
     <div class="compare-strip">${["low","persistent","high"].map(id=>{const g=group(id);return `<div class="compare-item" style="--group-color:${g.color}">${groupName(id)}<p>persistent-cap20</p><strong>${D.runs.filter(r=>r.group===id).length}<small> / 42</small></strong><p>${id==="persistent"?"历史首轮 · Sim5.1 / Sim6":id==="high"?"批准分析 · push_T缺失":"批准分析 · 首轮"}</p></div>`}).join("")}</div>
     ${section("01","完整配置名录","同一配置族不等于同一运行；不同配置的成绩差异不是纯effort效应")}
     <div class="table-wrap"><table class="relationship-table"><thead><tr><th>实验</th><th>配置族 / effort</th><th>状态</th><th>对应关系与限制</th><th>来源</th></tr></thead><tbody>
-      ${D.groups.map(g=>`<tr><td>${groupName(g.id)}<span class="cell-sub">${D.runs.filter(r=>r.group===g.id).length} 条运行</span></td><td>${esc(g.family)}<span class="cell-sub">${esc(g.effort)} · ${esc(g.model)}</span></td><td>${statusBadge(g.audit)}</td><td class="reason">${esc(g.relation)}</td><td>${g.url?`<a href="${g.url}" target="_blank" rel="noopener">原报告 ${icon("arrow-up-right")}</a>`:'<a href="#methods">本批来源</a>'}</td></tr>`).join("")}
+      ${D.groups.map(g=>`<tr><td>${groupName(g.id)}<span class="cell-sub">${g.completed!=null?`${g.completed}/${g.planned} 项复核批准 · `:""}${D.runs.filter(r=>r.group===g.id).length} 条运行</span></td><td>${esc(g.family)}<span class="cell-sub">${esc(g.effort)} · ${esc(g.model)}</span></td><td>${statusBadge(g.audit)}</td><td class="reason">${esc(g.relation)}</td><td>${g.url?`<a href="${g.url}" target="_blank" rel="noopener">原报告 ${icon("arrow-up-right")}</a>`:'<a href="#methods">本批来源</a>'}</td></tr>`).join("")}
     </tbody></table></div>
-    <div class="relation-notes"><section><h3>运行身份与重复统计</h3><p>已导入335条记录的run_id互不重复。名称相同的任务按task、variant、seed、scene匹配；这不是源文件哈希级的全库去重证明。若后续确认同一原始运行的重复审核，应并列审核版本，而非增加实验样本数。</p></section>
+    <div class="relation-notes"><section><h3>运行身份与重复统计</h3><p>已导入${D.runs.length}条记录的run_id互不重复。名称相同的任务按task、variant、seed、scene匹配；这不是源文件哈希级的全库去重证明。若后续确认同一原始运行的重复审核，应并列审核版本，而非增加实验样本数。</p></section>
     <section><h3>历史环境与审核方法</h3><p>Medium含25条Sim5.1及17条Sim6；Low/High环境版本未在本发布包逐项核实。不同组抽帧策略与审核深度不同。预算模型自述不升级为客观上限证据。</p></section></div>`;
 }
 function methods(){
   const counts=D.groups.map(g=>`${g.name} ${D.runs.filter(r=>r.group===g.id).length}`).join(" · ");
   return `<div class="methods"><div class="notice green">v0.1 独立研究预览。没有提交或覆盖原行为看板，也没有为此页面重新运行模型。</div>
-    <h2>01 / 数据范围</h2><p>${esc(counts)}。本批Low42、High41份获批准；计划84份中High push_T仍缺失。历史Medium42条来自公开提交。两种O23仍保留阶段性标识。</p>
-    <p>本批批准来源观察：${D.audit_observed}；网页生成：${esc(D.built_at)}。页面不会自动轮询实验状态。</p>
+    <h2>01 / 数据范围</h2><p>${esc(counts)}。Low42、High41份为已批准分析；O1 Compact与O456 Clear分别有40/42、41/42项程序校验且当前复核批准，整批最终验收未完成。历史Medium42条来自公开提交；两种O23仍保留阶段性标识。</p>
+    <p>Low/High来源观察：${esc(D.audit_observed)}；O配置来源观察：${esc(D.o_audit_observed)}；网页生成：${esc(D.built_at)}。页面不会自动轮询实验状态。</p>
+    <h3>缺失分析</h3><div class="table-wrap"><table><thead><tr><th>配置</th><th>任务条件</th><th>原因</th></tr></thead><tbody>${D.missing.map(r=>`<tr><td>${esc(group(r.group).name)}</td><td>${esc(r.task)}<span class="cell-sub">${esc(r.variant)} / seed${r.seed} / scene${r.scene}</span></td><td class="reason">${esc(r.reason)}</td></tr>`).join("")}</tbody></table></div>
     <h2>02 / 计算口径</h2><ul>
       <li>共同可比样本：同一task、variant、seed、scene在所选每组均存在，且该项指标符合当前证据筛选。每项指标分别求交集。</li>
       <li>成功率 = 原生success之和 / success有效N；平均得分为任务记录的算术平均。未生成五能力等权总分，能力权重映射在本包未核实。</li>
@@ -182,7 +185,7 @@ function methods(){
       <li>单次首轮对照，不提供多seed稳定性或因果显著性结论。相关行为多不自动等于行为更好。</li>
     </ul>
     <h2>03 / 证据边界</h2><p>已批准是分析结果的审核状态，不是机器人成功。视频帧与决策未精确同步时，保留时间/帧位置，不补造精确对应。Low/High公开包仅包含审核后的指标理由、视觉证据摘要和SHA，不包含会话、原始模型推理、认证内容或本地路径。其视频未随此预览上传。</p>
-    <p>历史Medium视频链接来自原公开提交，由原云盘提供；外部链接可用性不由本网站保证。其余对照组只导入公开逐运行指标，完整事件仍在原报告。</p>
+    <p>O1 Compact和O456 Clear保留原公开三视角视频链接、审核事件及当前复核指纹。历史Medium视频链接来自原公开提交。视频均由原云盘提供，本页未重新上传；外部链接可用性不由本网站保证。其他历史配置的完整事件仍在原报告。</p>
     <h2>04 / 来源与下载</h2><div class="download-list"><a class="button" href="data.json" download>${icon("download")}脱敏数据 JSON</a><button class="button" id="download-all">${icon("download")}全量指标 CSV</button><a class="button" href="https://na-wen.github.io/robodojo-board/protocol.md" target="_blank" rel="noopener">${icon("file-text")}原指标协议</a><a class="button" href="https://github.com/sxw1174/robot-audit-comparison" target="_blank" rel="noopener">${icon("github")}页面源码</a></div>
     <p>脱敏数据不是原始审核JSON的逐字节副本。每条本批记录保留原始分析SHA及输入文件SHA；页面使用同一份数据生成表格和下载。所有原始私有文件保持不变。</p>
     <div class="table-wrap"><table><thead><tr><th>输入来源</th><th>SHA-256</th></tr></thead><tbody>${D.inputs.map(x=>`<tr><td>${esc(x.name)}</td><td class="hash">${x.sha256}</td></tr>`).join("")}</tbody></table></div>
@@ -217,10 +220,13 @@ function runDetail(id,eventId){
   const r=D.runs.find(r=>r.id===id),g=group(r.group);if(!r)return;
   const events=eventId?r.events.filter(e=>e.id===eventId):r.events;
   openDialog(`${g.name} / ${r.task}`,`<h2 class="detail-title">${esc(r.task)} · ${esc(g.name)}</h2><p class="detail-meta">${r.variant} / seed${r.seed} / scene${r.scene} · ${statusBadge(r.audit)}</p><p class="hash">${esc(r.id)}</p>
+    ${r.summary?`<div class="detail-section"><h3>审核摘要</h3><p>${esc(r.summary)}</p></div>`:""}
+    ${r.limitations?.length?`<div class="detail-section"><h3>限制与未知</h3><p>${r.limitations.map(esc).join("<br>")}</p></div>`:""}
     ${r.videos.length?`<div class="media-grid">${r.videos.map(v=>`<div><video controls preload="none" src="${esc(v.url)}" aria-label="${esc(v.camera)}原视频"></video><p>${esc(v.camera)} · <a href="${esc(v.url)}" target="_blank" rel="noopener">原视频</a></p><p class="hash">${v.sha256}</p></div>`).join("")}</div>`:`<p class="notice">此记录没有在本预览中托管视频。以下保留已有事件定位及源帧引用，不显示替代或模拟画面。</p>`}
     <div class="detail-section"><h3>${eventId?"选中事件":"已导入事件"} · ${events.length}</h3>${events.map(e=>`<article class="finding"><h3>${esc(e.id)} ${statusBadge(e.status)}</h3><span class="event-location">${eventLocation(e)}</span><p>${esc(e.result)}</p>${e.visual?`<p class="evidence-text">${esc(e.visual)}</p>`:""}${e.uncertainty?`<p class="evidence-text">范围限制：${esc(e.uncertainty)}</p>`:""}${e.frames.length?`<details><summary>源帧定位 · ${e.frames.length}</summary><p class="hash">${e.frames.map(esc).join(" · ")}</p></details>`:""}${e.source_url?`<a href="${e.source_url}" target="_blank" rel="noopener">公开原事件记录</a>`:""}</article>`).join("")||`<p>本页未导入事件详情。${g.url?`<a href="${g.url}" target="_blank" rel="noopener">查看原报告</a>`:""}</p>`}</div>
     <details class="detail-section" ${eventId?"":"open"}><summary>26项指标与判定理由</summary><div class="table-wrap"><table><thead><tr><th>指标</th><th>数值 / 状态</th><th>原审核理由</th></tr></thead><tbody>${D.metrics.map(m=>{const v=r.metrics[m.key];return `<tr><td>${m.id} ${m.label}</td><td>${fmt(v.value)} ${statusBadge(v.status)}<span class="cell-sub">原状态 ${esc(v.original_status)}</span></td><td class="reason">${esc(v.reason)||"参见原组报告"}</td></tr>`}).join("")}</tbody></table></div></details>
     <div class="detail-section"><h3>来源指纹</h3>${r.source.analysis_sha256?`<p>原分析 SHA-256</p><p class="hash">${r.source.analysis_sha256}</p><p>审核模型历史：${esc(r.source.models.join(" / "))}</p>`:""}
+      ${r.source.review_fingerprint?`<p>当前批准版本复核指纹</p><p class="hash">${esc(r.source.review_fingerprint)}</p><p>审核effort：${esc(r.source.review_effort)}；机器人：${esc(r.config.model)} / ${esc(r.config.effort)}</p>`:""}
       ${r.source.files.map(f=>`<p>${esc(f.kind)}${f.url?` · <a href="${esc(f.url)}" target="_blank" rel="noopener">公开原件</a>`:""}<br><span class="hash">${f.sha256}</span></p>`).join("")}${g.url?`<p><a href="${g.url}" target="_blank" rel="noopener">实验组原报告</a></p>`:""}</div>`);
 }
 function download(name,text,type){

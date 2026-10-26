@@ -8,6 +8,7 @@
   const numeric = v => typeof v === "number" && Number.isFinite(v);
   const usable = (m, policy = "bounds") => !!m && numeric(m.value) &&
     (m.status === "confirmed" || (policy === "bounds" && m.status === "lower_bound"));
+  const selectedPair = state => state.groups.length === 2 ? [...state.groups] : null;
   function quantile(values, p) {
     if (!values.length) return null;
     const sorted = [...values].sort((a, b) => a - b);
@@ -66,5 +67,5 @@
       return '"' + safe.replaceAll('"', '""') + '"';
     }).join(",")).join("\r\n");
   }
-  return {key, numeric, usable, quantile, stats, rowsFor, eligible, summaries, pair, csv};
+  return {key, numeric, usable, selectedPair, quantile, stats, rowsFor, eligible, summaries, pair, csv};
 });

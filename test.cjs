@@ -56,38 +56,24 @@ test("no raw private material in public dataset",()=>{
   for(const s of ["/Users/","/data/user/","/home/","note_quote","rawreasoning","rpc_body","github_pat_","ghp_"])assert.ok(!data.includes(s),s);
 });
 test("source SHA bindings are complete",()=>{for(const r of D.runs.filter(r=>["low","high"].includes(r.group)))assert.match(r.source.analysis_sha256,/^[a-f0-9]{64}$/);});
-test("overview provides six sourced findings",()=>{
-  const rows=F.build(D,state,["low","high"]);assert.equal(rows.length,6);
+test("overview provides six fixed sourced findings",()=>{
+  const rows=F.fixed;assert.equal(rows.length,6);
   for(const row of rows){assert.ok(row.fields.length);for(const key of row.fields)assert.ok(D.metrics.some(m=>m.key===key));}
-  assert.match(rows[0].title,/未提高成功率/);assert.match(rows[0].text,/0.0037/);
+  assert.match(rows[0].title,/High成功率未高于Low/);assert.match(rows[0].text,/0.0037/);
 });
-test("distribution uses the exact paired score cohort",()=>{
-  const p=F.summarize(D,state,"score",["low","high"]);
-  assert.deepEqual(p.leftBins,{zero:21,partial:8,full:12});
-  assert.deepEqual(p.rightBins,{zero:17,partial:13,full:11});
+test("fixed findings do not change with selected groups or filters",()=>{
+  assert.deepEqual(F.fixed.map(row=>row.ids),F.fixed.map(()=>["low","high"]));
+  assert.equal(F.scope.groups.join(","),"low,high");
 });
-test("behavior findings preserve different effective denominators",()=>{
-  const empty=F.summarize(D,state,"empty_retry",["low","high"]);
-  const placement=F.summarize(D,state,"fine_placement_fail",["low","high"]);
-  assert.deepEqual([empty.n,empty.left.total,empty.right.total],[39,32,42]);
-  assert.deepEqual([placement.n,placement.left.total,placement.right.total],[36,26,22]);
+test("pair columns appear only for exactly two selected groups",()=>{
+  assert.deepEqual(C.selectedPair({...state,groups:["low"]}),null);
+  assert.deepEqual(C.selectedPair({...state,groups:["low","high"]}),["low","high"]);
+  assert.deepEqual(C.selectedPair({...state,groups:["low","high","o1compact"]}),null);
 });
-test("empty and one-group selections cannot produce conclusions",()=>{
-  assert.deepEqual(F.build(D,{...state,task:"push_T"},["low","high"]),[]);
-  assert.deepEqual(F.build(D,state,null),[]);
-});
-test("findings follow evidence and task filters",()=>{
-  assert.deepEqual(F.build(D,{...state,policy:"confirmed"},["low","high"]).map(row=>row.id),["outcomes","distribution","effort"]);
-  const rows=F.build(D,{...state,task:"align_blocks"},["low","high"]);
-  assert.match(rows[0].text,/1对/);assert.doesNotMatch(rows[0].text,/41对/);
-});
-test("historical selections do not contaminate the named pair",()=>{
-  assert.deepEqual(F.build(D,state,["low","high"]),F.build(D,{...state,groups:["low","high"]},["low","high"]));
-  assert.ok(F.build(D,state,["persistent","high"])[0].text.includes("历史 Medium"));
-});
-test("all page headings are direct labels and defaults exclude Medium",()=>{
+test("all page headings are direct labels and all non-interim groups are selectable",()=>{
   const app=fs.readFileSync("app.js","utf8"),html=fs.readFileSync("index.html","utf8");
   for(const old of ["同一基线","把平均值拆回","每个判断","可复算，也保留未知"])assert.ok(!app.includes(old)&&!html.includes(old));
-  assert.match(app,/const state = \{groups:\["low","high"\]/);
+  assert.match(app,/const defaultGroups = \(\) => D\.groups/);
+  assert.doesNotMatch(app,/外部历史参照/);
 });
 console.log(`\n${tests.length} tests passed.`);

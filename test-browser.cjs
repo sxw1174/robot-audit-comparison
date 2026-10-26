@@ -11,10 +11,11 @@ const {chromium} = require("playwright");
       const page = await browser.newPage({viewport});
       page.on("pageerror", error => errors.push(error.message));
       await page.goto(pathToFileURL(path.join(__dirname, "index.html")).href);
+      for (const checkbox of await page.locator("[data-group]").all()) {
+        if (await checkbox.isChecked()) await checkbox.uncheck();
+      }
       await page.locator("[data-group=o1compact]").check();
       await page.locator("[data-group=o456]").check();
-      await page.locator("[data-group=low]").uncheck();
-      await page.locator("[data-group=high]").uncheck();
       assert.match(await page.locator(".conclusion-scope").innerText(), /O1 Compact 40\/42.*O456 Clear 41\/42/);
       assert.match(await page.locator("#scope-summary").innerText(), /共同有效 40/);
       await page.locator("[data-proof-metric=score]").first().click();

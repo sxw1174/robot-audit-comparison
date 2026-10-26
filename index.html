@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="RoboDojo 首轮Low、High、O1 Compact和O456 Clear行为分析结论、26项指标、逐任务结果和事件证据。">
-  <title>RoboDojo · Effort 行为对照</title>
+  <title>RoboDojo · 行为对照</title>
   <link rel="stylesheet" href="style.css">
   <script defer src="lucide.min.js"></script>
   <script defer src="data.js"></script>
@@ -47,9 +47,8 @@
           <label>任务<select id="task"><option value="">全部任务</option></select></label>
           <label>Variant<select id="variant"><option value="">全部</option><option value="standard">standard</option><option value="random">random</option></select></label>
           <label>指标证据<select id="policy"><option value="bounds">已确认 + 确认下界</option><option value="confirmed">仅已确认</option></select></label>
-          <button id="other-groups" class="text-button"><i data-lucide="sliders-horizontal"></i>外部参照</button>
         </div>
-        <div id="extra-groups" hidden></div>
+        <div id="extra-groups"></div>
         <div id="scope-summary" class="scope-summary" aria-live="polite"></div>
       </section>
       <div id="view"></div>

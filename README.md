@@ -1,10 +1,10 @@
-# RoboDojo Effort Comparison
+# RoboDojo Behavior Comparison
 
-An independent, read-only research preview of first-round behavior audits,
-including Low / High, O1 Compact and O456 Clear, with historical Medium and
-published configurations as optional references. The default overview shows
-six evidence-linked findings before the statistics, distributions and task
-comparisons.
+An independent, read-only research preview of first-round behavior audits.
+Low, High, O1 Compact, O456 Clear and historical configurations are ordinary
+selectable groups. The overview keeps six fixed, evidence-linked findings from
+the reviewed Low / High first round; selected groups control the statistics,
+distributions, task tables and event evidence below.
 
 **Preview:** https://sxw1174.github.io/robot-audit-comparison/
 

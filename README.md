@@ -1,10 +1,12 @@
 # RoboDojo Behavior Comparison
 
 An independent, read-only research preview of first-round behavior audits.
-Low, High, O1 Compact, O456 Clear and historical configurations are ordinary
-selectable groups. The overview keeps six fixed, evidence-linked findings from
-the reviewed Low / High first round; selected groups control the statistics,
-distributions, task tables and event evidence below.
+Low, High, O1 Compact and O456 Clear are the groups analyzed in this round.
+Historical and interim groups imported from the public behavior board remain
+ordinary selectable reference groups and are labeled by source. The overview
+keeps six fixed, evidence-linked findings from the reviewed Low / High first
+round; selected groups control the statistics, distributions, task tables and
+event evidence below.
 
 **Preview:** https://sxw1174.github.io/robot-audit-comparison/
 

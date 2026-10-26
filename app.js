@@ -8,7 +8,7 @@ const signed = n => n == null ? "—" : (n > 0 ? "+" : "") + fmt(n, n !== 0 && M
 const group = id => D.groups.find(g => g.id === id);
 const metric = key => D.metrics.find(m => m.key === key);
 const icon = name => `<i data-lucide="${name}"></i>`;
-const defaultGroups = () => D.groups.filter(g=>g.audit!=="interim").map(g=>g.id);
+const defaultGroups = () => D.groups.filter(g=>g.source==="本批批准分析").map(g=>g.id);
 const state = {groups:defaultGroups(),scope:"all",task:"",variant:"",policy:"bounds",includeInterim:false};
 const local = {taskSearch:"", taskSort:"task", taskMetric:"score", eventSearch:"", eventStatus:"", eventMetric:"", eventPage:0};
 const titles = {
@@ -30,7 +30,9 @@ function section(n,title,sub="",link=""){
   return `<div class="section-head"><div><h2><span class="section-number">${n}</span>${title}</h2>${sub?`<p>${sub}</p>`:""}</div>${link}</div>`;
 }
 function chip(g){
-  const suffix=g.audit==="interim"?"阶段性":g.audit==="partial"?`${g.completed}/${g.planned}`:"";
+  const progress=g.audit==="partial"?`${g.completed}/${g.planned}`:"";
+  const origin=g.source==="本批批准分析"?"本次":g.audit==="interim"?"阶段性":"历史";
+  const suffix=[origin,progress].filter(Boolean).join(" · ");
   return `<label class="group-chip" style="--group-color:${g.color}"><input type="checkbox" data-group="${g.id}" ${state.groups.includes(g.id)?"checked":""}><span class="swatch"></span>${esc(g.name)}${suffix?`<small>${esc(suffix)}</small>`:""}</label>`;
 }
 function pairIds(){return C.selectedPair(state);}
@@ -163,7 +165,7 @@ function eventLocation(e){
 }
 function relations(){
   const selected=D.groups.filter(g=>state.groups.includes(g.id));
-  return `<div class="notice">仅列出已勾选的实验组。配置资料不随任务筛选改变；审核状态和来源差异分别保留。</div>
+  return `<div class="notice">仅列出已勾选的实验组。标记为“本次”的是本轮实际分析；“历史”和“阶段性”数据来自公开看板，仅作参照。</div>
     <div class="compare-strip">${selected.map(g=>`<div class="compare-item" style="--group-color:${g.color}">${groupName(g.id)}<p>${esc(g.family)}</p><strong>${D.runs.filter(r=>r.group===g.id).length}<small> / ${g.planned}</small></strong><p>${statusBadge(g.audit)}</p></div>`).join("")}</div>
     ${section("01","所选配置","同一配置族不等于同一运行；不同配置的成绩差异不是纯effort效应")}
     <div class="table-wrap"><table class="relationship-table"><thead><tr><th>实验</th><th>配置族 / effort</th><th>状态</th><th>对应关系与限制</th><th>来源</th></tr></thead><tbody>
@@ -175,8 +177,13 @@ function relations(){
 function methods(){
   const counts=D.groups.map(g=>`${g.name} ${D.runs.filter(r=>r.group===g.id).length}`).join(" · ");
   return `<div class="methods"><div class="notice green">v0.1 独立研究预览。没有提交或覆盖原行为看板，也没有为此页面重新运行模型。</div>
-    <h2>01 / 数据范围</h2><p>${esc(counts)}。Low42、High41份为已批准分析；O1 Compact与O456 Clear分别有40/42、41/42项程序校验且当前复核批准，整批最终验收未完成。历史Medium42条来自公开提交；两种O23仍保留阶段性标识。</p>
+    <h2>01 / 数据范围</h2><p>${esc(counts)}。本轮实际分析包括 Low、High、O1 Compact 和 O456 Clear；其中 O1 Compact 与 O456 Clear 分别有40/42、41/42项程序校验且当前复核批准，整批最终验收未完成。历史 Medium、Semantic EEF、Action Horizon、EEF Sequence来自公开行为看板；O23 Compact和O23 DepthPro为阶段性公开数据。</p>
     <p>Low/High来源观察：${esc(D.audit_observed)}；O配置来源观察：${esc(D.o_audit_observed)}；网页生成：${esc(D.built_at)}。页面不会自动轮询实验状态。</p>
+    <h3>来源分类</h3><div class="table-wrap"><table><thead><tr><th>来源</th><th>实验组</th><th>说明</th></tr></thead><tbody>
+      <tr><td>本次实际分析</td><td>Low · High · O1 Compact · O456 Clear</td><td class="reason">本轮行为分析输出；O配置按单项复核状态标注。</td></tr>
+      <tr><td>历史公开数据</td><td>历史 Medium · Semantic EEF · Action Horizon · EEF Sequence</td><td class="reason">从公开行为看板导入，未在本轮重新分析。</td></tr>
+      <tr><td>阶段性公开数据</td><td>O23 Compact · O23 DepthPro</td><td class="reason">公开看板中的阶段性结果，未在本轮重新分析。</td></tr>
+    </tbody></table></div>
     <h3>缺失分析</h3><div class="table-wrap"><table><thead><tr><th>配置</th><th>任务条件</th><th>原因</th></tr></thead><tbody>${D.missing.map(r=>`<tr><td>${esc(group(r.group).name)}</td><td>${esc(r.task)}<span class="cell-sub">${esc(r.variant)} / seed${r.seed} / scene${r.scene}</span></td><td class="reason">${esc(r.reason)}</td></tr>`).join("")}</tbody></table></div>
     <h2>02 / 计算口径</h2><ul>
       <li>共同可比样本：同一task、variant、seed、scene在所选每组均存在，且该项指标符合当前证据筛选。每项指标分别求交集。</li>

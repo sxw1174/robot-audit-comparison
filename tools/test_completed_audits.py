@@ -61,6 +61,9 @@ class CompletionMergeTests(unittest.TestCase):
 
     def test_compact_distinguishes_missing_source_and_pending_analysis(self):
         data = copy.deepcopy(self.data)
+        data["runs"] = [r for r in data["runs"] if r["group"] != "o23456compact"]
+        data["groups"] = [g for g in data["groups"] if g["id"] != "o23456compact"]
+        data["missing"] = [r for r in data["missing"] if r["group"] != "o23456compact"]
         before = copy.deepcopy(data["runs"])
         self.assertEqual(merge(data, self.compact_export()), [])
         self.assertEqual(data["runs"], before)

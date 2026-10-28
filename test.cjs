@@ -7,7 +7,7 @@ const tests=[];
 function test(name,fn){fn();tests.push(name);console.log("PASS",name);}
 const state={groups:["low","persistent","high"],scope:"common",policy:"bounds",task:"",variant:"",includeInterim:false};
 test("receipt-bound unique run identities",()=>{
-  const v=require("./data-verification-20261029-clear40.json");
+  const v=require("./data-verification-20261029-compact38.json");
   assert.equal(D.runs.length,v.preserved_runs+v.added_runs);
   assert.equal(new Set(D.runs.map(r=>r.id)).size,D.runs.length);
 });
@@ -137,6 +137,21 @@ test("Clear supplements add approved rows without resetting unapproved reviews",
   assert.deepEqual(D.missing.filter(r=>r.group==="o23456").map(r=>r.task).sort(),
     ["organize_table","play_stacking_toy"]);
 });
+test("O23456 Compact keeps relay approvals and explicit pending/source gaps",()=>{
+  const v=require("./data-verification-20261029-compact38.json");
+  assert.equal(v.preserved_runs,544);assert.equal(v.added_runs,38);
+  assert.equal(v.added_metrics_checked,988);assert.equal(v.added_events_checked,211);
+  assert.equal(v.source_metric_mismatches,0);
+  const g=D.groups.find(g=>g.id==="o23456compact");
+  assert.deepEqual([g.completed,g.needs_attention,g.available,g.upstream_missing],[38,4,41,1]);
+  assert.equal(D.runs.filter(r=>r.group==="o23456compact").length,38);
+  assert.ok(D.runs.filter(r=>r.group==="o23456compact").every(r=>r.source.access==="relay"));
+  assert.deepEqual(D.missing.filter(r=>r.group==="o23456compact").map(r=>r.task).sort(),
+    ["fill_pen_holder","play_stacking_toy","store_laptop_and_headphones","store_tools_in_toolbox"]);
+  assert.equal(D.missing.find(r=>r.group==="o23456compact"&&r.task==="store_tools_in_toolbox").status,
+    "source_absent");
+  assert.equal(g.batch_complete,false);
+});
 test("single-task and variant filters respected",()=>{assert.equal(C.pair(D,{...state,task:"align_blocks"},"score").n,1);assert.equal(C.pair(D,{...state,task:"align_blocks",variant:"random"},"score").n,0);});
 test("empty summary uses null, n=1 sd is null",()=>{assert.equal(C.stats([]).mean,null);assert.equal(C.stats([4]).sd,null);assert.equal(C.stats([1,3]).median,2);});
 test("sign direction does not encode good/bad",()=>{const p=C.pair(D,state,"score");assert.equal(p.more,8);assert.equal(p.less,7);assert.equal(p.equal,27);});
@@ -197,7 +212,7 @@ test("all editorial event examples are bound to confirmed source events",()=>{
 test("native scope reconciliation is source-bound and not substituted for audit metrics",()=>{
   const v=require("./data-verification-20261026-o1-standard.json");
   const digest=require("node:crypto").createHash("sha256").update(fs.readFileSync("data.json")).digest("hex");
-  const completion=require("./data-verification-20261029-clear40.json");
+  const completion=require("./data-verification-20261029-compact38.json");
   assert.equal(completion.data_sha256,digest);
   assert.equal(v.source_metrics_checked,205*26);
   assert.equal(v.source_metric_mismatches,0);

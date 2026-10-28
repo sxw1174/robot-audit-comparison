@@ -1,8 +1,9 @@
 # RoboDojo Behavior Comparison
 
 An independent, read-only research preview of first-round behavior audits.
-Low, High, O1 Compact, O456 Clear, O1 Standard, O23456 Clear and
-O23456 DepthPro 6fig CUDA are the groups analyzed in this round.
+Low, High, O1 Compact, O456 Clear, O1 Standard, O23456 Clear,
+O23456 Compact and O23456 DepthPro 6fig CUDA are the groups analyzed in
+this round.
 Historical and interim groups imported from the public behavior board remain
 ordinary selectable reference groups and are labeled by source. The overview
 keeps six fixed, evidence-linked findings from all four groups' common first
@@ -31,13 +32,19 @@ event evidence below, but never rewrite the conclusions.
   passed program checks and returned the requested delivery corrections, but
   exhausted the original review-attempt budget before approval. They remain
   excluded; review counters and approval records have not been reset.
-- None of the three combined O batches has final whole-batch acceptance. Only the 126 approved
-  canonical results enter metrics, events and pair comparisons. Robot model:
+- O23456 Compact: 38/42 approved. The official first round currently has
+  41/42 source records; `store_tools_in_toolbox` is still source-absent.
+  Three available records remain pending because their current program,
+  delivery or approval fingerprints are not publishable. These relay analyses
+  use `gpt-6.1-sol medium`; pending and source-absent cases are excluded.
+- Combined O batch acceptance remains separate from per-sample approval. Only
+  individually approved canonical results enter metrics, events and pair
+  comparisons. Robot model:
   gpt-6-astra medium; audit/review model: gpt-6.1-sol medium.
 - Historical Medium: 42 published runs, with 25 Sim5.1 and 17 Sim6 records.
 - Five other published groups are available as separate configuration references.
 - O23 Compact and O23 DepthPro remain explicitly marked interim.
-- 544 run records in total. Matching a task tuple is not proof of an otherwise
+- 582 run records in total. Matching a task tuple is not proof of an otherwise
   controlled experiment. This is not an official submission to the source board.
 
 The O merge uses `tools/merge_o_audits.py` with a private, receipt-bound canonical
@@ -60,6 +67,10 @@ and its 26 metrics while preserving all 539 prior records.
 supplements, 52 metrics and 16 events while preserving all 540 prior records.
 `data-verification-20261029-clear40.json` binds two further O23456 Clear
 supplements, 52 metrics and five events while preserving all 542 prior records.
+`data-verification-20261029-compact38.json` binds 38 O23456 Compact relay
+analyses, 988 metrics and 211 events while preserving all 544 prior records.
+Its export records the three pending available cases and the one official
+source-absent case without filling either gap with placeholder metrics.
 The fixed four-group editorial analysis remains locked to its original
 40 task tuples, even as missing analyses are completed.
 `tools/verify_o1_standard.py` binds its 1,066 metric values/statuses, 304 event

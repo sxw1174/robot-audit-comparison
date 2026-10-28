@@ -1,0 +1,369 @@
+{
+  "data_sha256": "16988e6bbb323c59f7850c24fd97592e9c5ecb53102ce415303d2f5f115d2551",
+  "previous_revision": "2747529",
+  "previous_data_sha256": "954b444580406dec2258723c5fcaa9ce84d0df55c64a6930d49a8c06fc783181",
+  "preserved_runs": 544,
+  "added_runs": 38,
+  "added_metrics_checked": 988,
+  "added_events_checked": 211,
+  "original_public_rows_unchanged": true,
+  "source_metric_mismatches": 0,
+  "export_sha256": "968848dd6fac2101e26ffc8b91d2c4d302b9b5f18262b5ad9e9cd35f1bf04bb2",
+  "receipt_sha256": "25c1c014b7a567e7c07d0ef61a0384d96d47b09ee5dd3c0bf2d79a136705aad0",
+  "approved_counts": {
+    "low": 42,
+    "high": 42,
+    "o1compact": 42,
+    "o456": 42,
+    "o1standard": 42,
+    "o23456": 40,
+    "sixfig": 42,
+    "o23456compact": 38
+  },
+  "visual_rereview_by_importer": false,
+  "source_approval_and_fingerprint_verified": true,
+  "checks": [
+    {
+      "run_id": "o23456-compact-first42-20261028-align_blocks-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "dad35a91967d39333ace291a3e5c084bf0486d28f2ef40d347b4f06b51393cba",
+      "review_fingerprint": "f6a5f6daf364ce63426389573a8cd619dfb5aef514ae1509ab2df3fdca7fc0f2",
+      "metrics": 26,
+      "events": 0,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-arrange_largest_number-random-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "5ad007a7fdf19313382371fefc55cdfb80c9adb49963e2edb18339ebb028ca8c",
+      "review_fingerprint": "bd2166be435733e614affeeb9904c7dd5b447735a533a8e9f675af0d7a2bfe75",
+      "metrics": 26,
+      "events": 4,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-build_tower-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "2dd4eec1c02daed5423ee1428bd13f6a0c7a41d3e2643d6c10e5039ce07dd0c8",
+      "review_fingerprint": "6b0fd40fb8d4283bf2a65615d1fcd4c887077ba1ed59db94ee6b197556082ae1",
+      "metrics": 26,
+      "events": 3,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-classify_objects-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "9b138e4c5c249629e1029de4a26d9e055360f2f9f7cbbbce22899c6fcc0455cf",
+      "review_fingerprint": "5dfbbb83904a3a85ca519d80b0acbdd9d712040bb563c36e3114fd88090d0b62",
+      "metrics": 26,
+      "events": 9,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-classify_objects_by_language-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "8a04f965f370a85dc677a3c19394c43101d0fa46b1cb50dc6f78f93cf21f422d",
+      "review_fingerprint": "1246db2c48dc166c47e621d0e08316c054a00f87d38400b626948cedc7376b15",
+      "metrics": 26,
+      "events": 17,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-deposit_coin-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "fe7096b42ef5baa08bbcdac667f30544be2f9640f6d0bec87fc3aa6cf7facfb1",
+      "review_fingerprint": "68c2a3731727507bb079901e31055e8ee0f41643883b3db29e9b20e665e2c42a",
+      "metrics": 26,
+      "events": 5,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-fill_egg_holder-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "7bc4957244d6dd334ab22c06e533cada9abe375f38bd2ff7b32ffe5e3608bf33",
+      "review_fingerprint": "eb3592e0ee7b04f8f11e1b2bb9336db70459290496e708633c7bd7ce732111e0",
+      "metrics": 26,
+      "events": 10,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-fold_clothes-random-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "ed6325ee4bcfb3b0c971d3bf60515020192cd480cfbda12055fc9758967e1496",
+      "review_fingerprint": "9eb6d19de56b8751168cb1a8084ea79922b5aac5096b93582a1537f0d0a6faa1",
+      "metrics": 26,
+      "events": 9,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-general_pickup-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "3d84e4a8a2aac747f4c3d08fc561cf9801fdc3cc01132b0796301dec21d91ae4",
+      "review_fingerprint": "1b3cef1139905e998b2f05fc37d42b29dcd55a24dc66c544df7ec6136e2d9f7b",
+      "metrics": 26,
+      "events": 1,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-insert_key-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "e303a8e88e46d24d646b6c7ba5960498435c926c4ed7a7f1cbec085853159f27",
+      "review_fingerprint": "a80a49f40b51654cfc393c2f959dcda21261ba336897deea73c11a38120121a8",
+      "metrics": 26,
+      "events": 7,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-insert_tubes-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "0516bbe66b35a5f87b1cab5165b57d63bac74b049610bc28f4f39461f8c42938",
+      "review_fingerprint": "785ed51ea614eda1584eb60fbfccea76acd035866232e3f8e8c0f3d166fa3b2f",
+      "metrics": 26,
+      "events": 5,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-make_kong-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "444b28581a280c140c2c351a7ffdb486cce0519a1e68e678f6a1e809498e8ba1",
+      "review_fingerprint": "98ffc32aebe4aceaa1ad0cb08480289fde83a1884fff728ea681481a8158d2d6",
+      "metrics": 26,
+      "events": 6,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-match_and_pick_from_conveyor-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "6ef65e9a5323abd45d515f546929037941aa23a69e075bf6232736716376537a",
+      "review_fingerprint": "ebd3c0993ebe3fef2c1873ceeccc4cec68bdd328b540d4fa16ba38a728cefb79",
+      "metrics": 26,
+      "events": 9,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-organize_table-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "5024b81f96027f698b185cba8478cdd199e122e3bea93ca175f4783d09f4592b",
+      "review_fingerprint": "8e38f0ce8c422b7add6c69cf9d10573a7c6588643149fce851ba30a28cc7387f",
+      "metrics": 26,
+      "events": 5,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-pack_objects_into_box-random-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "5adfa964278d3744a73ae09475d22eadfa09e927e21e53daa306816bc7b72581",
+      "review_fingerprint": "340237f2d83ecff59da5725147215b044a62a74949d0d68ddf0430595bb40e1c",
+      "metrics": 26,
+      "events": 9,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-pick_from_conveyor_by_image-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "a90f2fd93a67ccc46a7860503808e9b26d3899c80b6667210b8bdc07f9d6e904",
+      "review_fingerprint": "980ae7c1bf0e1f20609ff7e809482a0557be6a553eb025cff353f29f1076f43b",
+      "metrics": 26,
+      "events": 12,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-play_Xylophone-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "24039ff1b979df780a7fa68b5ad146dfc80ebcce57d946d1402d034d02a40f54",
+      "review_fingerprint": "0e9690191912f139537a36e42de7f131e78b384cdf4419d7615eab57253b426e",
+      "metrics": 26,
+      "events": 2,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-play_tic_tac_toe-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "72ac1579cbacf2f9de3b40cdb1639229eb18c538e5b9d1fc18b541491e0631a8",
+      "review_fingerprint": "3870be19f014bb4a9e6fe605fa8d10e0d00f056bb821a5189f39cb10cd0d71e3",
+      "metrics": 26,
+      "events": 0,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-plug_in_charger-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "c50068d816934b05c6df777b9eb301d5c8a2f74aef5c935faf19a8a9c4c01277",
+      "review_fingerprint": "c15af214e9ba5a59032df9311733c6a92c3a50b326a3fb2325dcffb050dcd41d",
+      "metrics": 26,
+      "events": 12,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-pour_balls_into_vase-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "9972bf07f4c176d4bfa7079f64e63a0ec7cf19010172d9f506b9b2cd8eba662b",
+      "review_fingerprint": "0a2c1800480a737fafeb471b28a6ae508e2e716fc07c909d31de6ce3f4571d3e",
+      "metrics": 26,
+      "events": 4,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-pour_liquid_into_cup-random-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "42a24578af1c9d79c3984db5ce74063f36e0418ab7045312355f5264f6e3b370",
+      "review_fingerprint": "7a26e4964c4923db44d70cbc9edda7a0131768771a11d070496999ab3bd0a7de",
+      "metrics": 26,
+      "events": 2,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-press_by_number-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "2d68fb64764ff714a60af88f7230374e11f7665675c5fe2989c733cad3c3cf41",
+      "review_fingerprint": "601876b2dac2376f520e3c5515e5f8fe7c911d4054e645d6a38c8c16054d1f64",
+      "metrics": 26,
+      "events": 1,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-push_T-random-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "03808442fbdce2cb49df9e5852b2b9b0c05126dc422cf9ece76d058f0e35a3c9",
+      "review_fingerprint": "52e824fd49a1090e1a0d28717ac725e21ba762f8c447d804b4e3e264d4c0134d",
+      "metrics": 26,
+      "events": 3,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-put_bottles_into_dustbin-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "525aa2445577ff6af667bfb55993ee4632eb56904c0056213f785da5899e345d",
+      "review_fingerprint": "43f4bb48f20d51afdb534966220160976f9afcbd9ca18f05ad948f0755cc7c62",
+      "metrics": 26,
+      "events": 10,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-sort_nesting_dolls_by_size-random-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "64ff3a849a217491ecaf3c0f4c31092851aef0ca1be611a1a602955baaec41fd",
+      "review_fingerprint": "1e37a6dfdd6375d923c3e30dee56ef6ff963a5888c774d5ff1af4a3146eca820",
+      "metrics": 26,
+      "events": 5,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-stack_blocks-random-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "05d4eb9934de44e15acf1929d881118ce2e82c53cbf8e86267945fe8396e647f",
+      "review_fingerprint": "2e5ff3a64de04e850a4b0e86e85d17f5bfd059ac06f91aa7414ebf6377fd06db",
+      "metrics": 26,
+      "events": 1,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-swap_T-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "f22556278d4f052e4998c54fb8e54c5406985e3ef10977ec93167adad1f8cbe0",
+      "review_fingerprint": "6ff30dc07d904036ffac7c2739ae4e4275fd5ae9a6050d713a126eba89cfc242",
+      "metrics": 26,
+      "events": 2,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-sweep_blocks-random-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "9f2a9977423a0a19e64cd574ea834581c60f8745c81388b57cdeb1cc23196ce5",
+      "review_fingerprint": "bd70991e125317f68f8b90e17b3ce7da49906a46af0a7a466b8f87a58d133637",
+      "metrics": 26,
+      "events": 7,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-fasten_screws-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "c51d51e1e7a27dc0d327f78cead35bd019673d80103abe5049ff3919c04d5e01",
+      "review_fingerprint": "3da2a29105a8ec7983c0e510693bd0f0bdbbfc1f05cae211b2a7c49220f2d704",
+      "metrics": 26,
+      "events": 2,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-imitate_sorting_sequence-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "f678d8e9304302b7bcc6bcccd069926215689065987100bb50c0e2f399bd4437",
+      "review_fingerprint": "a63008c8332b2b5597dda1359aac59ae2846c1ec37adca1b1f7195e757901d91",
+      "metrics": 26,
+      "events": 8,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-make_toast-random-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "db0041103ed04c4321c14dd9054858e1c74f58e8dcf5f87087b0422c4c1cfd3f",
+      "review_fingerprint": "d798f68e1774b05236f6552293f369fc19c4cb463a3f35b4414d62a71514ba67",
+      "metrics": 26,
+      "events": 9,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-pour_by_language-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "d5d04e762ae62e7a020c32781e86933eaa54ebfa53c3685743be88fe3145a133",
+      "review_fingerprint": "52d7cabb5c7d77c23bea44a70154ee7e1f451ed8b83143a3a25d1f771b6d49ff",
+      "metrics": 26,
+      "events": 0,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-solve_equation-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "afcbec19c0e9f532455fbe1a0d4d94d0978b4330ddadf2ea1c5bd565d0893f6b",
+      "review_fingerprint": "b10345d928ed1f9ed8f0d4b6a0c16bb7edf4ff0b37db8ce6323249d1604f5cc3",
+      "metrics": 26,
+      "events": 1,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-stack_blocks_by_language-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "5b057962e80cc84fc9c217a0bb12a10669546801d20aea8bd5e615cc490084f4",
+      "review_fingerprint": "ed1e1433e14637f61e174762b4563c02df7d4b80e1cf72652ed2ea233279ab74",
+      "metrics": 26,
+      "events": 2,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-stack_bowls-random-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "fd6e898dcf1b5aa80ebc448c7451ebe29e2a604992872c10bc169cbed21c8996",
+      "review_fingerprint": "d8bdcf65b5929db51c5758cffe8bb26dc5721636b136210a7f012c0a3e84ad2a",
+      "metrics": 26,
+      "events": 5,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-swap_blocks-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "bf49faa1e6ada220eb7812ba46d11304ea3175a44d95c0a79d87174599edc537",
+      "review_fingerprint": "6044eeb250d45d89fbe44e77131b05902847426fcb0d8d7431c437d858d99c5b",
+      "metrics": 26,
+      "events": 3,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-cover_blocks-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "aee58e5db0d273a349820c7ed57ebd8d8daf7b9ab851037cbac82192c0c89da1",
+      "review_fingerprint": "b8a2e16212cdc4393055610c4f1209f573ebadfebaf8011d87207d5452ebdee9",
+      "metrics": 26,
+      "events": 0,
+      "access": "relay"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-hang_mugs-random-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "d1847725ec0cde7dc8e79f9e2a39b8c4e5bd6cb9d01402ae32670352e909a852",
+      "review_fingerprint": "0c5dbf7b6d61e2762438f7135e9e197101f2fc7e1f6f6bf45d0c33d9e2c7845d",
+      "metrics": 26,
+      "events": 21,
+      "access": "relay"
+    }
+  ]
+}

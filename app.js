@@ -80,7 +80,7 @@ function overview(){
   const top=ids?C.pair(D,state,"score",...ids).pairs.sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta)).slice(0,6):[];
   return `<section id="fixed-findings">
     ${section("01","主要结论","四组首轮 · 固定40个共同任务 · 各指标独立有效N",'<a href="#analysis">详细分析 '+icon("arrow-right")+"</a>")}
-    <p class="conclusion-scope">固定来源：Low 42/42、High 41/42、O1 Compact 40/42、O456 Clear 41/42项获批分析；四组共同40项，统一排除build_tower与push_T。数字顺序为Low / High / O1 / O456。仅这四组进入结论，不随筛选改变；新增O1 Standard不纳入本节结论。</p>
+    <p class="conclusion-scope">固定来源：Low 42/42、High 42/42、O1 Compact 42/42、O456 Clear 42/42项获批分析；四组共同40项，统一排除build_tower与push_T。数字顺序为Low / High / O1 / O456。仅这四组进入结论，不随筛选改变；新增O1 Standard不纳入本节结论。</p>
     <p class="caption">成功与得分已逐条对照原生结果。视觉事件为原审核覆盖内的确认下界；统计核对不等于重新审核全部视频。以下不是因果或显著性结论。</p>
     ${findings}
     </section><section id="selected-results">

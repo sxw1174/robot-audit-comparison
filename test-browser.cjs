@@ -25,7 +25,7 @@ const {chromium} = require("playwright");
       await page.locator("[data-group=o1compact]").check();
       await page.locator("[data-group=o456]").check();
       await page.locator("#scope").selectOption("common");
-      assert.match(await page.locator(".conclusion-scope").innerText(), /O1 Compact 40\/42.*O456 Clear 41\/42.*共同40/);
+      assert.match(await page.locator(".conclusion-scope").innerText(), /O1 Compact 42\/42.*O456 Clear 42\/42.*共同40/);
       assert.match(await page.locator("#scope-summary").innerText(), /共同有效 42/);
       assert.equal(await page.locator("#fixed-findings").innerText(),fixedText);
       await page.locator("#task").selectOption("align_blocks");

@@ -1,0 +1,35 @@
+{
+  "data_sha256": "0cadbfafd68736194e2c18872ef73cd167c4aa7d079868318b75e5ef05aad842",
+  "previous_revision": "b53c118",
+  "previous_data_sha256": "dff075df03701ecd3cb351d07d1c4cc39958f49fa1aeec3847a1827e8c0e9bee",
+  "preserved_runs": 536,
+  "added_runs": 1,
+  "added_metrics_checked": 26,
+  "added_events_checked": 5,
+  "original_public_rows_unchanged": true,
+  "source_metric_mismatches": 0,
+  "export_sha256": "01889008683731afc0bf9a1d82126c080538f335adfcfc39318a6378188763fb",
+  "receipt_sha256": "913213eb3802744fc7192cc01b5159a2ac2fa6e4f75f60e4b8033cf2acc09f26",
+  "approved_counts": {
+    "low": 42,
+    "high": 42,
+    "o1compact": 40,
+    "o456": 41,
+    "o1standard": 41,
+    "o23456": 37,
+    "sixfig": 42
+  },
+  "visual_rereview_by_importer": false,
+  "source_approval_and_fingerprint_verified": true,
+  "checks": [
+    {
+      "run_id": "l3-high-mixed42-20261013-push_T-random-s0-scene0",
+      "group": "high",
+      "analysis_sha256": "3824fb44894e287b116870074d89a87c817551e231f2ef25ccadb128eddbf7cb",
+      "review_fingerprint": "b5dfb10e8b442cd293a267d4ea29dc44a6f454c099357fcc30a2597f2f013e5a",
+      "metrics": 26,
+      "events": 5,
+      "access": "codex_subscription"
+    }
+  ]
+}

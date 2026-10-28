@@ -7,7 +7,7 @@ const tests=[];
 function test(name,fn){fn();tests.push(name);console.log("PASS",name);}
 const state={groups:["low","persistent","high"],scope:"common",policy:"bounds",task:"",variant:"",includeInterim:false};
 test("receipt-bound unique run identities",()=>{
-  const v=require("./data-verification-20261029-sixfig42.json");
+  const v=require("./data-verification-20261029-high42.json");
   assert.equal(D.runs.length,v.preserved_runs+v.added_runs);
   assert.equal(new Set(D.runs.map(r=>r.id)).size,D.runs.length);
 });
@@ -23,17 +23,26 @@ test("DepthPro first42 includes three approved subscription supplements",()=>{
   assert.equal(proof.added_events_checked,25);
   assert.equal(proof.source_metric_mismatches,0);
 });
-test("41 three-way matched native outcomes",()=>{for(const s of C.summaries(D,state,"score"))assert.equal(s.n,41);});
+test("42 three-way matched native outcomes",()=>{for(const s of C.summaries(D,state,"score"))assert.equal(s.n,42);});
 test("original low/high native totals preserved",()=>{
-  const s=C.summaries(D,state,"score");assert.ok(Math.abs(s.find(x=>x.group==="low").total-14.2)<1e-8);assert.ok(Math.abs(s.find(x=>x.group==="high").total-14.35)<1e-8);
-  assert.equal(C.summaries(D,state,"success").find(x=>x.group==="low").total,12);
-  assert.equal(C.summaries(D,state,"success").find(x=>x.group==="high").total,11);
+  const s=C.summaries(D,state,"score");assert.ok(Math.abs(s.find(x=>x.group==="low").total-15.2)<1e-8);assert.ok(Math.abs(s.find(x=>x.group==="high").total-15.35)<1e-8);
+  assert.equal(C.summaries(D,state,"success").find(x=>x.group==="low").total,13);
+  assert.equal(C.summaries(D,state,"success").find(x=>x.group==="high").total,12);
 });
-test("controls are native controls, not call count",()=>{const s=C.summaries(D,state,"actions");assert.equal(s.find(x=>x.group==="low").total,22981);assert.equal(s.find(x=>x.group==="high").total,24506);});
-test("all-run denominators remain 42/42/41",()=>{assert.deepEqual(C.summaries(D,{...state,scope:"all"},"score").map(s=>s.n),[42,42,41]);});
+test("controls are native controls, not call count",()=>{const s=C.summaries(D,state,"actions");assert.equal(s.find(x=>x.group==="low").total,23327);assert.equal(s.find(x=>x.group==="high").total,24777);});
+test("all-run denominators are 42/42/42",()=>{assert.deepEqual(C.summaries(D,{...state,scope:"all"},"score").map(s=>s.n),[42,42,42]);});
 test("missing rows are not zero-filled",()=>{
-  assert.ok(D.missing.some(x=>x.group==="high"&&x.task==="push_T"));
-  assert.equal(C.summaries(D,{...state,task:"push_T"},"score").find(x=>x.group==="high").n,0);
+  assert.ok(D.missing.some(x=>x.group==="o1standard"&&x.task==="push_T"));
+  assert.equal(C.summaries(D,{...state,groups:["o1standard"],task:"push_T"},"score")[0].n,0);
+});
+test("High final missing sample is subscription-approved without rewriting old evidence",()=>{
+  const v=require("./data-verification-20261029-high42.json");
+  assert.equal(v.preserved_runs,536);assert.equal(v.added_runs,1);
+  assert.equal(v.added_metrics_checked,26);assert.equal(v.added_events_checked,5);
+  const row=D.runs.find(r=>r.group==="high"&&r.task==="push_T");
+  assert.equal(row.audit,"approved");assert.equal(row.source.access,"codex_subscription");
+  assert.equal(D.missing.filter(r=>r.group==="high").length,0);
+  assert.equal(D.groups.find(g=>g.id==="high").batch_complete,false);
 });
 test("unavailable wrong-object metrics not zeros",()=>{assert.equal(C.pair(D,state,"wrong_object").n,0);});
 test("strict status policy excludes visual lower bounds",()=>{for(const s of C.summaries(D,{...state,policy:"confirmed"},"empty_retry"))assert.equal(s.n,0);});
@@ -86,7 +95,7 @@ test("O1 Standard is a separate selected group with canonical source verificatio
 });
 test("single-task and variant filters respected",()=>{assert.equal(C.pair(D,{...state,task:"align_blocks"},"score").n,1);assert.equal(C.pair(D,{...state,task:"align_blocks",variant:"random"},"score").n,0);});
 test("empty summary uses null, n=1 sd is null",()=>{assert.equal(C.stats([]).mean,null);assert.equal(C.stats([4]).sd,null);assert.equal(C.stats([1,3]).median,2);});
-test("sign direction does not encode good/bad",()=>{const p=C.pair(D,state,"score");assert.equal(p.more,8);assert.equal(p.less,7);assert.equal(p.equal,26);});
+test("sign direction does not encode good/bad",()=>{const p=C.pair(D,state,"score");assert.equal(p.more,8);assert.equal(p.less,7);assert.equal(p.equal,27);});
 test("CSV is quote-safe and formula-safe",()=>{assert.match(C.csv([['=HYPERLINK("x")','a,b']]),/'=HYPERLINK\(""x""\)/);});
 test("no raw private material in public dataset",()=>{
   const data=fs.readFileSync("data.json","utf8");
@@ -144,7 +153,7 @@ test("all editorial event examples are bound to confirmed source events",()=>{
 test("native scope reconciliation is source-bound and not substituted for audit metrics",()=>{
   const v=require("./data-verification-20261026-o1-standard.json");
   const digest=require("node:crypto").createHash("sha256").update(fs.readFileSync("data.json")).digest("hex");
-  const completion=require("./data-verification-20261029-sixfig42.json");
+  const completion=require("./data-verification-20261029-high42.json");
   assert.equal(completion.data_sha256,digest);
   assert.equal(v.source_metrics_checked,205*26);
   assert.equal(v.source_metric_mismatches,0);

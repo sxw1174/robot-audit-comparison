@@ -15,10 +15,12 @@ GROUPS = {
     "o1standard": ("O1 Standard", "persistent-cap20-o1", "medium", "#b24e70"),
     "o23456": ("O23456 Clear", "persistent-cap20-o23456-clear", "medium", "#40816e"),
     "sixfig": ("O23456 DepthPro 6fig CUDA", "persistent-cap20-o23456-depthpro-6fig-cuda", "medium", "#467caa"),
+    "o23456compact": ("O23456 Compact", "persistent-cap20-o23456-compact", "medium", "#527b96"),
 }
 EXPERIMENTS = {
     "o23456": "5e605940d01cf6fb166d14b9f4d57284857862eca2236ebd86b017f986cbc071",
     "sixfig": "f43c2624d14b3b7c76f29fc35f662822e4ad7c5cd93972c06caf448e1f46602c",
+    "o23456compact": "cf0e0b22470e4994ced313d04f5843bcfe0ef154ac328cb19eec4ecb9bebc7e5",
 }
 
 
@@ -33,6 +35,14 @@ def merge(data, export):
         assert gid in GROUPS and not source["actual_owners"]
         assert source["approved"] == source["program_validated"] == len(source["rows"])
         assert len(source["rows"]) + len(source["omitted"]) == 42
+        if gid == "o23456compact":
+            assert source["experiment_id"] == EXPERIMENTS[gid]
+            assert source["available"] + source["upstream_missing"] == 42
+            assert source["available"] >= source["approved"]
+            identities = [tuple(row["run"][key] for key in ("task", "variant", "seed", "scene"))
+                          for row in source["rows"] + source["omitted"]]
+            assert len(set(identities)) == 42
+            assert all(row["access"] in ("relay", "codex_subscription") for row in source["rows"])
         name, profile, effort, color = GROUPS[gid]
         group = next((g for g in data["groups"] if g["id"] == gid), None)
         if group is None:
@@ -68,6 +78,9 @@ def merge(data, export):
                      batch_complete=source["batch_complete"],
                      observed_at=datetime.fromtimestamp(source["observed_unix"]).astimezone().isoformat(),
                      source_batches=source["source_batches"])
+        if gid == "o23456compact":
+            group.update(available=source["available"], upstream_missing=source["upstream_missing"],
+                         source_snapshot_id=source["source_snapshot_id"])
         group["description"] = f"官方首轮42；{n}项程序校验且复核批准。"
         group["relation"] = group["description"] + "独立配置；非纯effort对照。" if gid != "high" else group.get("relation")
         data["missing"] = [r for r in data.get("missing", []) if r["group"] != gid]

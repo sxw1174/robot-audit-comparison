@@ -1,0 +1,44 @@
+{
+  "data_sha256": "954b444580406dec2258723c5fcaa9ce84d0df55c64a6930d49a8c06fc783181",
+  "previous_revision": "cfda533ec294559610a50a57df44bef657191c76",
+  "previous_data_sha256": "10424f18eeb5cfdf8dac87dce29dfc2fde7b7323643da6e113fff7c6813c1e59",
+  "preserved_runs": 542,
+  "added_runs": 2,
+  "added_metrics_checked": 52,
+  "added_events_checked": 5,
+  "original_public_rows_unchanged": true,
+  "source_metric_mismatches": 0,
+  "export_sha256": "e0dd63726640314ccfd17b5906587cce09c5298c040a833bd93689c27588f0aa",
+  "receipt_sha256": "a90437a7f295992672ed01d2e880ec34cc31e8c925d43f59efd0f2a02bf9003c",
+  "approved_counts": {
+    "low": 42,
+    "high": 42,
+    "o1compact": 42,
+    "o456": 42,
+    "o1standard": 42,
+    "o23456": 40,
+    "sixfig": 42
+  },
+  "visual_rereview_by_importer": false,
+  "source_approval_and_fingerprint_verified": true,
+  "checks": [
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-play_Xylophone-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "46ba244bc42d76fc8887172fdc37a564fbfd76580e5158afd824510ee7a18493",
+      "review_fingerprint": "79a8e40d32ab5e6a41375f46fe2ad0585bb878d515259f0fd683c8a46f1315ac",
+      "metrics": 26,
+      "events": 4,
+      "access": "codex_subscription"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-play_tic_tac_toe-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "fd3694fab6ef99b4e7de49ed2657953a0b10d41cc379f80cc179f923c1f69338",
+      "review_fingerprint": "0a88a162eef2b7fafcbbcc413fc3e8e21871ed2c6d3f269a617fa04c91167e3b",
+      "metrics": 26,
+      "events": 1,
+      "access": "codex_subscription"
+    }
+  ]
+}

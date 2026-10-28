@@ -7,7 +7,7 @@ const tests=[];
 function test(name,fn){fn();tests.push(name);console.log("PASS",name);}
 const state={groups:["low","persistent","high"],scope:"common",policy:"bounds",task:"",variant:"",includeInterim:false};
 test("receipt-bound unique run identities",()=>{
-  const v=require("./data-verification-20261029-o1compact42.json");
+  const v=require("./data-verification-20261029-clear40.json");
   assert.equal(D.runs.length,v.preserved_runs+v.added_runs);
   assert.equal(new Set(D.runs.map(r=>r.id)).size,D.runs.length);
 });
@@ -32,8 +32,8 @@ test("original low/high native totals preserved",()=>{
 test("controls are native controls, not call count",()=>{const s=C.summaries(D,state,"actions");assert.equal(s.find(x=>x.group==="low").total,23327);assert.equal(s.find(x=>x.group==="high").total,24777);});
 test("all-run denominators are 42/42/42",()=>{assert.deepEqual(C.summaries(D,{...state,scope:"all"},"score").map(s=>s.n),[42,42,42]);});
 test("missing rows are not zero-filled",()=>{
-  assert.ok(D.missing.some(x=>x.group==="o23456"&&x.task==="play_tic_tac_toe"));
-  assert.equal(C.summaries(D,{...state,groups:["o23456"],task:"play_tic_tac_toe"},"score")[0].n,0);
+  assert.ok(D.missing.some(x=>x.group==="o23456"&&x.task==="play_stacking_toy"));
+  assert.equal(C.summaries(D,{...state,groups:["o23456"],task:"play_stacking_toy"},"score")[0].n,0);
 });
 test("High final missing sample is subscription-approved without rewriting old evidence",()=>{
   const v=require("./data-verification-20261029-high42.json");
@@ -75,8 +75,8 @@ test("O456 and Clear additions preserve prior rows and explicit subscription pro
   const proof=require("./data-verification-20261029-o45642-clear38.json");
   assert.equal(proof.preserved_runs,537);assert.equal(proof.added_runs,2);
   assert.equal(proof.added_metrics_checked,52);assert.equal(proof.source_metric_mismatches,0);
-  assert.equal(D.runs.filter(r=>r.group==="o23456").length,38);
-  assert.equal(D.missing.filter(r=>r.group==="o23456").length,4);
+  assert.equal(D.runs.filter(r=>r.group==="o23456").length,40);
+  assert.equal(D.missing.filter(r=>r.group==="o23456").length,2);
   assert.ok(proof.checks.every(r=>D.runs.find(x=>x.id===r.run_id).source.access==="codex_subscription"));
   assert.equal(D.groups.find(g=>g.id==="o456").batch_complete,false);
   assert.ok(!D.notes.some(n=>n.includes("40/42、41/42")));
@@ -124,6 +124,18 @@ test("O1 Compact supplements preserve old rows and keep fixed findings unchanged
   }
   assert.equal(D.missing.filter(r=>r.group==="o1compact").length,0);
   assert.equal(F.analyze(D,C).tasks.length,40);
+});
+test("Clear supplements add approved rows without resetting unapproved reviews",()=>{
+  const v=require("./data-verification-20261029-clear40.json");
+  assert.equal(v.preserved_runs,542);assert.equal(v.added_runs,2);
+  assert.equal(v.added_metrics_checked,52);assert.equal(v.added_events_checked,5);
+  assert.equal(v.source_metric_mismatches,0);
+  for(const task of ["play_Xylophone","play_tic_tac_toe"]){
+    const row=D.runs.find(r=>r.group==="o23456"&&r.task===task);
+    assert.equal(row.audit,"approved");assert.equal(row.source.access,"codex_subscription");
+  }
+  assert.deepEqual(D.missing.filter(r=>r.group==="o23456").map(r=>r.task).sort(),
+    ["organize_table","play_stacking_toy"]);
 });
 test("single-task and variant filters respected",()=>{assert.equal(C.pair(D,{...state,task:"align_blocks"},"score").n,1);assert.equal(C.pair(D,{...state,task:"align_blocks",variant:"random"},"score").n,0);});
 test("empty summary uses null, n=1 sd is null",()=>{assert.equal(C.stats([]).mean,null);assert.equal(C.stats([4]).sd,null);assert.equal(C.stats([1,3]).median,2);});
@@ -185,7 +197,7 @@ test("all editorial event examples are bound to confirmed source events",()=>{
 test("native scope reconciliation is source-bound and not substituted for audit metrics",()=>{
   const v=require("./data-verification-20261026-o1-standard.json");
   const digest=require("node:crypto").createHash("sha256").update(fs.readFileSync("data.json")).digest("hex");
-  const completion=require("./data-verification-20261029-o1compact42.json");
+  const completion=require("./data-verification-20261029-clear40.json");
   assert.equal(completion.data_sha256,digest);
   assert.equal(v.source_metrics_checked,205*26);
   assert.equal(v.source_metric_mismatches,0);

@@ -32,9 +32,7 @@ function section(n,title,sub="",link=""){
   return `<div class="section-head"><div><h2><span class="section-number">${n}</span>${title}</h2>${sub?`<p>${sub}</p>`:""}</div>${link}</div>`;
 }
 function chip(g){
-  const progress=g.audit==="partial"?`${g.completed}/${g.planned}`:"";
-  const origin=g.source==="本批批准分析"?"本次":g.audit==="interim"?"阶段性":"历史";
-  const suffix=[origin,progress].filter(Boolean).join(" · ");
+  const suffix=`分析样本 ${D.runs.filter(r=>r.group===g.id).length}`;
   return `<label class="group-chip" style="--group-color:${g.color}"><input type="checkbox" data-group="${g.id}" ${state.groups.includes(g.id)?"checked":""}><span class="swatch"></span>${esc(g.name)}${suffix?`<small>${esc(suffix)}</small>`:""}</label>`;
 }
 function pairIds(){return C.selectedPair(state);}
@@ -77,12 +75,12 @@ function overview(){
   const findings=conclusions.length?`<div class="conclusion-list">${conclusions.map((f,i)=>`<article class="conclusion" data-finding="${f.id}">
     <div class="conclusion-number">${String(i+1).padStart(2,"0")}</div><div><h3>${esc(f.title)}</h3>${f.review==="待专项复核"?'<span class="badge warn">待专项复核 · 未重新审核原视频</span>':""}<p>${esc(f.text)}</p>
     <div class="conclusion-sources">${proofLinks(f.fields)}<button class="text-button" data-finding-detail="${f.id}">任务来源 ${icon("arrow-up-right")}</button></div></div>
-    </article>`).join("")}</div>`:'<div class="empty">本次四组暂无已整理的固定结论。</div>';
+    </article>`).join("")}</div>`:'<div class="empty">四组暂无已整理的固定结论。</div>';
   const top=ids?C.pair(D,state,"score",...ids).pairs.sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta)).slice(0,6):[];
   return `<section id="fixed-findings">
-    ${section("01","主要结论","本次四组首轮 · 固定40个共同任务 · 各指标独立有效N",'<a href="#analysis">详细分析 '+icon("arrow-right")+"</a>")}
+    ${section("01","主要结论","四组首轮 · 固定40个共同任务 · 各指标独立有效N",'<a href="#analysis">详细分析 '+icon("arrow-right")+"</a>")}
     <p class="conclusion-scope">固定来源：Low 42/42、High 41/42、O1 Compact 40/42、O456 Clear 41/42项获批分析；四组共同40项，统一排除build_tower与push_T。数字顺序为Low / High / O1 / O456。仅这四组进入结论，不随筛选改变；新增O1 Standard不纳入本节结论。</p>
-    <p class="caption">成功与得分已逐条对照原生结果。视觉事件为原审核覆盖内的确认下界；“统计已核对”不等于本次重新看过所有视频。以下不是因果或显著性结论。</p>
+    <p class="caption">成功与得分已逐条对照原生结果。视觉事件为原审核覆盖内的确认下界；统计核对不等于重新审核全部视频。以下不是因果或显著性结论。</p>
     ${findings}
     </section><section id="selected-results">
     ${section("02","所选实验组统计",state.groups.length?state.groups.map(id=>esc(group(id).name)).join(" · "):"未选择实验组")}

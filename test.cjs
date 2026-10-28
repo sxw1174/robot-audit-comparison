@@ -181,4 +181,12 @@ test("all page headings are direct labels and source groups are classified",()=>
   assert.match(app,/const defaultGroups = \(\) => D\.groups\.filter\(g=>g\.source==="本批批准分析"\)/);
   assert.match(app,/本次实际分析/);
 });
+test("overview and group chips show sample counts without temporal labels",()=>{
+  const app=fs.readFileSync("app.js","utf8");
+  const chip=app.slice(app.indexOf("function chip("),app.indexOf("function pairIds("));
+  const overview=app.slice(app.indexOf("function overview("),app.indexOf("function metricCell("));
+  assert.match(chip,/分析样本/);
+  assert.match(chip,/D\.runs\.filter/);
+  assert.doesNotMatch(chip+overview,/本次|历史/);
+});
 console.log(`\n${tests.length} tests passed.`);

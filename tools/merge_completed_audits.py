@@ -85,6 +85,14 @@ def merge(data, export):
             f"O1 Compact与O456 Clear分别收录{counts['o1compact']}/42、"
             f"{counts['o456']}/42项程序校验且当前复核批准的结果；"
             "整批最终验收单独披露，缺失项不进入指标、事件或配对统计。")
+    if "o1standard" in export["groups"]:
+        data["notes"] = [note for note in data["notes"]
+                         if not note.startswith("O1 Standard收录")]
+        n = sum(r["group"] == "o1standard" for r in data["runs"])
+        data["notes"].append(
+            f"O1 Standard收录{n}/42项程序校验且当前复核批准的结果；"
+            "整批最终验收单独披露。该组为独立标准配置，不是O1 Compact，"
+            "不进入已有固定四组结论。")
     assert len(by_id) == len(data["runs"])
     return added
 

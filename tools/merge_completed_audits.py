@@ -76,6 +76,15 @@ def merge(data, export):
             run_id=r["run"]["run_id"], status=r["status"],
             reason=r.get("reason") or "尚未通过当前程序校验和复核")
             for r in source["omitted"])
+    if {"o1compact", "o456"} & set(export["groups"]):
+        data["notes"] = [note for note in data["notes"] if not note.startswith(
+            "O1 Compact与O456 Clear分别收录")]
+        counts = {gid: sum(r["group"] == gid for r in data["runs"])
+                  for gid in ("o1compact", "o456")}
+        data["notes"].append(
+            f"O1 Compact与O456 Clear分别收录{counts['o1compact']}/42、"
+            f"{counts['o456']}/42项程序校验且当前复核批准的结果；"
+            "整批最终验收单独披露，缺失项不进入指标、事件或配对统计。")
     assert len(by_id) == len(data["runs"])
     return added
 

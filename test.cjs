@@ -7,7 +7,7 @@ const tests=[];
 function test(name,fn){fn();tests.push(name);console.log("PASS",name);}
 const state={groups:["low","persistent","high"],scope:"common",policy:"bounds",task:"",variant:"",includeInterim:false};
 test("receipt-bound unique run identities",()=>{
-  const v=require("./data-verification-20261029-high42.json");
+  const v=require("./data-verification-20261029-o45642-clear38.json");
   assert.equal(D.runs.length,v.preserved_runs+v.added_runs);
   assert.equal(new Set(D.runs.map(r=>r.id)).size,D.runs.length);
 });
@@ -50,13 +50,13 @@ test("self-report excluded without altering original source state",()=>{for(cons
 test("interim groups excluded unless explicitly selected",()=>{assert.equal(C.rowsFor(D,{...state,groups:["o23-compact-medium-r1"]}).length,0);assert.equal(C.rowsFor(D,{...state,groups:["o23-compact-medium-r1"],includeInterim:true}).length,42);});
 test("O groups retain partial completion without unapproved numeric rows",()=>{
   const o1=D.groups.find(g=>g.id==="o1compact"), o456=D.groups.find(g=>g.id==="o456"), standard=D.groups.find(g=>g.id==="o1standard");
-  assert.deepEqual([o1.completed,o1.needs_attention,o456.completed,o456.needs_attention,standard.completed,standard.needs_attention],[40,2,41,1,41,1]);
-  for(const [id,n,missing] of [["o1compact",40,2],["o456",41,1],["o1standard",41,1]]){
+  assert.deepEqual([o1.completed,o1.needs_attention,o456.completed,o456.needs_attention,standard.completed,standard.needs_attention],[40,2,42,0,41,1]);
+  for(const [id,n,missing] of [["o1compact",40,2],["o456",42,0],["o1standard",41,1]]){
     const rows=D.runs.filter(r=>r.group===id);
     assert.equal(rows.length,n);assert.ok(rows.every(r=>r.audit==="approved"));
     assert.equal(D.missing.filter(r=>r.group===id).length,missing);
     assert.equal(C.summaries(D,{...state,scope:"all",groups:[id]},"score")[0].n,n);
-    assert.equal(C.rowsFor(D,{...state,groups:[id],task:"push_T"}).length,0);
+    assert.equal(C.rowsFor(D,{...state,groups:[id],task:"push_T"}).length,id==="o456"?1:0);
   }
   assert.equal(C.rowsFor(D,{...state,groups:["o1compact"],task:"build_tower"}).length,0);
   assert.equal(C.pair(D,state,"score","o1compact","o456").n,40);
@@ -70,6 +70,16 @@ test("O canonical provenance, event keys and models are explicit",()=>{
   }
   assert.ok(Date.parse(D.o_audit_observed)<=Date.parse(D.built_at));
   assert.equal(D.audit_observed,"2026-10-25 03:37 +08:00");
+});
+test("O456 and Clear additions preserve prior rows and explicit subscription provenance",()=>{
+  const proof=require("./data-verification-20261029-o45642-clear38.json");
+  assert.equal(proof.preserved_runs,537);assert.equal(proof.added_runs,2);
+  assert.equal(proof.added_metrics_checked,52);assert.equal(proof.source_metric_mismatches,0);
+  assert.equal(D.runs.filter(r=>r.group==="o23456").length,38);
+  assert.equal(D.missing.filter(r=>r.group==="o23456").length,4);
+  assert.ok(proof.checks.every(r=>D.runs.find(x=>x.id===r.run_id).source.access==="codex_subscription"));
+  assert.equal(D.groups.find(g=>g.id==="o456").batch_complete,false);
+  assert.ok(!D.notes.some(n=>n.includes("40/42、41/42")));
 });
 test("O1 Standard is a separate selected group with canonical source verification",()=>{
   const g=D.groups.find(g=>g.id==="o1standard"), v=require("./data-verification-20261026-o1-standard.json");
@@ -153,7 +163,7 @@ test("all editorial event examples are bound to confirmed source events",()=>{
 test("native scope reconciliation is source-bound and not substituted for audit metrics",()=>{
   const v=require("./data-verification-20261026-o1-standard.json");
   const digest=require("node:crypto").createHash("sha256").update(fs.readFileSync("data.json")).digest("hex");
-  const completion=require("./data-verification-20261029-high42.json");
+  const completion=require("./data-verification-20261029-o45642-clear38.json");
   assert.equal(completion.data_sha256,digest);
   assert.equal(v.source_metrics_checked,205*26);
   assert.equal(v.source_metric_mismatches,0);

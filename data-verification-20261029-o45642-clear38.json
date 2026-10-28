@@ -1,0 +1,44 @@
+{
+  "data_sha256": "ea9864a5cd0bd3b05ee9f708de404bfdf0ec2b00798f7879ae0bb11e8373ef32",
+  "previous_revision": "9720efb",
+  "previous_data_sha256": "0cadbfafd68736194e2c18872ef73cd167c4aa7d079868318b75e5ef05aad842",
+  "preserved_runs": 537,
+  "added_runs": 2,
+  "added_metrics_checked": 52,
+  "added_events_checked": 28,
+  "original_public_rows_unchanged": true,
+  "source_metric_mismatches": 0,
+  "export_sha256": "40a9282010290f96d888bc204f79e7b237c02b98e77dc5908cec9082b11fc219",
+  "receipt_sha256": "99c00c86fed70acb590291e4b8f08bb99c172b39348c01bc8bb3b4ed5a90966e",
+  "approved_counts": {
+    "low": 42,
+    "high": 42,
+    "o1compact": 40,
+    "o456": 42,
+    "o1standard": 41,
+    "o23456": 38,
+    "sixfig": 42
+  },
+  "visual_rereview_by_importer": false,
+  "source_approval_and_fingerprint_verified": true,
+  "checks": [
+    {
+      "run_id": "l3-o456-clear-generalization12-20261019-v1-push_T-random-s0-scene0",
+      "group": "o456",
+      "analysis_sha256": "1198712649ee7ebbf2002b1861173b4f9f9dcfb90897aef751a293ecca76e05c",
+      "review_fingerprint": "dad5680eb15f4c1551a2e40994f5ce8969f10571e2eb3ee1dbd110d10239319d",
+      "metrics": 26,
+      "events": 8,
+      "access": "codex_subscription"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-plug_in_charger-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "2f33d0679052cbd056d59e17efdcd963519715ed042e06fff2f09296b7c6f342",
+      "review_fingerprint": "e2c4ee25b2707316e9316f1bf131eef7ab1f57451ec0fbcedf860b869e628204",
+      "metrics": 26,
+      "events": 20,
+      "access": "codex_subscription"
+    }
+  ]
+}

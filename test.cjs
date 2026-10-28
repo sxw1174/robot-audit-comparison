@@ -7,11 +7,22 @@ const tests=[];
 function test(name,fn){fn();tests.push(name);console.log("PASS",name);}
 const state={groups:["low","persistent","high"],scope:"common",policy:"bounds",task:"",variant:"",includeInterim:false};
 test("receipt-bound unique run identities",()=>{
-  const v=require("./data-verification-20261029-completion.json");
+  const v=require("./data-verification-20261029-sixfig42.json");
   assert.equal(D.runs.length,v.preserved_runs+v.added_runs);
   assert.equal(new Set(D.runs.map(r=>r.id)).size,D.runs.length);
 });
 test("26 complete metrics for every run",()=>{for(const r of D.runs)assert.equal(Object.keys(r.metrics).length,26);});
+test("DepthPro first42 includes three approved subscription supplements",()=>{
+  const rows=D.runs.filter(r=>r.group==="sixfig");
+  assert.equal(rows.length,42);
+  assert.equal(rows.filter(r=>r.source.access==="codex_subscription").length,3);
+  assert.equal(D.missing.filter(r=>r.group==="sixfig").length,0);
+  const proof=require("./data-verification-20261029-sixfig42.json");
+  assert.equal(proof.preserved_runs,533);
+  assert.equal(proof.added_metrics_checked,78);
+  assert.equal(proof.added_events_checked,25);
+  assert.equal(proof.source_metric_mismatches,0);
+});
 test("41 three-way matched native outcomes",()=>{for(const s of C.summaries(D,state,"score"))assert.equal(s.n,41);});
 test("original low/high native totals preserved",()=>{
   const s=C.summaries(D,state,"score");assert.ok(Math.abs(s.find(x=>x.group==="low").total-14.2)<1e-8);assert.ok(Math.abs(s.find(x=>x.group==="high").total-14.35)<1e-8);
@@ -133,7 +144,7 @@ test("all editorial event examples are bound to confirmed source events",()=>{
 test("native scope reconciliation is source-bound and not substituted for audit metrics",()=>{
   const v=require("./data-verification-20261026-o1-standard.json");
   const digest=require("node:crypto").createHash("sha256").update(fs.readFileSync("data.json")).digest("hex");
-  const completion=require("./data-verification-20261029-completion.json");
+  const completion=require("./data-verification-20261029-sixfig42.json");
   assert.equal(completion.data_sha256,digest);
   assert.equal(v.source_metrics_checked,205*26);
   assert.equal(v.source_metric_mismatches,0);
@@ -153,7 +164,8 @@ test("additional O configurations use approved canonical sources and explicit om
     assert.equal(rows.length,g.completed);
     assert.equal(rows.length+D.missing.filter(r=>r.group===gid).length,42);
     for(const row of rows){
-      assert.equal(row.audit,"approved");assert.equal(row.source.access,"historical");
+      assert.equal(row.audit,"approved");
+      assert.ok(["historical","codex_subscription"].includes(row.source.access));
       assert.match(row.source.analysis_sha256,/^[a-f0-9]{64}$/);
       assert.match(row.source.review_fingerprint,/^[a-f0-9]{64}$/);
       assert.equal(row.videos.length,3);

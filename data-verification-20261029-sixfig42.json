@@ -1,0 +1,53 @@
+{
+  "data_sha256": "dff075df03701ecd3cb351d07d1c4cc39958f49fa1aeec3847a1827e8c0e9bee",
+  "previous_revision": "386ca98",
+  "previous_data_sha256": "8e36cb6c804eb8853751e36e72b035d3eb529fb5261f469e307a01ed0f89c458",
+  "preserved_runs": 533,
+  "added_runs": 3,
+  "added_metrics_checked": 78,
+  "added_events_checked": 25,
+  "original_public_rows_unchanged": true,
+  "source_metric_mismatches": 0,
+  "export_sha256": "0de9cae970afaea73fe907a4e3da69f88812875a0c36aefbc42a366862a02911",
+  "receipt_sha256": "63f1ba26044d1c97ea6174714248c12bca7df9a073b854af520e5f267b5a81fa",
+  "approved_counts": {
+    "low": 42,
+    "high": 41,
+    "o1compact": 40,
+    "o456": 41,
+    "o1standard": 41,
+    "o23456": 37,
+    "sixfig": 42
+  },
+  "visual_rereview_by_importer": false,
+  "source_approval_and_fingerprint_verified": true,
+  "checks": [
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-match_and_pick_from_conveyor-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "1e78e1fbc092acec0a0fe2685b91bc9957e846261447b1f248e27a0babc95f29",
+      "review_fingerprint": "483f9ae503de1f016c23c5d212b79ce9e9540199d4420b9335d26b1fafa49a3b",
+      "metrics": 26,
+      "events": 19,
+      "access": "codex_subscription"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-press_by_number-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "d10e0c3120ddbd2d212003ed5bd27951ba367c285f906f2dfbdcffcc74bb8f2b",
+      "review_fingerprint": "58f4aaa134e55fd822aa2062b84b68da4b413d33082d29fc87a9c0f418365660",
+      "metrics": 26,
+      "events": 3,
+      "access": "codex_subscription"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-solve_equation-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "1d3935a21842d1d4afee7493bcded78ca482004caac3e1ef07a4d9580830283a",
+      "review_fingerprint": "84e1a3b2eef371bcdc0b32ad9208d344e73f97cb49ea1a6a55f2fbb45a83fdf8",
+      "metrics": 26,
+      "events": 3,
+      "access": "codex_subscription"
+    }
+  ]
+}

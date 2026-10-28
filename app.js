@@ -22,7 +22,8 @@ const titles = {
   methods:["数据与方法","数据与方法","数据范围、统计口径与来源"],
 };
 function route(){return Object.hasOwn(titles,location.hash.slice(1))?location.hash.slice(1):"overview";}
-function groupName(id){const g=group(id);return `<span class="group-name"><span class="swatch" style="background:${g.color}"></span>${esc(g.name)}</span>`;}
+function displayName(g){return g.name.replace(/^历史\s+/,"");}
+function groupName(id){const g=group(id);return `<span class="group-name"><span class="swatch" style="background:${g.color}"></span>${esc(displayName(g))}</span>`;}
 function statusBadge(status){
   const labels={confirmed:"已确认",lower_bound:"确认下界",unknown:"未知",na:"未覆盖",pending:"待审核",self_report:"仅自述",
     approved:"已批准",partial:"部分完成",complete:"程序完成",needs_attention:"需关注",interim:"阶段性",logs_images:"日志与图像核查",uncertain:"待确认",candidate:"候选"};
@@ -33,10 +34,10 @@ function section(n,title,sub="",link=""){
 }
 function chip(g){
   const suffix=`分析样本 ${D.runs.filter(r=>r.group===g.id).length}`;
-  return `<label class="group-chip" style="--group-color:${g.color}"><input type="checkbox" data-group="${g.id}" ${state.groups.includes(g.id)?"checked":""}><span class="swatch"></span>${esc(g.name)}${suffix?`<small>${esc(suffix)}</small>`:""}</label>`;
+  return `<label class="group-chip" style="--group-color:${g.color}"><input type="checkbox" data-group="${g.id}" ${state.groups.includes(g.id)?"checked":""}><span class="swatch"></span>${esc(displayName(g))}${suffix?`<small>${esc(suffix)}</small>`:""}</label>`;
 }
 function pairIds(){return C.selectedPair(state);}
-function pairLabel(ids){return ids?`${esc(group(ids[1]).name)} − ${esc(group(ids[0]).name)}`:"";}
+function pairLabel(ids){return ids?`${esc(displayName(group(ids[1])))} − ${esc(displayName(group(ids[0])))}`:"";}
 function refreshIcons(){if(window.lucide)window.lucide.createIcons();}
 function renderFilters(){
   $("group-picker").innerHTML=D.groups.map(chip).join("");
@@ -62,13 +63,13 @@ function overview(){
     const def=metric(field), summaries=C.summaries(D,state,field);
     return `<div class="kpi"><h3>${def.label==="成功"?"分析样本原生成功率":def.label==="得分"?"任务等权均分":def.label}</h3>${summaries.map(s=>
       `<div class="kpi-value">${groupName(s.group)}<strong>${s.n?(field==="success"?fmt(s.mean*100,1)+"%":fmt(s.mean,field==="score"?3:1)):"—"}</strong></div>
-       <small>${esc(group(s.group).name)} · ${field==="success"?`${fmt(s.total,0)} / ${s.n} 成功`:`n=${s.n}${field==="turns"||field==="actions"?" · 合计 "+fmt(s.total,0):""}`}</small>`).join("")}</div>`;
+       <small>${esc(displayName(group(s.group)))} · ${field==="success"?`${fmt(s.total,0)} / ${s.n} 成功`:`n=${s.n}${field==="turns"||field==="actions"?" · 合计 "+fmt(s.total,0):""}`}</small>`).join("")}</div>`;
   }).join("");
   const sums=C.summaries(D,state,"score");
   const bars=sums.map(s=>{
     const vals=s.rows.map(r=>r.metrics.score.value), zero=vals.filter(v=>v===0).length, full=vals.filter(v=>v===1).length, partial=s.n-zero-full;
     return `<div class="chart-group"><div class="chart-group-header">${groupName(s.group)}<span>零分 ${zero} · 部分 ${partial} · 满分 ${full}</span></div>
-      <div class="bar-stack" role="img" aria-label="${esc(group(s.group).name)}：零分${zero}，部分得分${partial}，满分${full}">${s.n?
+      <div class="bar-stack" role="img" aria-label="${esc(displayName(group(s.group)))}：零分${zero}，部分得分${partial}，满分${full}">${s.n?
       `<span class="zero" style="width:${zero/s.n*100}%"></span><span class="partial" style="width:${partial/s.n*100}%"></span><span class="full" style="width:${full/s.n*100}%"></span>`:""}</div></div>`;
   }).join("");
   const ids=pairIds(), conclusions=F.fixed;
@@ -83,14 +84,14 @@ function overview(){
     <p class="caption">成功与得分已逐条对照原生结果。视觉事件为原审核覆盖内的确认下界；统计核对不等于重新审核全部视频。以下不是因果或显著性结论。</p>
     ${findings}
     </section><section id="selected-results">
-    ${section("02","所选实验组统计",state.groups.length?state.groups.map(id=>esc(group(id).name)).join(" · "):"未选择实验组")}
+    ${section("02","所选实验组统计",state.groups.length?state.groups.map(id=>esc(displayName(group(id)))).join(" · "):"未选择实验组")}
     ${!state.groups.length?'<div class="empty">未选择实验组。</div></section>':`
     <div class="notice">以下仅统计纳入本页分析的记录，不是原实验全部已发布结果的成绩。跨配置差异不等于单一因素效果；完整统计范围核对见四组分析。</div>
     <div class="kpi-grid">${kpis}</div>
     ${section("03","得分分布","原生得分；部分得分指 0 < score < 1")}
     <div class="chart-area">${bars}<div class="bar-legend"><span class="legend-item"><i class="swatch" style="background:#ccd4d0"></i>零分</span><span class="legend-item"><i class="swatch" style="background:#b2c8b9"></i>部分得分</span><span class="legend-item"><i class="swatch" style="background:#447d62"></i>满分</span></div></div>
     ${ids?`${section("04","任务得分差异",`${pairLabel(ids)} · 按绝对得分差排序`,'<a href="#tasks">全部任务 '+icon("arrow-right")+"</a>")}
-    <div class="table-wrap"><table><thead><tr><th>任务</th><th>${ids?esc(group(ids[0]).name):"组A"}</th><th>${ids?esc(group(ids[1]).name):"组B"}</th><th>得分差</th><th>证据</th></tr></thead><tbody>${top.map(p=>
+    <div class="table-wrap"><table><thead><tr><th>任务</th><th>${ids?esc(displayName(group(ids[0]))):"组A"}</th><th>${ids?esc(displayName(group(ids[1]))):"组B"}</th><th>得分差</th><th>证据</th></tr></thead><tbody>${top.map(p=>
       `<tr><td><span class="task-name">${esc(p.left.task)}</span><span class="cell-sub">${esc(p.left.variant)} · s${p.left.seed} / scene${p.left.scene}</span></td><td>${fmt(p.left.metrics.score.value)}</td><td>${fmt(p.right.metrics.score.value)}</td><td>${signed(p.delta)}</td><td><button class="icon-button" data-task="${esc(p.left.task)}" title="查看任务对照" aria-label="查看${esc(p.left.task)}任务对照">${icon("arrow-up-right")}</button></td></tr>`).join("")||'<tr><td colspan="5">当前范围无有效配对。</td></tr>'}</tbody></table></div>`:section("04","逐任务数据","所选实验组并列展示",'<a href="#tasks">查看任务对照 '+icon("arrow-right")+"</a>")}
     ${section("05","行为指标",state.policy==="bounds"?"† 为已声明覆盖内的确认下界；不同指标有效N可能不同":"仅已确认数值",'<a href="#metrics">全部26项 '+icon("arrow-right")+"</a>")}
     ${metricTable(["empty_retry","drop","empty_regrasp","view_opposite","fine_placement_fail"])}`}</section>`;

@@ -12,6 +12,11 @@ const {chromium} = require("playwright");
       const page = await browser.newPage({viewport});
       page.on("pageerror", error => errors.push(error.message));
       await page.goto(process.env.AUDIT_TEST_URL || pathToFileURL(path.join(__dirname, "index.html")).href);
+      assert.doesNotMatch(await page.locator("#group-picker").innerText(),/本次|历史/);
+      assert.match(await page.locator("#group-picker").innerText(),/分析样本 42/);
+      await page.locator("[data-group=persistent]").check();
+      assert.doesNotMatch(await page.locator("#view").innerText(),/本次|历史/);
+      await page.locator("[data-group=persistent]").uncheck();
       assert.equal(await page.locator("[data-group=o1standard]").isChecked(),true);
       const fixedText=await page.locator("#fixed-findings").innerText();
       for (const checkbox of await page.locator("[data-group]").all()) {

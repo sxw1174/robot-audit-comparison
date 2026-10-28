@@ -21,8 +21,11 @@ event evidence below, but never rewrite the conclusions.
 - O1 Standard: 41/42 program-valid, currently review-approved analyses.
   Its profile is `persistent-cap20-o1`, not O1 Compact. `push_T` remains missing
   after HTTP 413; there are no placeholder metrics for this task.
-- O23456 Clear: 37/42 approved; O23456 DepthPro 6fig CUDA: 39/42 approved.
-  Existing valid results are preserved. The 13 missing samples across six
+- O23456 Clear: 37/42 approved; O23456 DepthPro 6fig CUDA: 42/42 approved.
+  The final three DepthPro samples used the server subscription for analysis
+  and the relay for final acceptance of that three-sample supplement.
+  The combined original 42-sample batch acceptance is recorded separately.
+  Existing valid results are preserved. The 10 missing samples across five
   groups are being independently completed on the server using the existing
   ChatGPT subscription account and gpt-6.1-sol medium. No unapproved replacement
   enters this snapshot.
@@ -32,7 +35,7 @@ event evidence below, but never rewrite the conclusions.
 - Historical Medium: 42 published runs, with 25 Sim5.1 and 17 Sim6 records.
 - Five other published groups are available as separate configuration references.
 - O23 Compact and O23 DepthPro remain explicitly marked interim.
-- 533 run records in total. Matching a task tuple is not proof of an otherwise
+- 536 run records in total. Matching a task tuple is not proof of an otherwise
   controlled experiment. This is not an official submission to the source board.
 
 The O merge uses `tools/merge_o_audits.py` with a private, receipt-bound canonical
@@ -43,6 +46,8 @@ The O1 Standard addition preserves every one of the original 416 records.
 The October 29 addition preserves all 457 prior public records and adds 76
 canonical approved records. `data-verification-20261029-completion.json`
 binds the additive snapshot, 1,976 new metrics and 452 event records.
+`data-verification-20261029-sixfig42.json` binds three further DepthPro
+samples, 78 metrics and 25 events while preserving all 533 prior records.
 The fixed four-group editorial analysis remains locked to its original
 40 task tuples, even as missing analyses are completed.
 `tools/verify_o1_standard.py` binds its 1,066 metric values/statuses, 304 event

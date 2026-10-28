@@ -1,0 +1,44 @@
+{
+  "data_sha256": "10424f18eeb5cfdf8dac87dce29dfc2fde7b7323643da6e113fff7c6813c1e59",
+  "previous_revision": "e7aa429917106eab83e260e1d15ede6fb9136ff7",
+  "previous_data_sha256": "c604e98d9e1c2b23b1b37cacd7d5dea5e1fe9e0d771cc3f67a4f9752b1f86f87",
+  "preserved_runs": 540,
+  "added_runs": 2,
+  "added_metrics_checked": 52,
+  "added_events_checked": 16,
+  "original_public_rows_unchanged": true,
+  "source_metric_mismatches": 0,
+  "export_sha256": "0eb38241e0463cfee7dbab32ff2c4c96d10977ba2fdb7d1517dd8fb6ff6c789e",
+  "receipt_sha256": "557df0272e2e3d712040979d768122db118808aab61c4c8906a0147dff05fa7a",
+  "approved_counts": {
+    "low": 42,
+    "high": 42,
+    "o1compact": 42,
+    "o456": 42,
+    "o1standard": 42,
+    "o23456": 38,
+    "sixfig": 42
+  },
+  "visual_rereview_by_importer": false,
+  "source_approval_and_fingerprint_verified": true,
+  "checks": [
+    {
+      "run_id": "l3-o1-compact-precision4-20261017-v1-build_tower-standard-s0-scene0",
+      "group": "o1compact",
+      "analysis_sha256": "70117057a5baa1450c0895d21f23454704eaef1ade5cff95a8c62c01861ecdab",
+      "review_fingerprint": "a1263aedd01f95d174601d316bef097af7b0b5500ebe43ee3d8f13f088e99740",
+      "metrics": 26,
+      "events": 7,
+      "access": "codex_subscription"
+    },
+    {
+      "run_id": "l3-o1-compact-precision4-20261017-v1-push_T-random-s0-scene0",
+      "group": "o1compact",
+      "analysis_sha256": "d8bdd99d97a90293c1cb3a180e990c1409ee69ff3d79231b04a1315b8b201d65",
+      "review_fingerprint": "e271f3df4fa3da0f3e7c4c5287cd8594fc09b86624e41b8b05e5aed2917ab0a5",
+      "metrics": 26,
+      "events": 9,
+      "access": "codex_subscription"
+    }
+  ]
+}

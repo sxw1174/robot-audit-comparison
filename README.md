@@ -16,8 +16,8 @@ event evidence below, but never rewrite the conclusions.
 - Low: 42 approved analyses. High: 42 approved analyses, including the
   subscription-analyzed `push_T` supplement. Final combined-batch acceptance
   remains separate from per-sample approval.
-- O1 Compact: 40/42 program-valid, currently review-approved analyses.
-  `build_tower` and `push_T` are excluded and documented as missing.
+- O1 Compact: 42/42 program-valid, currently review-approved analyses.
+  `build_tower` and `push_T` were completed using the server subscription.
 - O456 Clear: 42/42 program-valid, currently review-approved analyses.
   The missing `push_T` was completed using the server subscription.
 - O1 Standard: 42/42 program-valid, currently review-approved analyses.
@@ -27,17 +27,17 @@ event evidence below, but never rewrite the conclusions.
   The final three DepthPro samples used the server subscription for analysis
   and the relay for final acceptance of that three-sample supplement.
   The combined original 42-sample batch acceptance is recorded separately.
-  Existing valid results are preserved. The six remaining missing samples across two
-  groups are being independently completed on the server using the existing
+  Existing valid results are preserved. The four remaining missing samples in
+  O23456 Clear are being independently completed on the server using the existing
   ChatGPT subscription account and gpt-6.1-sol medium. No unapproved replacement
   enters this snapshot.
-- None of the three combined O batches has final whole-batch acceptance. Only the 124 approved
+- None of the three combined O batches has final whole-batch acceptance. Only the 126 approved
   canonical results enter metrics, events and pair comparisons. Robot model:
   gpt-6-astra medium; audit/review model: gpt-6.1-sol medium.
 - Historical Medium: 42 published runs, with 25 Sim5.1 and 17 Sim6 records.
 - Five other published groups are available as separate configuration references.
 - O23 Compact and O23 DepthPro remain explicitly marked interim.
-- 540 run records in total. Matching a task tuple is not proof of an otherwise
+- 542 run records in total. Matching a task tuple is not proof of an otherwise
   controlled experiment. This is not an official submission to the source board.
 
 The O merge uses `tools/merge_o_audits.py` with a private, receipt-bound canonical
@@ -56,6 +56,8 @@ and five events while preserving all 536 prior public records.
 supplements and their 52 metrics while preserving all 537 prior records.
 `data-verification-20261029-o1standard42.json` binds the O1 Standard supplement
 and its 26 metrics while preserving all 539 prior records.
+`data-verification-20261029-o1compact42.json` binds the two O1 Compact
+supplements, 52 metrics and 16 events while preserving all 540 prior records.
 The fixed four-group editorial analysis remains locked to its original
 40 task tuples, even as missing analyses are completed.
 `tools/verify_o1_standard.py` binds its 1,066 metric values/statuses, 304 event

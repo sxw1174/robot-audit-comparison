@@ -26,7 +26,7 @@ const {chromium} = require("playwright");
       await page.locator("[data-group=o456]").check();
       await page.locator("#scope").selectOption("common");
       assert.match(await page.locator(".conclusion-scope").innerText(), /O1 Compact 40\/42.*O456 Clear 41\/42.*共同40/);
-      assert.match(await page.locator("#scope-summary").innerText(), /共同有效 40/);
+      assert.match(await page.locator("#scope-summary").innerText(), /共同有效 42/);
       assert.equal(await page.locator("#fixed-findings").innerText(),fixedText);
       await page.locator("#task").selectOption("align_blocks");
       await page.locator("#policy").selectOption("confirmed");
@@ -66,7 +66,7 @@ const {chromium} = require("playwright");
           assert.match(await page.locator("#view").innerText(),/空夹差异证据/);
         }
       }
-      for(const gid of ["o23456","sixfig"]){
+      for(const gid of ["o1compact","o23456","sixfig"]){
         for(const checkbox of await page.locator("[data-group]").all())if(await checkbox.isChecked())await checkbox.uncheck();
         await page.locator(`[data-group=${gid}]`).check();
         await page.evaluate(()=>{location.hash="tasks";});

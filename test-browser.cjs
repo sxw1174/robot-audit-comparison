@@ -4,7 +4,8 @@ const {pathToFileURL} = require("node:url");
 const {chromium} = require("playwright");
 
 (async () => {
-  const browser = await chromium.launch({headless: true});
+  const browser = await chromium.launch({headless: true,
+    ...(process.env.AUDIT_BROWSER_EXECUTABLE?{executablePath:process.env.AUDIT_BROWSER_EXECUTABLE}:{})});
   const errors = [];
   try {
     for (const viewport of [{width: 1440, height: 1000}, {width: 390, height: 844}]) {
@@ -42,6 +43,7 @@ const {chromium} = require("playwright");
       assert.match(await page.locator("#scope-summary").innerText(),/41/);
       assert.equal(await page.locator("#fixed-findings").innerText(),fixedText);
       await page.locator(".sidebar a[href='#tasks']").click();
+      await page.waitForFunction(() => document.querySelector("#page-title")?.textContent === "任务对照");
       assert.equal(await page.locator("#view tbody tr").count(),41);
       await page.locator("#view [data-task=align_blocks]").click();
       assert.equal(await page.locator("#detail-body [data-run]").count(),1);
@@ -58,6 +60,15 @@ const {chromium} = require("playwright");
           assert.equal(await page.locator(".analysis-report table").first().locator("tbody tr").count(),26);
           assert.match(await page.locator("#view").innerText(),/空夹差异证据/);
         }
+      }
+      for(const gid of ["o23456","sixfig"]){
+        for(const checkbox of await page.locator("[data-group]").all())if(await checkbox.isChecked())await checkbox.uncheck();
+        await page.locator(`[data-group=${gid}]`).check();
+        await page.evaluate(()=>{location.hash="tasks";});
+        await page.waitForFunction(()=>document.querySelector("#page-title")?.textContent==="任务对照");
+        const n=await page.evaluate(gid=>window.AUDIT_DATA.groups.find(g=>g.id===gid).completed,gid);
+        assert.equal(await page.locator("#view tbody tr").count(),n);
+        assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
       }
       await page.screenshot({path: `/tmp/audit-o-${viewport.width}.png`, fullPage: true});
       await page.close();

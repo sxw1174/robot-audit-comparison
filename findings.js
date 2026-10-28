@@ -132,7 +132,7 @@
     {task: "align_blocks", reason: "O456工具夹持有空夹候选；推物、按压和空手收爪不应计为抓取失败。"},
   ];
   function dataset(data, core) {
-    const rows = core.rowsFor(data, scope);
+    const rows = core.rowsFor(data, scope).filter(r => !["build_tower", "push_T"].includes(r.task));
     const sets = scope.groups.map(g => new Set(rows.filter(r => r.group === g).map(core.key)));
     const keys = new Set([...sets[0]].filter(k => sets.every(s => s.has(k))));
     return {...data, runs: rows.filter(r => keys.has(core.key(r)))};

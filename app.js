@@ -229,9 +229,9 @@ function methods(){
   const own=D.groups.filter(g=>g.source==="本批批准分析");
   const ownNames=own.map(g=>esc(g.name)).join(" · ");
   const partial=own.filter(g=>g.audit==="partial").map(g=>`${esc(g.name)} ${g.completed}/${g.planned}`).join("、");
-  return `<div class="methods"><div class="notice green">v0.1 独立研究预览。没有提交或覆盖原行为看板，也没有为此页面重新运行模型。</div>
-    <h2>01 / 数据范围</h2><p>${esc(counts)}。本轮实际分析包括 ${ownNames}；其中${partial}项程序校验且当前复核批准，整批最终验收未完成。O1 Standard为persistent-cap20-o1，与O1 Compact的persistent-cap20-o1-compact是独立配置。历史 Medium、Semantic EEF、Action Horizon、EEF Sequence来自公开行为看板；O23 Compact和O23 DepthPro为阶段性公开数据。</p>
-    <p>Low/High来源观察：${esc(D.audit_observed)}；O1 Compact与O456 Clear来源观察：${esc(D.o_audit_observed)}；O1 Standard来源观察：${esc(D.o1_standard_audit_observed)}；网页生成：${esc(D.built_at)}。页面不会自动轮询实验状态。</p>
+  return `<div class="methods"><div class="notice green">独立研究预览。没有提交或覆盖原行为看板；缺项补分析通过程序校验与复核后才纳入。</div>
+    <h2>01 / 数据范围</h2><p>${esc(counts)}。本轮实际分析包括 ${ownNames}。${partial?`部分完成组：${partial}；未批准项不进入数值统计。`:"所列本次组均有完整单项批准结果。"}单项批准与整批最终验收分别记录。O1 Standard为persistent-cap20-o1，与O1 Compact的persistent-cap20-o1-compact是独立配置。历史 Medium、Semantic EEF、Action Horizon、EEF Sequence来自公开行为看板；O23 Compact和O23 DepthPro为阶段性公开数据。</p>
+    <p>Low/High来源观察：${esc(D.audit_observed)}；O1 Compact与O456 Clear来源观察：${esc(D.o_audit_observed)}；O1 Standard来源观察：${esc(D.o1_standard_audit_observed)}；补分析快照：${esc(D.completion_observed||"尚未发布")}；网页生成：${esc(D.built_at)}。</p>
     <h3>来源分类</h3><div class="table-wrap"><table><thead><tr><th>来源</th><th>实验组</th><th>说明</th></tr></thead><tbody>
       <tr><td>本次实际分析</td><td>${ownNames}</td><td class="reason">本轮行为分析输出；O配置按单项复核状态标注。固定四组结论暂不包含新增O1 Standard。</td></tr>
       <tr><td>历史公开数据</td><td>历史 Medium · Semantic EEF · Action Horizon · EEF Sequence</td><td class="reason">从公开行为看板导入，未在本轮重新分析。</td></tr>
@@ -298,6 +298,7 @@ function runDetail(id,eventId){
     <details class="detail-section" ${eventId?"":"open"}><summary>26项指标与判定理由</summary><div class="table-wrap"><table><thead><tr><th>指标</th><th>数值 / 状态</th><th>原审核理由</th></tr></thead><tbody>${D.metrics.map(m=>{const v=r.metrics[m.key];return `<tr><td>${m.id} ${m.label}</td><td>${fmt(v.value)} ${statusBadge(v.status)}<span class="cell-sub">原状态 ${esc(v.original_status)}</span></td><td class="reason">${esc(v.reason)||"参见原组报告"}</td></tr>`}).join("")}</tbody></table></div></details>
     <div class="detail-section"><h3>来源指纹</h3>${r.source.analysis_sha256?`<p>原分析 SHA-256</p><p class="hash">${r.source.analysis_sha256}</p><p>审核模型历史：${esc(r.source.models.join(" / "))}</p>`:""}
       ${r.source.review_fingerprint?`<p>当前批准版本复核指纹</p><p class="hash">${esc(r.source.review_fingerprint)}</p><p>审核effort：${esc(r.source.review_effort)}；机器人：${esc(r.config.model)} / ${esc(r.config.effort)}</p>`:""}
+      ${r.source.access?`<p>分析接入：${r.source.access==="codex_subscription"?"服务器Codex订阅账号":"保留的历史批准分析"}；${esc(r.source.sampling_policy||"策略见原审核记录")}</p>`:""}
       ${r.source.files.map(f=>`<p>${esc(f.kind)}${f.url?` · <a href="${esc(f.url)}" target="_blank" rel="noopener">公开原件</a>`:""}<br><span class="hash">${f.sha256}</span></p>`).join("")}${g.url?`<p><a href="${g.url}" target="_blank" rel="noopener">实验组原报告</a></p>`:""}</div>`);
 }
 function download(name,text,type){

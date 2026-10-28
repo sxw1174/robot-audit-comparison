@@ -1,0 +1,710 @@
+{
+  "data_sha256": "8e36cb6c804eb8853751e36e72b035d3eb529fb5261f469e307a01ed0f89c458",
+  "previous_revision": "1347c79",
+  "previous_data_sha256": "4c5642a0470e4301dc2c5f42d3d4eaa120dd64819a583d87158260d114bbad4c",
+  "preserved_runs": 457,
+  "added_runs": 76,
+  "added_metrics_checked": 1976,
+  "added_events_checked": 452,
+  "original_public_rows_unchanged": true,
+  "source_metric_mismatches": 0,
+  "export_sha256": "88e51557b84fc246c6304ed8cb6b7400894eee2d0feae14eebac7134920382e8",
+  "receipt_sha256": "32c29f0dfb1b5f4ffaf344b17260fd61c045f3676bb9ec7c1223e02561611853",
+  "approved_counts": {
+    "low": 42,
+    "high": 41,
+    "o1compact": 40,
+    "o456": 41,
+    "o1standard": 41,
+    "o23456": 37,
+    "sixfig": 39
+  },
+  "visual_rereview_by_importer": false,
+  "source_approval_and_fingerprint_verified": true,
+  "checks": [
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-align_blocks-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "f03405fb5722db143ee6aa257cd0a85f0dbff6b93aea50da4e2bc06dd6218294",
+      "review_fingerprint": "042c1c1b8e45fd0cc03b6de61d47c8b1f6997858e294305310a4f0b62ccf0ebd",
+      "metrics": 26,
+      "events": 1,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-arrange_largest_number-random-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "56e04d8b94a0ef35c13bd238f003dc7528a92c82609a1ab2d4395ea039a31511",
+      "review_fingerprint": "af8810aa0a690c88a7515a091bf469e6f58055f6073073b7b6506e050205c42b",
+      "metrics": 26,
+      "events": 5,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-build_tower-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "c1b4ad7977c010faad1195192db0cb196701b8081e05f9d7b4e77645d9ca33a1",
+      "review_fingerprint": "aba86cb011b950afd1c0cea4726485b8c177ffa778ff8f4351816f05152cad5b",
+      "metrics": 26,
+      "events": 3,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-classify_objects-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "a030bb49ffeed628c111878a3a54b02468589b3a2892478fd50bc6a59d19e938",
+      "review_fingerprint": "0f694ede364cb9ed6703698a8cbb126e550e1f2d8d84b0efdc1ee8aabdcc0223",
+      "metrics": 26,
+      "events": 12,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-classify_objects_by_language-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "7f95d63d50a7b8fc1b0a587841de21158ad60bb6d2ac823029ef6e34c8736045",
+      "review_fingerprint": "aa1275ffc6bf60bfa892a5724ffca9e04e45ff20308fc9c6167b12f035752d61",
+      "metrics": 26,
+      "events": 11,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-cover_blocks-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "89bd7a4a83c22849a8af3d2b8739041740b3eef305caf051e5c1f66248e39635",
+      "review_fingerprint": "472d3e9ec2e9c01830384ff2cfc891fec82c1d1139eddba972c20c303a0bd837",
+      "metrics": 26,
+      "events": 0,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-deposit_coin-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "a195536f0e5a46ceaf8d11b655cb059bfa877ce21900b733366ff592eb836b13",
+      "review_fingerprint": "35c7dba077a1e96cb7f985dc2bfab346709487cce3d69b3a1098e3789fa5f1ee",
+      "metrics": 26,
+      "events": 4,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-fasten_screws-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "255d5e98f35f9abb4f9cdb7c2d6fafaf8a11b490c35ace98339f3fb464e7c35c",
+      "review_fingerprint": "032d910d1ad8345311fd9ace4f436bd6414bb6a821ddecbe7ecac3ba11ce8741",
+      "metrics": 26,
+      "events": 7,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-fill_egg_holder-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "f189966812761c60a011c184038cd24fa6aa7e3e827e8e961a37e0b4462c26a8",
+      "review_fingerprint": "8474620aeb15438b55f7e1dd9a653f4223234ac2835a7b390ff60dfea3df76b8",
+      "metrics": 26,
+      "events": 10,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-fill_pen_holder-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "e8ada6682b8df4a02c05f410cb298d2f3353d94804ff4d9988bf0c73829d7aeb",
+      "review_fingerprint": "722b5ca4c43eda8937d5a8d7fb8f6e8df399d076ed729cb49bc1fee658045326",
+      "metrics": 26,
+      "events": 5,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-fold_clothes-random-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "2df1c9c0d242a58011df69b7591e0bc58d6acf6f36f4f70ca722a0357410ecad",
+      "review_fingerprint": "f90d2084ca9f8bb32565842414b1e97d395de48eab11d17c581bbb88a4c8c2e4",
+      "metrics": 26,
+      "events": 5,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-general_pickup-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "1e42e93f2126d35ec98da9cf240c8abffc688fb8785a951d01b7c8282bcbb9aa",
+      "review_fingerprint": "ad0a47afa8d91af5cedd9ed9c1bde79827603dc410683ed90f1575cc73e05e15",
+      "metrics": 26,
+      "events": 0,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-hang_mugs-random-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "e13d4f011b5b7a513ec1cc6fcd89a32ddf129a486f8e05f840c1b9bf60d43490",
+      "review_fingerprint": "4e87b6122c8ebc62cd8b0e6d045d09965df6f483e487cf5618906e322863e387",
+      "metrics": 26,
+      "events": 9,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-imitate_sorting_sequence-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "4066db2ccd43586cf183b355fc378036a0d22c8f635b371344fdb4c5cd68e4dd",
+      "review_fingerprint": "7250a7d4cf62b7e4393aee7fd95392662e6135b3a9e41476b869c46b558bb9f1",
+      "metrics": 26,
+      "events": 5,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-insert_key-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "9aa3abcc2939a9579bb8d7b3193909a747b057b794e6fbf5e27d7dcce78853e5",
+      "review_fingerprint": "6e29cf985d5c533cdc3d608d4f16699680801d1dc7c22f77ff8f60fad72d6695",
+      "metrics": 26,
+      "events": 5,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-insert_tubes-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "76d1eec2a9d99cbb72fa62749ad23d2319c1ae0c818d020c798001f72128177a",
+      "review_fingerprint": "4778d5f4b46a539b13a26c1c34370afcf29d6c852216e916a016f0fa35ce4c84",
+      "metrics": 26,
+      "events": 2,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-make_kong-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "b335a3cacdf8e978422f05166e81b84afae4ba88e8af8e463bfe91d441d57ec9",
+      "review_fingerprint": "989692a77f4aa1df08d715d3fd08dd1d6b74ff5c0deaf061f42b23d810de339a",
+      "metrics": 26,
+      "events": 1,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-make_toast-random-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "5a75f1ad5fa82a36f6acfabeb8b4c10128fd00d110ed406cb792a188bef78318",
+      "review_fingerprint": "8d85d22fb4f42a9c4168dab9b1b6293d77ad9f61dd11319e8e51c3338f2f398e",
+      "metrics": 26,
+      "events": 10,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-match_and_pick_from_conveyor-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "7f333d930bddae5518eb634ad63f3ef89cb1d864aadb8e622413c521ed23dfb7",
+      "review_fingerprint": "4370df19ae4073f271fc7d938c7d3b0785601bb284258e0496e6cfcfa4374929",
+      "metrics": 26,
+      "events": 6,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-pack_objects_into_box-random-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "45732598acfeb309edc21e3b60cc968e1f11223554b3b057a25f798d74334472",
+      "review_fingerprint": "57ec455898a5e9a03362901579fcc840e4f92eebccc1416781d55573dc11ecdd",
+      "metrics": 26,
+      "events": 9,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-sim60-recovery1-pick_from_conveyor_by_image-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "de688f89163c67a5c9e06ef856c0e2eff80faf0ea0a85d623e270fb41a2290f2",
+      "review_fingerprint": "c6507317062c0e2f2e6453665d67472ebeaf79d4eae0dd185b9afb609c657fad",
+      "metrics": 26,
+      "events": 8,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-pour_balls_into_vase-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "40048ccb0084aae9c3392d80e874a41f9716aa1e0e088b53e4cd6a5c9c4ce58b",
+      "review_fingerprint": "a0048fdd02a809ffca352034e46d4409893fc12be47290f2fb3c7d36f4b06537",
+      "metrics": 26,
+      "events": 6,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-pour_by_language-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "8c335c61f9a3ba8ea2a632566c59c16df56ac208a1bde51da73551e7b16e9782",
+      "review_fingerprint": "0a992e467137f66dff62cb42ba8ea9a8446069283711fc899d28ae0b587a7dd8",
+      "metrics": 26,
+      "events": 6,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-sim51-recovery1-pour_liquid_into_cup-random-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "9597ef92654577a7bd7bb016c54696423845e6bba099b8b2f93e40163f97b904",
+      "review_fingerprint": "d4d42f58427015f7c52f8b3d178a193dba69c41cb3f320e0b340ac6064525d43",
+      "metrics": 26,
+      "events": 5,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-press_by_number-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "e22fc513a6c9525811c7a0d8290e7c35b6819eabfd1794201524f80ab27e7870",
+      "review_fingerprint": "23e01c21681c816c402b4d44153ff43237062cbe044742b96722ab87256766bd",
+      "metrics": 26,
+      "events": 0,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-push_T-random-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "095b20e02fd796e817ada760e8a9b758af2fb55c592b8889c91c99d3168f7d69",
+      "review_fingerprint": "881e1bc1b13261d3efb4445004312443ed2e35fe9f20a2b55b32b3018cbc231f",
+      "metrics": 26,
+      "events": 6,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-put_bottles_into_dustbin-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "7abc012a485fa22a005995ea8cfdfcdc32f2dd9f4aecbf790b8e4a36d35c074f",
+      "review_fingerprint": "2d1a918e328a2971f717f95b9e337f9df408d1085535af800d7a047c754ab4a0",
+      "metrics": 26,
+      "events": 9,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-solve_equation-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "0b065a90a86d9af37fe7256181c35742aaee5accb2a9a33bacc9954d07b35189",
+      "review_fingerprint": "6c1f2fb7ea7c2ae61a0bd7b4318d09f247f1514cc686064da03040d486eb891d",
+      "metrics": 26,
+      "events": 0,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-sort_nesting_dolls_by_size-random-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "eab6a2173f4d150c55b385298e4132be1aa167d80199f8966dfd05ba3c229216",
+      "review_fingerprint": "5e71889c657627fbcb5a477e8ca8b2cc002082e4fbe7e42da90e35fba7c11dce",
+      "metrics": 26,
+      "events": 9,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-stack_blocks-random-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "e0b174481ad0e307fa38844b6ab0bafdaaf55a49974dadaf1bd0f2748b6c9ba8",
+      "review_fingerprint": "ba29f06cbc4a8f20c836fc4d1a4888b949744caa0d3beb4974e00fc8a6f08142",
+      "metrics": 26,
+      "events": 1,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-stack_blocks_by_language-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "e9bc239a2640a5d24191350f7b0d663e5d620b2a6c9a7dbd4c24bee199608e9d",
+      "review_fingerprint": "842708a16d166621325450629cecffaf8aba70fbc9cd73a7c7fb8155f2c5952d",
+      "metrics": 26,
+      "events": 1,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-stack_bowls-random-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "080dd678a508500960fb3a5fa5f5b71bce98277f931b86ceef2321b18e1c0920",
+      "review_fingerprint": "fdcd96afc63968d5b0a424234432ed36857d42054eb53943ad8b1cf86a1b5b79",
+      "metrics": 26,
+      "events": 9,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-store_laptop_and_headphones-random-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "b7656132dd0edc39368f233c7ce826385d656fc3449e810bd17f3fcd2dc2806b",
+      "review_fingerprint": "c73cbb8ce5c97f18ed7c20bd714eb8165826c31373439c60fd30b1ab25e50d1a",
+      "metrics": 26,
+      "events": 14,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-store_tools_in_toolbox-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "6da9c7985a0c26d94917f80f2db0175b3c09751fd6fef4af25d933b0b3cad813",
+      "review_fingerprint": "b6ab2ced47ddd7050b9e7c2c81d93ec06f149673e17a6d4985236782bd05170d",
+      "metrics": 26,
+      "events": 6,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-swap_T-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "08fdf3210bac7b099e0b2343fefc79458c562073ee2f558631031199253738a0",
+      "review_fingerprint": "525d819c020524d64efd63a2d469f6db822130ccb7735fac535d576748a41cef",
+      "metrics": 26,
+      "events": 6,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-swap_blocks-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "dcc312864ba1fdf34f0b0e0682f71602b90344c006a4bff99e6030da15612fbc",
+      "review_fingerprint": "96ee6681e406f7a2a6b77703f0b34dda348fc9c2a234928705967a311330cfd9",
+      "metrics": 26,
+      "events": 2,
+      "access": "historical"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-sweep_blocks-random-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "7b92dd74eb0f2025fd910b8118cc19796b22e13febeac553b008843c1f1ae040",
+      "review_fingerprint": "c6e643404328a3537ce1eb5bd947709a2fbb14f828e7f14f19bdb2ad72bd0347",
+      "metrics": 26,
+      "events": 5,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-align_blocks-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "faf52620a132c97c7ae0d381d51c1af140e0da4729dd3a193c288759f11bc5bd",
+      "review_fingerprint": "7f86c4e43b1e4411684ec5203b6772944ffc5c7cc62f239ab500fd4496055daa",
+      "metrics": 26,
+      "events": 1,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-arrange_largest_number-random-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "df26653099356cf4b64ec72be7879c85530758530ff7bbaa97cb9542be7425cc",
+      "review_fingerprint": "3fcd55c7bd361562774f314e648c57d7ab482e245550e30f79c69bc44c28b07a",
+      "metrics": 26,
+      "events": 5,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-build_tower-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "11b1656fbf976ed84840f88e6802da14d01eaa3016f0e46e237d1bb3b4d5cde4",
+      "review_fingerprint": "02e4e25435f86bfb95d104dcf57ed31300e84a25b42ed3cf2956db58f9da1c29",
+      "metrics": 26,
+      "events": 9,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-sanity2-20261027-classify_objects-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "3d1807783d8780941c2b17f38b3d813d831a9258be1b814b9599daad032e5fcb",
+      "review_fingerprint": "db15edcae9ce4217f7f4d23e42ace540e85e67e6bdb05999f88da95cf442d9dd",
+      "metrics": 26,
+      "events": 8,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-classify_objects_by_language-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "3492ceddd4b5217c18b88eccd5e93b7b59b48787052dc7e2c2986489a49ca315",
+      "review_fingerprint": "b4b7ffea6d8e6c108b133a416cc40412c53320746e911aa84694881cfd69661b",
+      "metrics": 26,
+      "events": 14,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-cover_blocks-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "931499b9286049310e9180cc2ba210c82b6b6043943acf5c293317a381464fc6",
+      "review_fingerprint": "712be3ef64ea1ed5a70cda0ea09439972742cb5677ea0c9225f12e29db3d2eeb",
+      "metrics": 26,
+      "events": 4,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-deposit_coin-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "c094265ef577033f59ebcc23759bc396e312c22d43398a9dd0b868d6621a0bde",
+      "review_fingerprint": "ada9589e559f882bc7b8680ba272af435328e6d9bde91a706652416de21f6bd1",
+      "metrics": 26,
+      "events": 10,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-fasten_screws-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "c50d6c8a2ccd05d591ebc08c2a9d524db7d6389fb5fcd0803a587384267a3d21",
+      "review_fingerprint": "aa13374e5ac305d5a1fc5292ee2156cbd216d0b3f89aaf711b5c37a0b331eb06",
+      "metrics": 26,
+      "events": 3,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-fill_egg_holder-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "4f45e360c6521784ea976807c13c44855ae3d55a3fb29bbcc6d31ff4c3ed141b",
+      "review_fingerprint": "e475a866e86ad273b01fc1524062671ea8052bd39b5ddb430ad3ddb6dea7cee3",
+      "metrics": 26,
+      "events": 17,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-fill_pen_holder-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "9d13672acb1622a4af31f2207c15a0f97d6463f981088f14bafa2081662acad4",
+      "review_fingerprint": "37594aab8e72fe80fd145c9f4424b89cb5d23bf918a52cab0727f95871f6f9cc",
+      "metrics": 26,
+      "events": 2,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-fold_clothes-random-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "d5a7337282e0423ef1d3a22f181d7f671bff33b39f6ea7282336da2490ac5d03",
+      "review_fingerprint": "a60afc1029317bd5ff441ae572df3fc49b305ff239d8af6543104a06d8225214",
+      "metrics": 26,
+      "events": 4,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-general_pickup-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "527bfbd334910bcee63d6c9940266af2ea39a4b2b209410928c7dbbf1d3dbb83",
+      "review_fingerprint": "bff22ea9bfcf39846fec6c89dc429c719b99dff2ca30a6090af0a7d030867f58",
+      "metrics": 26,
+      "events": 0,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-sanity2-20261027-hang_mugs-random-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "2f51ce2d11044f886585f21cd4d137f5fc26560fbf1ae7747252d2a1e33b39e0",
+      "review_fingerprint": "a6dac4387b3a179c31eb8ba26ed979e23110a2d0e88dd9cf96ac638814e66791",
+      "metrics": 26,
+      "events": 13,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-imitate_sorting_sequence-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "8749cd74a07d7c062ada01c730a7eada34101a67de0a2357a3238a43be6b3092",
+      "review_fingerprint": "a362fc19e10ba736c25c311a11e7aafd310a9fc56cbd7d3b57465449fb37cc6d",
+      "metrics": 26,
+      "events": 10,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-insert_key-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "10017f2247db9a3bb42a326dbdb89771c7d532f7fa19552cead50b5f345d06ef",
+      "review_fingerprint": "a4502b2c5385598f39e09eb6e9008311221afc2af5eba065ea98dc29daa7364e",
+      "metrics": 26,
+      "events": 7,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-insert_tubes-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "ae05c2966f85670afa884630154da921be0a6372af9957de7efb2c29556252b6",
+      "review_fingerprint": "00192afcfb6dbc86dbf470630171447809de680e039491e51317373b2ca8473e",
+      "metrics": 26,
+      "events": 12,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-make_kong-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "5b77cc6ee6b878970714c69604f30c99a768ed3e10668b8f306fb8ec7325b2b0",
+      "review_fingerprint": "e00fc407d98c75dc9fc43ca57112c0f966f5a3430be563ba90792d0be228f1b2",
+      "metrics": 26,
+      "events": 4,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-make_toast-random-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "8ad22fe5a5ca07601cdaf44717d6eba804a7f9f2ce08d1cd64edf69719d9a4bf",
+      "review_fingerprint": "2ee9ccb4e94903d59589b1ccfe75fe4f8dec96b0fd70f0239c2727925c22f2d4",
+      "metrics": 26,
+      "events": 8,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-organize_table-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "92b4a123342f390b0a2180654080895daab71935536e0d190868d9440e098fda",
+      "review_fingerprint": "341a921f20781ed43ce29830774cfe5001532f7e8c6251e8ccf90fbcabff2b05",
+      "metrics": 26,
+      "events": 9,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-pack_objects_into_box-random-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "9bf6ed9e4f9778a4c6ac73cc51a3482fe0335fd505627b6dda61808cf2863790",
+      "review_fingerprint": "357cc132c30e450e24c8cc1d2ad91ac27f9e06ecf3402f4b2c2e24d08916fb4c",
+      "metrics": 26,
+      "events": 5,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-pick_from_conveyor_by_image-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "3d97f2ba06e57da3b10b024b100bb40ce5673705cfecc7e8f6b4d0f55458d7d7",
+      "review_fingerprint": "9dc6ff969c667e28a08db8008af694aa7cf20a068496ef514d7bbbfac4d4e73a",
+      "metrics": 26,
+      "events": 3,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-play_Xylophone-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "2ff8073ca6b09fef71b23f752403ad37a19e9a70c7843c6b215630d53f0130d5",
+      "review_fingerprint": "842799d881ba50f2d589c3b3c25a7b485e80188610784f3e62c0953a8c6c3f2c",
+      "metrics": 26,
+      "events": 5,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-play_stacking_toy-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "48ed453f29b065009d43c558af28d3921911ec7fdc4f40f1122740e082d07f69",
+      "review_fingerprint": "333f8f41d9d26f27e50be56936b82b85ff95857c2347f892c3a130035423a7ed",
+      "metrics": 26,
+      "events": 18,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-play_tic_tac_toe-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "66aa65cb6b960c9dfed0044505ec33f502e9a11ca087180e5ec6034259f467f7",
+      "review_fingerprint": "9d4ce66d729db93201ba4465a42d0e570b2cdd38747ea11ec0333c98a752f268",
+      "metrics": 26,
+      "events": 2,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-plug_in_charger-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "8685371958a4d40a26a9100f1cb0b0709a9f0aaaf79afdb02beb50147296806f",
+      "review_fingerprint": "39392899667e0e0868398dc1e800e622fb41294d78798e13d2abd72526daa73b",
+      "metrics": 26,
+      "events": 5,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-pour_balls_into_vase-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "4b68b1f41343a46d59c4d8bf246ac172b0d63a68fadcef7ef47106a288d30f8a",
+      "review_fingerprint": "55ed4c7fb8553d9b4b4c822e3468ecccff171e48354447cb776647b4ee5a73d4",
+      "metrics": 26,
+      "events": 1,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-pour_by_language-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "159b201fa89e6835a3197143d10e6b91e12be79d0782811aeaa1b8a5e0002feb",
+      "review_fingerprint": "510f5c83fb1124674642bfbdb27c9f80104e1a3a5c122b2f6feed5eecff9c513",
+      "metrics": 26,
+      "events": 2,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-pour_liquid_into_cup-random-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "6e22a57c8f53580556264cff94c6b0a840ce37065609267f073526b0bd400925",
+      "review_fingerprint": "f36ebfa22338efabf9d982fefc166f3881fcb65bb7b5bb11c481ddb1db256e5e",
+      "metrics": 26,
+      "events": 1,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-push_T-random-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "e3aa3a07ad5c668b487a06272f99a4c1fc1061008997ef6d720a92bec41cead5",
+      "review_fingerprint": "119e5522f78a7e40a4517b9589170748c60fce97aa7ba605fb325b2839064b6c",
+      "metrics": 26,
+      "events": 2,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-put_bottles_into_dustbin-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "7f85d71f82f319a4ab06e05402e630629689e61e2a1c1fad5debb1d5ad8cd120",
+      "review_fingerprint": "e0dcaa2de7200196bd2a7b2b78113d9a129533b93854311e9f0e0d915a0be6a7",
+      "metrics": 26,
+      "events": 5,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-sort_nesting_dolls_by_size-random-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "219a37336ef0d5d9cdd08f9f555cb96cdfda32dc6b111612e881ed52ed2221bf",
+      "review_fingerprint": "975d8c15a1480ef3b8e8c0aa8097d1f1b2abc7bb0c8b41c7c6014164d6b8e484",
+      "metrics": 26,
+      "events": 5,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-stack_blocks-random-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "e5c1e433ce3398f31a5bc543cac3261e1965aa4dc68b2696eb12721e594537ea",
+      "review_fingerprint": "f63884f4baea62dad74ab81e51c5b57cc3e0a5c8c2f95819c5f1fdc6d29106dc",
+      "metrics": 26,
+      "events": 5,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-stack_blocks_by_language-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "fa44b860eaafd989bf06d991ac8ba95c86aab2601b56c997a00643c5fb8ca767",
+      "review_fingerprint": "a757491f868020109815a26b848c4128befc3bbddb96b64ab86608e862baf788",
+      "metrics": 26,
+      "events": 1,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-stack_bowls-random-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "1d0f5cb16fc494abd7e799c0a55a838956d450bc392905192fd48244216b3b63",
+      "review_fingerprint": "fa550f0dabba03102847c065a7b209c7d5091a817848ba73f03310517b0b05b4",
+      "metrics": 26,
+      "events": 3,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-store_laptop_and_headphones-random-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "7714485f499d1fa16c094da300d3568c01ed86b6c015f66554fe5129a593af06",
+      "review_fingerprint": "68e99544fc66f1dc08e7d6ee0cdf3e587c43f0ec30dbd594aa46aaf899d5368e",
+      "metrics": 26,
+      "events": 9,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-store_tools_in_toolbox-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "6da7cb16596a251079f55c2e2d4ca19001352bbaebfbd22f4fe6c6dff28a0787",
+      "review_fingerprint": "3e59326537f43e2409c37f938bf25c4a9fa98e689d708679a41a7517cd596bb0",
+      "metrics": 26,
+      "events": 14,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-swap_T-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "7757a81a086be96d239e953e1402ede0c41fe9b61656e1b1dd5cec9d29d5e2ef",
+      "review_fingerprint": "6081f71159af0e0cbd1e855a5ed1a62c2b0edba26de4c258afa0286e27870ed3",
+      "metrics": 26,
+      "events": 2,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-swap_blocks-standard-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "5dc8a1f1468c5e944c603b1db9968c6f64a6a0d5bbb44ad0131777288d339653",
+      "review_fingerprint": "fa6c6c07a4cacf40e4ccb12bc93903dbf43695df8d68a312b47bacf047666093",
+      "metrics": 26,
+      "events": 6,
+      "access": "historical"
+    },
+    {
+      "run_id": "o23456-depthpro-6fig-cuda-nativecontext-first42-dev15-20261027-sweep_blocks-random-s0-scene0",
+      "group": "sixfig",
+      "analysis_sha256": "7085ea92727ff6f0b3e853302c9bf974d77b354442b2d1cddde08f8b8d8e4137",
+      "review_fingerprint": "cdc8782bee43d6436da2a8a80566508b285f52cdada53d18a0574e669bec77c2",
+      "metrics": 26,
+      "events": 15,
+      "access": "historical"
+    }
+  ]
+}

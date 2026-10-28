@@ -6,7 +6,11 @@ const D = JSON.parse(fs.readFileSync("data.json","utf8"));
 const tests=[];
 function test(name,fn){fn();tests.push(name);console.log("PASS",name);}
 const state={groups:["low","persistent","high"],scope:"common",policy:"bounds",task:"",variant:"",includeInterim:false};
-test("457 unique run identities",()=>{assert.equal(D.runs.length,457);assert.equal(new Set(D.runs.map(r=>r.id)).size,457);});
+test("receipt-bound unique run identities",()=>{
+  const v=require("./data-verification-20261029-completion.json");
+  assert.equal(D.runs.length,v.preserved_runs+v.added_runs);
+  assert.equal(new Set(D.runs.map(r=>r.id)).size,D.runs.length);
+});
 test("26 complete metrics for every run",()=>{for(const r of D.runs)assert.equal(Object.keys(r.metrics).length,26);});
 test("41 three-way matched native outcomes",()=>{for(const s of C.summaries(D,state,"score"))assert.equal(s.n,41);});
 test("original low/high native totals preserved",()=>{
@@ -129,13 +133,32 @@ test("all editorial event examples are bound to confirmed source events",()=>{
 test("native scope reconciliation is source-bound and not substituted for audit metrics",()=>{
   const v=require("./data-verification-20261026-o1-standard.json");
   const digest=require("node:crypto").createHash("sha256").update(fs.readFileSync("data.json")).digest("hex");
-  assert.equal(v.data_sha256,digest);assert.equal(v.source_metrics_checked,205*26);
+  const completion=require("./data-verification-20261029-completion.json");
+  assert.equal(completion.data_sha256,digest);
+  assert.equal(v.source_metrics_checked,205*26);
   assert.equal(v.source_metric_mismatches,0);
   const r=v.o456_scope_reconciliation;
   assert.deepEqual([r.published_batch.success,r.published_batch.n],[36,81]);
   assert.deepEqual([r.first_round.success,r.first_round.n],[11,42]);
   assert.equal(r.first_round.at_decision_limit.length,4);
   assert.equal(r.omitted_first_round[0].score,0);
+});
+test("additional O configurations use approved canonical sources and explicit omissions",()=>{
+  const proof=require("./data-verification-20261029-completion.json");
+  assert.equal(proof.original_public_rows_unchanged,true);
+  assert.equal(proof.source_metric_mismatches,0);
+  for(const gid of ["o23456","sixfig"]){
+    const g=D.groups.find(g=>g.id===gid),rows=D.runs.filter(r=>r.group===gid);
+    assert.equal(g.source,"本批批准分析");
+    assert.equal(rows.length,g.completed);
+    assert.equal(rows.length+D.missing.filter(r=>r.group===gid).length,42);
+    for(const row of rows){
+      assert.equal(row.audit,"approved");assert.equal(row.source.access,"historical");
+      assert.match(row.source.analysis_sha256,/^[a-f0-9]{64}$/);
+      assert.match(row.source.review_fingerprint,/^[a-f0-9]{64}$/);
+      assert.equal(row.videos.length,3);
+    }
+  }
 });
 test("report and UI keep evidence scope through nested links",()=>{
   const report=require("./four-group-analysis.json"),app=fs.readFileSync("app.js","utf8");

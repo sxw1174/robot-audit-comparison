@@ -8,7 +8,7 @@ Historical and interim groups imported from the public behavior board remain
 ordinary selectable reference groups and are labeled by source. The overview
 keeps five evidence-linked findings covering the current eight analyzed groups,
 four imported reference groups and two interim groups. The eight-way native
-outcome intersection has 37 task tuples; each behavioral metric uses its own
+outcome intersection has 41 task tuples; each behavioral metric uses its own
 valid intersection. Selected groups control the statistics, distributions, task tables and
 event evidence below, but never rewrite the conclusions.
 
@@ -26,33 +26,39 @@ event evidence below, but never rewrite the conclusions.
 - O1 Standard: 42/42 program-valid, currently review-approved analyses.
   Its profile is `persistent-cap20-o1`, not O1 Compact. The missing `push_T`
   was completed using the server subscription; no placeholder metrics are used.
-- O23456 Clear: 40/42 approved; O23456 DepthPro 6fig CUDA: 42/42 approved.
+- O23456 Clear: 42/42 published (40 approved, two program-complete);
+  O23456 DepthPro 6fig CUDA: 42/42 approved.
   The final three DepthPro samples used the server subscription for analysis
   and the relay for final acceptance of that three-sample supplement.
   The combined original 42-sample batch acceptance is recorded separately.
-  Existing valid results are preserved. The two remaining O23456 Clear samples
-  passed program checks and returned the requested delivery corrections, but
-  exhausted the original review-attempt budget before approval. They remain
-  excluded; review counters and approval records have not been reset.
-- O23456 Compact: 38/42 approved. The official first round currently has
-  41/42 source records; `store_tools_in_toolbox` is still source-absent.
-  Three available records remain pending because their current program,
-  delivery or approval fingerprints are not publishable. These relay analyses
-  use `gpt-6.1-sol medium`; pending and source-absent cases are excluded.
-- Combined O batch acceptance remains separate from per-sample approval. Only
-  individually approved canonical results enter metrics, events and pair
-  comparisons. Robot model:
+  The two subscription supplements passed original collect validation.
+  Their Main calls failed due to transport timeout and workspace routing errors;
+  no approval or review counter was changed.
+- O23456 Compact: 41/42 published (38 relay-approved, three subscription
+  program-complete). All 42 official source records are now available.
+  `store_tools_in_toolbox` has resumed in its original server subscription
+  session and remains pending analysis, not source-absent.
+- The human explicitly authorized publishing and counting all five
+  program-complete supplements together with approved rows. They are not
+  marked interim or excluded by the interim toggle. Their actual Main failures
+  remain in source metadata; evidence fingerprints are not labeled approval
+  fingerprints. Combined batch acceptance remains separate. Robot model:
   gpt-6-astra medium; audit/review model: gpt-6.1-sol medium.
 - Historical Medium: 42 published runs, with 25 Sim5.1 and 17 Sim6 records.
 - Five other published groups are available as separate configuration references.
 - O23 Compact and O23 DepthPro remain explicitly marked interim.
-- 582 run records in total. Matching a task tuple is not proof of an otherwise
+- 587 run records in total. Matching a task tuple is not proof of an otherwise
   controlled experiment. This is not an official submission to the source board.
 
 The O merge uses `tools/merge_o_audits.py` with a private, receipt-bound canonical
-export, not the aggregate report or filenames as identities. Every included row
+export, not the aggregate report or filenames as identities. Every approved row
 has an exact assignment tuple, canonical result SHA and current approval
 fingerprint. Private exports and transport receipts are not distributed here.
+The explicit program-complete publication uses `tools/merge_program_audits.py`;
+`data-verification-20261029-program5.json` binds five additions, 130 metrics
+and 41 events while preserving all 582 existing public rows exactly.
+It explicitly records that Main approval was not obtained. The existing
+approved-only importer and its validators remain unchanged.
 The O1 Standard addition preserves every one of the original 416 records.
 The October 29 addition preserves all 457 prior public records and adds 76
 canonical approved records. `data-verification-20261029-completion.json`

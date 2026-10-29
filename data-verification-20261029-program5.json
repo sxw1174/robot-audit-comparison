@@ -1,0 +1,63 @@
+{
+  "previous_revision": "70d5a0f",
+  "previous_data_sha256": "16988e6bbb323c59f7850c24fd97592e9c5ecb53102ce415303d2f5f115d2551",
+  "data_sha256": "021398cae6af11c9830430677566923f55737049dfc5b36580207373afe1fc10",
+  "preserved_runs": 582,
+  "added_runs": 5,
+  "added_metrics_checked": 130,
+  "added_events_checked": 41,
+  "original_public_rows_unchanged": true,
+  "source_metric_mismatches": 0,
+  "source_approval_verified": false,
+  "program_validation_verified": true,
+  "publication_policy": "user_authorized_program_complete",
+  "checks": [
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-organize_table-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "91b0d6a64233f36fadf17072795af289cd7779f8ed16bc15afcb48cddf7336e4",
+      "evidence_fingerprint": "9e2646479823b54e77751e141d192ca7d79685ccd01f4a36aa5426c68e757cac",
+      "metrics": 26,
+      "events": 8,
+      "audit": "complete"
+    },
+    {
+      "run_id": "l3-o23456-clear-full42-20261023-v1-play_stacking_toy-standard-s0-scene0",
+      "group": "o23456",
+      "analysis_sha256": "1fa2122ec3e64667503d134f00b06e1ec66f4b3f7aa3938cd53ece0fdcf453f8",
+      "evidence_fingerprint": "c9c0d35ff56d28d1f8f74845f3cb1ae7da999b62a56fc5e26c89fff7a8632cf0",
+      "metrics": 26,
+      "events": 10,
+      "audit": "complete"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-fill_pen_holder-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "cdc1f86dca1447bfb4a6aa0f4530c1cb6d8e0249540fdae029b9926d14c66284",
+      "evidence_fingerprint": "c20828e87a249f6991c137bbdeb3df9e26509462572ec5731ea874fa99d356c4",
+      "metrics": 26,
+      "events": 2,
+      "audit": "complete"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-play_stacking_toy-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "cbc18967fe6dab3cf3034e7c01587936f7dbff275d2b213ab4d0180ceebb5fc1",
+      "evidence_fingerprint": "5c319399b231157b0c141fad3796ab4402f6c0f7ada13a750d2f24d4dcbc87e1",
+      "metrics": 26,
+      "events": 12,
+      "audit": "complete"
+    },
+    {
+      "run_id": "o23456-compact-first42-20261028-store_laptop_and_headphones-random-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "9f887d1ce8dd2013a9334a8ed365d34bc84c6e135d0fa43d14fb844928d21259",
+      "evidence_fingerprint": "b678378a8e5012be5bc6462a66c3ea8fc82188dcb3eb0ea0f220f2cfdf0a72e9",
+      "metrics": 26,
+      "events": 9,
+      "audit": "complete"
+    }
+  ],
+  "export_sha256": "89d33eeceb1a8c0b8c2dc2b4e72c3f93f6aad855949ac3dabaced32e0513178d",
+  "receipt_sha256": "aa79ea9876649c0fa560df76462f7e4940dd02c2713a5adf182bab0e867c1f54"
+}

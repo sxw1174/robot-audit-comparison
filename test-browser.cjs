@@ -30,7 +30,7 @@ const {chromium} = require("playwright");
       await page.locator("[data-group=o1compact]").check();
       await page.locator("[data-group=o456]").check();
       await page.locator("#scope").selectOption("common");
-      assert.match(await page.locator(".conclusion-scope").innerText(), /582.*8组.*330.*共同37/);
+      assert.match(await page.locator(".conclusion-scope").innerText(), /587.*8组.*335.*共同41/);
       assert.match(await page.locator("#scope-summary").innerText(), /共同有效 42/);
       assert.equal(await page.locator("#fixed-findings").innerText(),fixedText);
       await page.locator("#task").selectOption("align_blocks");
@@ -75,7 +75,7 @@ const {chromium} = require("playwright");
         await page.locator(`[data-group=${gid}]`).check();
         await page.evaluate(()=>{location.hash="tasks";});
         await page.waitForFunction(()=>document.querySelector("#page-title")?.textContent==="任务对照");
-        const n=await page.evaluate(gid=>window.AUDIT_DATA.groups.find(g=>g.id===gid).completed,gid);
+        const n=await page.evaluate(gid=>window.AUDIT_DATA.runs.filter(r=>r.group===gid).length,gid);
         assert.equal(await page.locator("#view tbody tr").count(),n);
         assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
       }

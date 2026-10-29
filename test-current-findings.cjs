@@ -1,0 +1,16 @@
+const assert = require("node:assert/strict");
+const D = require("./data.json"), C = require("./core.js");
+const A = require("./current-findings.js").analyze(D, C);
+assert.equal(A.scope.groups.length, 8);
+assert.equal(A.all.score.reduce((n, s) => n + s.n, 0), 330);
+assert.deepEqual(A.common.success.map(s => s.n), Array(8).fill(37));
+assert.deepEqual(A.common.success.map(s => s.total), [13, 12, 13, 11, 10, 11, 10, 16]);
+assert.deepEqual(A.common.empty_retry.map(s => s.total), [23, 37, 32, 9, 43, 21, 36, 30]);
+assert.ok(A.common.empty_retry.every(s => s.n === 35));
+assert.deepEqual(A.common.drop.map(s => s.total), [15, 18, 21, 25, 22, 21, 20, 26]);
+assert.deepEqual(A.common.fine_placement_fail.map(s => s.total), [15, 14, 9, 8, 11, 18, 7, 11]);
+assert.ok(A.common.fine_placement_fail.every(s => s.n === 28));
+assert.equal(A.references.filter(r => r.score.n).length, 4);
+assert.equal(A.references.filter(r => !r.score.n).length, 2);
+assert.equal(A.fixed.length, 5);
+console.log("PASS current all-group conclusions, metric intersections, external and interim scopes");

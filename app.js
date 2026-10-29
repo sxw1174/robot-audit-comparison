@@ -2,6 +2,7 @@
 "use strict";
 const D = window.AUDIT_DATA, C = window.AuditCore;
 const F = window.AuditFindings, A = F.analyze(D, C);
+const Current = window.CurrentFindings.analyze(D, C);
 const $ = id => document.getElementById(id);
 const esc = x => String(x ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const fmt = (n, digits = 2) => n == null || !Number.isFinite(n) ? "—" : n.toLocaleString("zh-CN", {maximumFractionDigits: digits});
@@ -72,17 +73,18 @@ function overview(){
       <div class="bar-stack" role="img" aria-label="${esc(displayName(group(s.group)))}：零分${zero}，部分得分${partial}，满分${full}">${s.n?
       `<span class="zero" style="width:${zero/s.n*100}%"></span><span class="partial" style="width:${partial/s.n*100}%"></span><span class="full" style="width:${full/s.n*100}%"></span>`:""}</div></div>`;
   }).join("");
-  const ids=pairIds(), conclusions=F.fixed;
+  const ids=pairIds(), conclusions=Current.fixed;
   const findings=conclusions.length?`<div class="conclusion-list">${conclusions.map((f,i)=>`<article class="conclusion" data-finding="${f.id}">
     <div class="conclusion-number">${String(i+1).padStart(2,"0")}</div><div><h3>${esc(f.title)}</h3>${f.review==="待专项复核"?'<span class="badge warn">待专项复核 · 未重新审核原视频</span>':""}<p>${esc(f.text)}</p>
-    <div class="conclusion-sources">${proofLinks(f.fields)}<button class="text-button" data-finding-detail="${f.id}">任务来源 ${icon("arrow-up-right")}</button></div></div>
+    <div class="conclusion-sources">${f.fields.map(field=>`<button class="text-button" data-current-metric="${field}">${metric(field).id} ${esc(metric(field).label)} ${icon("arrow-up-right")}</button>`).join("")}</div></div>
     </article>`).join("")}</div>`:'<div class="empty">四组暂无已整理的固定结论。</div>';
   const top=ids?C.pair(D,state,"score",...ids).pairs.sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta)).slice(0,6):[];
   return `<section id="fixed-findings">
-    ${section("01","主要结论","四组首轮 · 固定40个共同任务 · 各指标独立有效N",'<a href="#analysis">详细分析 '+icon("arrow-right")+"</a>")}
-    <p class="conclusion-scope">固定来源：Low 42/42、High 42/42、O1 Compact 42/42、O456 Clear 42/42项获批分析；四组共同40项，统一排除build_tower与push_T。数字顺序为Low / High / O1 / O456。仅这四组进入结论，不随筛选改变；新增O1 Standard不纳入本节结论。</p>
+    ${section("01","主要结论","全部14组结果 · 8组分析、4组外部参考、2组阶段性结果")}
+    <p class="conclusion-scope">当前582条记录全部纳入范围说明。8组分析共330项，跨组比较采用共同37个task / variant / seed / scene；行为指标各取独立有效交集。各组全部记录与共同子集分别列出，不随筛选改变。外部参考保留来源，不与8组混作同一受控实验。</p>
     <p class="caption">成功与得分已逐条对照原生结果。视觉事件为原审核覆盖内的确认下界；统计核对不等于重新审核全部视频。以下不是因果或显著性结论。</p>
     ${findings}
+    ${currentResultsTable()}
     </section><section id="selected-results">
     ${section("02","所选实验组统计",state.groups.length?state.groups.map(id=>esc(displayName(group(id)))).join(" · "):"未选择实验组")}
     ${!state.groups.length?'<div class="empty">未选择实验组。</div></section>':`
@@ -95,6 +97,17 @@ function overview(){
       `<tr><td><span class="task-name">${esc(p.left.task)}</span><span class="cell-sub">${esc(p.left.variant)} · s${p.left.seed} / scene${p.left.scene}</span></td><td>${fmt(p.left.metrics.score.value)}</td><td>${fmt(p.right.metrics.score.value)}</td><td>${signed(p.delta)}</td><td><button class="icon-button" data-task="${esc(p.left.task)}" title="查看任务对照" aria-label="查看${esc(p.left.task)}任务对照">${icon("arrow-up-right")}</button></td></tr>`).join("")||'<tr><td colspan="5">当前范围无有效配对。</td></tr>'}</tbody></table></div>`:section("04","逐任务数据","所选实验组并列展示",'<a href="#tasks">查看任务对照 '+icon("arrow-right")+"</a>")}
     ${section("05","行为指标",state.policy==="bounds"?"† 为已声明覆盖内的确认下界；不同指标有效N可能不同":"仅已确认数值",'<a href="#metrics">全部26项 '+icon("arrow-right")+"</a>")}
     ${metricTable(["empty_retry","drop","empty_regrasp","view_opposite","fine_placement_fail"])}`}</section>`;
+}
+function currentResultsTable(){
+  const rows=D.groups.map(g=>{
+    const own=Current.scope.groups.includes(g.id),ref=Current.references.find(r=>r.group===g.id);
+    const success=own?Current.all.success.find(s=>s.group===g.id):ref.success;
+    const score=own?Current.all.score.find(s=>s.group===g.id):ref.score;
+    const common=Current.common.score.find(s=>s.group===g.id);
+    const n=D.runs.filter(r=>r.group===g.id).length;
+    return `<tr><td>${groupName(g.id)}<span class="cell-sub">${own?"分析结果":score.n?"外部参考":"阶段性 · 不参与排名"}</span></td><td>${n} / ${g.planned}</td><td>${success.n?`${success.total} / ${success.n} · ${fmt(success.mean*100,1)}%`:"—"}</td><td>${score.n?fmt(score.mean*100,1)+"%":"—"}</td><td>${common?`${fmt(common.mean*100,1)}% · N=${common.n}`:"不纳入"}</td></tr>`;
+  }).join("");
+  return `<details class="detail-section"><summary>全部组结果与统计分母</summary><p>得分均为任务等权均分，不是五能力等权分。阶段性结果保留在筛选器中，未进入正式结论；缺项和未知不填零。旧四组共同40项的详细分析作为独立范围保留，不代表当前全部组排名。</p><div class="table-wrap"><table><thead><tr><th>实验组 / 来源</th><th>收录 / 计划</th><th>成功</th><th>任务均分</th><th>8组共同任务均分</th></tr></thead><tbody>${rows}</tbody></table></div></details>`;
 }
 function metricCell(s,field){
   return s.n?`<span class="value">${fmt(s.mean,field==="score"?3:2)}${s.bounds?"†":""}</span><span class="cell-sub">n=${s.n} · 合计 ${fmt(s.total)}</span>`:'<span class="muted">—</span><span class="cell-sub">n=0</span>';
@@ -258,20 +271,21 @@ function openDialog(title,html){
   if(!$("detail").open)$("detail").showModal();
   $("detail").scrollTop=0;refreshIcons();
 }
-function metricDetail(field,fixedProof=false){
-  const detailState=fixedProof?F.scope:state,detailData=fixedProof?A.data:D;
+function metricDetail(field,fixedProof=false,currentProof=false){
+  const detailState=currentProof?Current.scope:fixedProof?F.scope:state,detailData=fixedProof?A.data:D;
   const m=metric(field),summaries=C.summaries(detailData,detailState,field),ids=C.selectedPair(detailState),p=ids?C.pair(detailData,detailState,field,...ids):null;
   const raw=C.rowsFor(detailData,detailState),keys=[...new Set(raw.map(r=>r.task))].sort(),eligibleKeys=new Set(C.eligible(detailData,detailState,field).map(C.key));
+  const taskScope = currentProof ? 'data-current-proof="true"' : fixedProof ? 'data-fixed-proof="true"' : "";
   openDialog(`${m.id} ${m.label}`,`<h2 class="detail-title">${esc(m.label)}</h2><p class="metric-definition">${esc(m.definition)}</p>
-    <p class="detail-meta">单位 ${m.unit} · ${fixedProof?"固定四组结论证据 · 40个共同任务 · 本指标逐项有效N":detailState.scope==="common"?"所选组共同有效子集":"各组独立有效子集"} · ${detailState.policy==="bounds"?"含确认下界":"仅已确认"}</p>
+    <p class="detail-meta">单位 ${m.unit} · ${currentProof?"当前8组结论证据 · 本指标逐项共同有效N":fixedProof?"固定四组结论证据 · 40个共同任务 · 本指标逐项有效N":detailState.scope==="common"?"所选组共同有效子集":"各组独立有效子集"} · ${detailState.policy==="bounds"?"含确认下界":"仅已确认"}</p>
     <div class="table-wrap"><table><thead><tr><th>实验</th><th>N / 范围N</th><th>合计</th><th>均值</th><th>中位数</th><th>样本SD</th><th>Q1–Q3</th><th>最小–最大</th><th>非零任务</th><th>下界N</th></tr></thead><tbody>
       ${summaries.map(s=>`<tr><td>${groupName(s.group)}</td><td>${s.n} / ${s.rawN}</td><td>${fmt(s.total)}</td><td>${fmt(s.mean,3)}</td><td>${fmt(s.median)}</td><td>${fmt(s.sd)}</td><td>${fmt(s.q1)}–${fmt(s.q3)}</td><td>${fmt(s.min)}–${fmt(s.max)}</td><td>${s.n?`${s.nonzero} / ${s.n}`:"—"}</td><td>${s.bounds}</td></tr>`).join("")}
     </tbody></table></div>
     ${p?`<p class="notice green" style="margin-top:18px">${pairLabel(ids)}：有效 ${p.n} 对，平均差 ${signed(p.mean)}，中位差 ${signed(p.median)}；减少 ${p.less} / 持平 ${p.equal} / 增加 ${p.more}。这是两组子集，可能与所选多组共同N不同。</p>`:""}
-    <div class="detail-section"><h3>逐任务原始数值与状态</h3><div class="table-wrap"><table><thead><tr><th>任务</th>${detailState.groups.map(g=>`<th>${groupName(g)}</th>`).join("")}</tr></thead><tbody>${keys.map(task=>{const base=raw.find(r=>r.task===task);return `<tr><td><button class="text-button" data-task="${esc(task)}" ${fixedProof?'data-fixed-proof="true"':""}>${esc(task)}</button>${detailState.scope==="common"&&!eligibleKeys.has(C.key(base))?'<span class="cell-sub">本指标未纳入共同统计</span>':""}</td>${detailState.groups.map(g=>{const r=raw.find(r=>r.group===g&&r.task===task),v=r?.metrics[field];return `<td>${v?`${fmt(v.value)}${v.status==="lower_bound"?"†":""}<span class="cell-sub">${statusBadge(v.status)}</span>`:"缺失"}</td>`}).join("")}</tr>`}).join("")}</tbody></table></div></div>`);
+    <div class="detail-section"><h3>逐任务原始数值与状态</h3><div class="table-wrap"><table><thead><tr><th>任务</th>${detailState.groups.map(g=>`<th>${groupName(g)}</th>`).join("")}</tr></thead><tbody>${keys.map(task=>{const base=raw.find(r=>r.task===task);return `<tr><td><button class="text-button" data-task="${esc(task)}" ${taskScope}>${esc(task)}</button>${detailState.scope==="common"&&!eligibleKeys.has(C.key(base))?'<span class="cell-sub">本指标未纳入共同统计</span>':""}</td>${detailState.groups.map(g=>{const r=raw.find(r=>r.group===g&&r.task===task),v=r?.metrics[field];return `<td>${v?`${fmt(v.value)}${v.status==="lower_bound"?"†":""}<span class="cell-sub">${statusBadge(v.status)}</span>`:"缺失"}</td>`}).join("")}</tr>`}).join("")}</tbody></table></div></div>`);
 }
-function taskDetail(task,fixedProof=false){
-  const detailState=fixedProof?F.scope:state;
+function taskDetail(task,fixedProof=false,currentProof=false){
+  const detailState=currentProof?Current.scope:fixedProof?F.scope:state;
   const rows=C.rowsFor(fixedProof?A.data:D,{...detailState,task});
   const missing=D.missing.filter(r=>r.task===task&&detailState.groups.includes(r.group)&&(!detailState.variant||r.variant===detailState.variant));
   openDialog(task,`<h2 class="detail-title">${esc(task)}</h2><p class="detail-meta">同名任务逐运行保留；完整条件列于各组来源。</p>
@@ -334,10 +348,11 @@ document.addEventListener("change",e=>{
   }
 });
 document.addEventListener("click",e=>{
-  const t=e.target.closest("[data-metric],[data-proof-metric],[data-task],[data-run],[data-page],[data-finding-detail],[data-close-detail],#download-all");if(!t)return;
-  if(t.dataset.proofMetric)metricDetail(t.dataset.proofMetric,true);
+  const t=e.target.closest("[data-current-metric],[data-metric],[data-proof-metric],[data-task],[data-run],[data-page],[data-finding-detail],[data-close-detail],#download-all");if(!t)return;
+  if(t.dataset.currentMetric)metricDetail(t.dataset.currentMetric,false,true);
+  else if(t.dataset.proofMetric)metricDetail(t.dataset.proofMetric,true);
   else if(t.dataset.metric)metricDetail(t.dataset.metric);
-  else if(t.dataset.task)taskDetail(t.dataset.task,t.dataset.fixedProof==="true");
+  else if(t.dataset.task)taskDetail(t.dataset.task,t.dataset.fixedProof==="true",t.dataset.currentProof==="true");
   else if(t.dataset.run)runDetail(t.dataset.run,t.dataset.event);
   else if(t.dataset.page){local.eventPage+=Number(t.dataset.page);render();$("view").scrollIntoView({block:"start"});}
   else if(t.dataset.findingDetail)findingDetail(t.dataset.findingDetail);

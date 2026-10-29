@@ -6,8 +6,10 @@ O23456 Compact and O23456 DepthPro 6fig CUDA are the groups analyzed in
 this round.
 Historical and interim groups imported from the public behavior board remain
 ordinary selectable reference groups and are labeled by source. The overview
-keeps six fixed, evidence-linked findings from all four groups' common first
-round. Selected groups control the statistics, distributions, task tables and
+keeps five evidence-linked findings covering the current eight analyzed groups,
+four imported reference groups and two interim groups. The eight-way native
+outcome intersection has 37 task tuples; each behavioral metric uses its own
+valid intersection. Selected groups control the statistics, distributions, task tables and
 event evidence below, but never rewrite the conclusions.
 
 **Preview:** https://sxw1174.github.io/robot-audit-comparison/
@@ -71,8 +73,10 @@ supplements, 52 metrics and five events while preserving all 542 prior records.
 analyses, 988 metrics and 211 events while preserving all 544 prior records.
 Its export records the three pending available cases and the one official
 source-absent case without filling either gap with placeholder metrics.
-The fixed four-group editorial analysis remains locked to its original
-40 task tuples, even as missing analyses are completed.
+The detailed four-group analysis remains locked to its original 40 task tuples
+as an explicitly separate report. It is no longer the overview's main conclusion.
+The overview's `current-findings.js` uses all current published records without
+changing raw results or approvals. Scores are task-weighted, not capability-weighted.
 `tools/verify_o1_standard.py` binds its 1,066 metric values/statuses, 304 event
 identities/locations and 41 original native outcomes to current approved source
 results. The independent export observed no active owners and performed no model

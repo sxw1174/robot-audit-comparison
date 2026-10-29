@@ -282,7 +282,7 @@ test("report and UI keep evidence scope through nested links",()=>{
   assert.equal(report.common_task_n,40);assert.equal(report.metrics.length,26);
   assert.equal(report.pairs.length,6);assert.equal(report.tasks.length,40);
   assert.match(app,/detailData=fixedProof\?A\.data:D/);
-  assert.match(app,/taskDetail\(t\.dataset\.task,t\.dataset\.fixedProof==="true",t\.dataset\.currentProof==="true"\)/);
+  assert.match(app,/taskDetail\(t\.dataset\.task,t\.dataset\.fixedProof==="true",t\.dataset\.currentProof==="true",t\.dataset\.currentFinding\)/);
 });
 test("pair columns appear only for exactly two selected groups",()=>{
   assert.deepEqual(C.selectedPair({...state,groups:["low"]}),null);

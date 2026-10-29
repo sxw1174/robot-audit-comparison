@@ -76,13 +76,12 @@ function overview(){
   const ids=pairIds(), conclusions=Current.fixed;
   const findings=conclusions.length?`<div class="conclusion-list">${conclusions.map((f,i)=>`<article class="conclusion" data-finding="${f.id}">
     <div class="conclusion-number">${String(i+1).padStart(2,"0")}</div><div><h3>${esc(f.title)}</h3>${f.review==="待专项复核"?'<span class="badge warn">待专项复核 · 未重新审核原视频</span>':""}<p>${esc(f.text)}</p>
-    <div class="conclusion-sources">${f.fields.map(field=>`<button class="text-button" data-current-metric="${field}">${metric(field).id} ${esc(metric(field).label)} ${icon("arrow-up-right")}</button>`).join("")}</div></div>
-    </article>`).join("")}</div>`:'<div class="empty">四组暂无已整理的固定结论。</div>';
+    <div class="conclusion-sources">${f.fields.map(field=>`<button class="text-button" data-current-metric="${field}" data-current-finding="${f.id}">${metric(field).id} ${esc(metric(field).label)} ${icon("arrow-up-right")}</button>`).join("")}</div>
+    ${f.tasks.length?`<div class="conclusion-sources">${f.tasks.map(task=>`<button class="text-button" data-task="${esc(task)}" data-current-proof="true" data-current-finding="${f.id}">${esc(task)} ${icon("arrow-up-right")}</button>`).join("")}</div>`:""}</div>
+    </article>`).join("")}</div>`:'<div class="empty">暂无已整理的结论。</div>';
   const top=ids?C.pair(D,state,"score",...ids).pairs.sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta)).slice(0,6):[];
   return `<section id="fixed-findings">
-    ${section("01","主要结论","全部14组结果 · 8组分析、4组外部参考、2组阶段性结果")}
-    <p class="conclusion-scope">当前588条记录全部纳入范围说明。8组分析共336项，跨组比较采用共同42个task / variant / seed / scene；行为指标各取独立有效交集。6项程序完成补分析统一纳入统计，原复核状态在来源中保留。各组全部记录与共同子集分别列出，不随筛选改变。外部参考保留来源，不与8组混作同一受控实验。</p>
-    <p class="caption">成功与得分已逐条对照原生结果。视觉事件为原审核覆盖内的确认下界；统计核对不等于重新审核全部视频。以下不是因果或显著性结论。</p>
+    ${section("01","主要结论")}
     ${findings}
     ${currentResultsTable()}
     </section><section id="selected-results">
@@ -271,21 +270,24 @@ function openDialog(title,html){
   if(!$("detail").open)$("detail").showModal();
   $("detail").scrollTop=0;refreshIcons();
 }
-function metricDetail(field,fixedProof=false,currentProof=false){
-  const detailState=currentProof?Current.scope:fixedProof?F.scope:state,detailData=fixedProof?A.data:D;
+function currentProofState(findingId){
+  return Current.fixed.find(f=>f.id===findingId)?.scope||Current.scope;
+}
+function metricDetail(field,fixedProof=false,currentProof=false,findingId=""){
+  const detailState=currentProof?currentProofState(findingId):fixedProof?F.scope:state,detailData=fixedProof?A.data:D;
   const m=metric(field),summaries=C.summaries(detailData,detailState,field),ids=C.selectedPair(detailState),p=ids?C.pair(detailData,detailState,field,...ids):null;
   const raw=C.rowsFor(detailData,detailState),keys=[...new Set(raw.map(r=>r.task))].sort(),eligibleKeys=new Set(C.eligible(detailData,detailState,field).map(C.key));
-  const taskScope = currentProof ? 'data-current-proof="true"' : fixedProof ? 'data-fixed-proof="true"' : "";
+  const taskScope = currentProof ? `data-current-proof="true" data-current-finding="${esc(findingId)}"` : fixedProof ? 'data-fixed-proof="true"' : "";
   openDialog(`${m.id} ${m.label}`,`<h2 class="detail-title">${esc(m.label)}</h2><p class="metric-definition">${esc(m.definition)}</p>
-    <p class="detail-meta">单位 ${m.unit} · ${currentProof?"当前8组结论证据 · 本指标逐项共同有效N":fixedProof?"固定四组结论证据 · 40个共同任务 · 本指标逐项有效N":detailState.scope==="common"?"所选组共同有效子集":"各组独立有效子集"} · ${detailState.policy==="bounds"?"含确认下界":"仅已确认"}</p>
+    <p class="detail-meta">单位 ${m.unit} · ${currentProof?`${detailState.groups.map(id=>esc(displayName(group(id)))).join(" / ")} · 结论证据 · 本指标共同有效N`:fixedProof?"固定四组结论证据 · 40个共同任务 · 本指标逐项有效N":detailState.scope==="common"?"所选组共同有效子集":"各组独立有效子集"} · ${detailState.policy==="bounds"?"含确认下界":"仅已确认"}</p>
     <div class="table-wrap"><table><thead><tr><th>实验</th><th>N / 范围N</th><th>合计</th><th>均值</th><th>中位数</th><th>样本SD</th><th>Q1–Q3</th><th>最小–最大</th><th>非零任务</th><th>下界N</th></tr></thead><tbody>
       ${summaries.map(s=>`<tr><td>${groupName(s.group)}</td><td>${s.n} / ${s.rawN}</td><td>${fmt(s.total)}</td><td>${fmt(s.mean,3)}</td><td>${fmt(s.median)}</td><td>${fmt(s.sd)}</td><td>${fmt(s.q1)}–${fmt(s.q3)}</td><td>${fmt(s.min)}–${fmt(s.max)}</td><td>${s.n?`${s.nonzero} / ${s.n}`:"—"}</td><td>${s.bounds}</td></tr>`).join("")}
     </tbody></table></div>
     ${p?`<p class="notice green" style="margin-top:18px">${pairLabel(ids)}：有效 ${p.n} 对，平均差 ${signed(p.mean)}，中位差 ${signed(p.median)}；减少 ${p.less} / 持平 ${p.equal} / 增加 ${p.more}。这是两组子集，可能与所选多组共同N不同。</p>`:""}
     <div class="detail-section"><h3>逐任务原始数值与状态</h3><div class="table-wrap"><table><thead><tr><th>任务</th>${detailState.groups.map(g=>`<th>${groupName(g)}</th>`).join("")}</tr></thead><tbody>${keys.map(task=>{const base=raw.find(r=>r.task===task);return `<tr><td><button class="text-button" data-task="${esc(task)}" ${taskScope}>${esc(task)}</button>${detailState.scope==="common"&&!eligibleKeys.has(C.key(base))?'<span class="cell-sub">本指标未纳入共同统计</span>':""}</td>${detailState.groups.map(g=>{const r=raw.find(r=>r.group===g&&r.task===task),v=r?.metrics[field];return `<td>${v?`${fmt(v.value)}${v.status==="lower_bound"?"†":""}<span class="cell-sub">${statusBadge(v.status)}</span>`:"缺失"}</td>`}).join("")}</tr>`}).join("")}</tbody></table></div></div>`);
 }
-function taskDetail(task,fixedProof=false,currentProof=false){
-  const detailState=currentProof?Current.scope:fixedProof?F.scope:state;
+function taskDetail(task,fixedProof=false,currentProof=false,findingId=""){
+  const detailState=currentProof?currentProofState(findingId):fixedProof?F.scope:state;
   const rows=C.rowsFor(fixedProof?A.data:D,{...detailState,task});
   const missing=D.missing.filter(r=>r.task===task&&detailState.groups.includes(r.group)&&(!detailState.variant||r.variant===detailState.variant));
   openDialog(task,`<h2 class="detail-title">${esc(task)}</h2><p class="detail-meta">同名任务逐运行保留；完整条件列于各组来源。</p>
@@ -351,10 +353,10 @@ document.addEventListener("change",e=>{
 });
 document.addEventListener("click",e=>{
   const t=e.target.closest("[data-current-metric],[data-metric],[data-proof-metric],[data-task],[data-run],[data-page],[data-finding-detail],[data-close-detail],#download-all");if(!t)return;
-  if(t.dataset.currentMetric)metricDetail(t.dataset.currentMetric,false,true);
+  if(t.dataset.currentMetric)metricDetail(t.dataset.currentMetric,false,true,t.dataset.currentFinding);
   else if(t.dataset.proofMetric)metricDetail(t.dataset.proofMetric,true);
   else if(t.dataset.metric)metricDetail(t.dataset.metric);
-  else if(t.dataset.task)taskDetail(t.dataset.task,t.dataset.fixedProof==="true",t.dataset.currentProof==="true");
+  else if(t.dataset.task)taskDetail(t.dataset.task,t.dataset.fixedProof==="true",t.dataset.currentProof==="true",t.dataset.currentFinding);
   else if(t.dataset.run)runDetail(t.dataset.run,t.dataset.event);
   else if(t.dataset.page){local.eventPage+=Number(t.dataset.page);render();$("view").scrollIntoView({block:"start"});}
   else if(t.dataset.findingDetail)findingDetail(t.dataset.findingDetail);

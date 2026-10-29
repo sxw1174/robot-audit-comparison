@@ -19,8 +19,13 @@ const {chromium} = require("playwright");
       await page.locator("[data-group=persistent]").uncheck();
       assert.equal(await page.locator("[data-group=o1standard]").isChecked(),true);
       const fixedText=await page.locator("#fixed-findings").innerText();
-      assert.equal(await page.locator("#fixed-findings .conclusion").count(),5);
+      assert.equal(await page.locator("#fixed-findings .conclusion").count(),12);
+      assert.equal(await page.locator("#fixed-findings > .section-head p").count(),0);
+      assert.equal(await page.locator("#fixed-findings > .conclusion-scope, #fixed-findings > .caption").count(),0);
+      assert.doesNotMatch(fixedText,/全部14组结果|当前588条记录|成功与得分已逐条对照原生结果/);
       await page.locator("#fixed-findings summary").click();
+      await page.locator("#fixed-findings h2").scrollIntoViewIfNeeded();
+      await page.screenshot({path:`/tmp/audit-pair-findings-top-${viewport.width}.png`});
       assert.equal(await page.locator("#fixed-findings tbody tr").count(),14);
       await page.screenshot({path:`/tmp/audit-current-overview-${viewport.width}.png`,fullPage:true});
       await page.locator("#fixed-findings summary").click();
@@ -30,20 +35,42 @@ const {chromium} = require("playwright");
       await page.locator("[data-group=o1compact]").check();
       await page.locator("[data-group=o456]").check();
       await page.locator("#scope").selectOption("common");
-      assert.match(await page.locator(".conclusion-scope").innerText(), /588.*8组.*336.*共同42/);
       assert.match(await page.locator("#scope-summary").innerText(), /共同有效 42/);
       assert.equal(await page.locator("#fixed-findings").innerText(),fixedText);
       await page.locator("#task").selectOption("align_blocks");
       await page.locator("#policy").selectOption("confirmed");
       assert.equal(await page.locator("#fixed-findings").innerText(),fixedText);
-      await page.locator("[data-finding=current-grasp] [data-current-metric=empty_retry]").click();
+      const proofCases=await page.evaluate(()=>window.CurrentFindings.analyze(window.AUDIT_DATA,window.AuditCore).fixed.map(f=>({
+        id:f.id,field:f.fields[0],groups:f.scope.groups,
+        n:window.AuditCore.summaries(window.AUDIT_DATA,f.scope,f.fields[0])[0].n,
+      })));
+      for(const proof of proofCases){
+        await page.locator(`[data-finding=${proof.id}] [data-current-metric=${proof.field}]`).click();
+        await page.locator("#detail").waitFor({state:"visible"});
+        const firstTable=page.locator("#detail-body table").first();
+        assert.equal(await firstTable.locator("tbody tr").count(),2);
+        assert.deepEqual(await firstTable.locator("tbody tr td:nth-child(2)").allTextContents(),
+          [`${proof.n} / 42`,`${proof.n} / 42`]);
+        const expectedNames=await page.evaluate(ids=>ids.map(id=>window.AUDIT_DATA.groups.find(g=>g.id===id).name),proof.groups);
+        assert.deepEqual(await firstTable.locator("tbody tr td:first-child .group-name").allTextContents(),expectedNames);
+        await page.keyboard.press("Escape");
+      }
+      await page.locator("[data-finding=o456-o1-grasp] [data-current-metric=empty_retry]").click();
       await page.locator("#detail").waitFor({state: "visible"});
-      assert.match(await page.locator("#detail-body").innerText(), /当前8组/);
+      assert.match(await page.locator("#detail-body .detail-meta").innerText(), /O1 Compact \/ O456 Clear/);
       await page.locator("#detail-body [data-task=deposit_coin]").click();
-      assert.equal(await page.locator("#detail-body [data-run]").count(),8);
+      assert.equal(await page.locator("#detail-body [data-run]").count(),2);
+      assert.deepEqual(await page.locator("#detail-body [data-run]").evaluateAll(nodes=>nodes.map(n=>n.dataset.run).sort()),
+        await page.evaluate(()=>window.AUDIT_DATA.runs.filter(r=>r.task==="deposit_coin"&&["o1compact","o456"].includes(r.group)).map(r=>r.id).sort()));
       await page.locator("#detail-body [data-run]").last().click();
       assert.match(await page.locator("#detail-body").innerText(), /原分析 SHA-256/);
       await page.keyboard.press("Escape");
+      await page.locator("[data-finding=compact-clear-outcomes] [data-task=swap_T]").click();
+      assert.equal(await page.locator("#detail-body [data-run]").count(),2);
+      assert.deepEqual(await page.locator("#detail-body [data-run]").evaluateAll(nodes=>nodes.map(n=>n.dataset.run).sort()),
+        await page.evaluate(()=>window.AUDIT_DATA.runs.filter(r=>r.task==="swap_T"&&["o23456","o23456compact"].includes(r.group)).map(r=>r.id).sort()));
+      await page.keyboard.press("Escape");
+      assert.equal(await page.locator("#fixed-findings").innerText(),fixedText);
       for(const checkbox of await page.locator("[data-group]").all())if(await checkbox.isChecked())await checkbox.uncheck();
       await page.locator("[data-group=o1standard]").check();
       await page.locator("#task").selectOption("");
@@ -88,7 +115,7 @@ const {chromium} = require("playwright");
       await page.close();
     }
     assert.deepEqual(errors, []);
-    console.log("PASS desktop/mobile O1 Standard, fixed four-group findings, nested evidence scopes, seven routes, no page errors or overflow");
+    console.log("PASS desktop/mobile 12 pair findings, exact denominators, nested two-group scopes, seven routes, no errors or overflow");
   } finally {
     await browser.close();
   }

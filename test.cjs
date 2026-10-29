@@ -7,7 +7,7 @@ const tests=[];
 function test(name,fn){fn();tests.push(name);console.log("PASS",name);}
 const state={groups:["low","persistent","high"],scope:"common",policy:"bounds",task:"",variant:"",includeInterim:false};
 test("receipt-bound unique run identities",()=>{
-  const v=require("./data-verification-20261029-program5.json");
+  const v=require("./data-verification-20261030-compact42.json");
   assert.equal(D.runs.length,v.preserved_runs+v.added_runs);
   assert.equal(new Set(D.runs.map(r=>r.id)).size,D.runs.length);
 });
@@ -32,8 +32,9 @@ test("original low/high native totals preserved",()=>{
 test("controls are native controls, not call count",()=>{const s=C.summaries(D,state,"actions");assert.equal(s.find(x=>x.group==="low").total,23327);assert.equal(s.find(x=>x.group==="high").total,24777);});
 test("all-run denominators are 42/42/42",()=>{assert.deepEqual(C.summaries(D,{...state,scope:"all"},"score").map(s=>s.n),[42,42,42]);});
 test("missing rows are not zero-filled",()=>{
-  assert.ok(D.missing.some(x=>x.group==="o23456compact"&&x.task==="store_tools_in_toolbox"));
-  assert.equal(C.summaries(D,{...state,groups:["o23456compact"],task:"store_tools_in_toolbox"},"score")[0].n,0);
+  const row=D.runs.find(r=>r.group==="o23456compact"&&r.task==="store_tools_in_toolbox");
+  const synthetic={...D,runs:D.runs.filter(r=>r!==row),missing:[...D.missing,{...row,run_id:row.id}]};
+  assert.equal(C.summaries(synthetic,{...state,groups:["o23456compact"],task:"store_tools_in_toolbox"},"score")[0].n,0);
 });
 test("High final missing sample is subscription-approved without rewriting old evidence",()=>{
   const v=require("./data-verification-20261029-high42.json");
@@ -142,15 +143,12 @@ test("O23456 Compact keeps relay approvals and explicit pending/source gaps",()=
   assert.equal(v.added_metrics_checked,988);assert.equal(v.added_events_checked,211);
   assert.equal(v.source_metric_mismatches,0);
   const g=D.groups.find(g=>g.id==="o23456compact");
-  assert.deepEqual([g.completed,g.needs_attention,g.available,g.upstream_missing],[38,1,42,0]);
-  assert.equal(D.runs.filter(r=>r.group==="o23456compact").length,41);
+  assert.deepEqual([g.completed,g.needs_attention,g.available,g.upstream_missing],[38,0,42,0]);
+  assert.equal(D.runs.filter(r=>r.group==="o23456compact").length,42);
   const approved=D.runs.filter(r=>r.group==="o23456compact"&&r.audit==="approved");
   assert.equal(approved.length,38);
   assert.ok(approved.every(r=>r.source.access==="relay"));
-  assert.deepEqual(D.missing.filter(r=>r.group==="o23456compact").map(r=>r.task).sort(),
-    ["store_tools_in_toolbox"]);
-  assert.equal(D.missing.find(r=>r.group==="o23456compact"&&r.task==="store_tools_in_toolbox").status,
-    "analysis_pending");
+  assert.deepEqual(D.missing.filter(r=>r.group==="o23456compact"),[]);
   assert.equal(g.batch_complete,false);
 });
 test("five program-complete supplements count uniformly without fabricated approval",()=>{
@@ -172,7 +170,22 @@ test("five program-complete supplements count uniformly without fabricated appro
     assert.equal(row.source.review_fingerprint,undefined);
     assert.ok(C.rowsFor(D,{...state,groups:[row.group],task:row.task}).some(r=>r.id===row.id));
   }
-  assert.deepEqual(C.summaries(D,{...state,scope:"all",groups:["o23456","o23456compact"]},"score").map(s=>s.n),[42,41]);
+  assert.deepEqual(C.summaries(D,{...state,scope:"all",groups:["o23456","o23456compact"]},"score").map(s=>s.n),[42,42]);
+});
+test("final Compact result completes42 while retaining the stale approval fingerprint",()=>{
+  const v=require("./data-verification-20261030-compact42.json");
+  assert.equal(v.preserved_runs,587);assert.equal(v.added_runs,1);
+  assert.equal(v.added_metrics_checked,26);assert.equal(v.added_events_checked,16);
+  assert.equal(v.source_approval_verified,false);assert.equal(v.program_validation_verified,true);
+  const row=D.runs.find(r=>r.id===v.checks[0].run_id);
+  assert.equal(row.audit,"complete");
+  assert.equal(row.source.review_status,"approval_fingerprint_mismatch");
+  assert.notEqual(row.source.recorded_review_fingerprint,row.source.evidence_fingerprint);
+  assert.equal(row.source.review_fingerprint,undefined);
+  assert.equal(row.metrics.score.value,0.25);assert.equal(row.metrics.success.value,0);
+  assert.equal(row.metrics.wrong_object.value,null);
+  assert.deepEqual(["empty_retry","drop","fine_placement_fail"].map(k=>row.metrics[k].value),[2,5,0]);
+  assert.equal(D.missing.length,0);
 });
 test("single-task and variant filters respected",()=>{assert.equal(C.pair(D,{...state,task:"align_blocks"},"score").n,1);assert.equal(C.pair(D,{...state,task:"align_blocks",variant:"random"},"score").n,0);});
 test("empty summary uses null, n=1 sd is null",()=>{assert.equal(C.stats([]).mean,null);assert.equal(C.stats([4]).sd,null);assert.equal(C.stats([1,3]).median,2);});
@@ -234,7 +247,7 @@ test("all editorial event examples are bound to confirmed source events",()=>{
 test("native scope reconciliation is source-bound and not substituted for audit metrics",()=>{
   const v=require("./data-verification-20261026-o1-standard.json");
   const digest=require("node:crypto").createHash("sha256").update(fs.readFileSync("data.json")).digest("hex");
-  const completion=require("./data-verification-20261029-program5.json");
+  const completion=require("./data-verification-20261030-compact42.json");
   assert.equal(completion.data_sha256,digest);
   assert.equal(v.source_metrics_checked,205*26);
   assert.equal(v.source_metric_mismatches,0);

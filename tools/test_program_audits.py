@@ -12,6 +12,11 @@ class ProgramMergeTests(unittest.TestCase):
     def setUp(self):
         self.data = json.loads((Path(__file__).resolve().parent.parent / "data.json").read_bytes())
         self.data["runs"] = [r for r in self.data["runs"] if r["audit"] != "complete"]
+        self.data["missing"] = [r for r in self.data["missing"] if r["task"] != "store_tools_in_toolbox"]
+        self.data["missing"].append(dict(
+            group="o23456compact",
+            run_id="o23456-compact-first42-20261028-store_tools_in_toolbox-standard-s0-scene0",
+            task="store_tools_in_toolbox", variant="standard", seed=0, scene=0))
         self.export = dict(publication_policy="user_authorized_program_complete",
                            model_calls=0, remote_writes=0, approval_bypassed=False,
                            observed_unix=1793269550, groups={})

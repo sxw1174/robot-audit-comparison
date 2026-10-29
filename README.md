@@ -8,7 +8,7 @@ Historical and interim groups imported from the public behavior board remain
 ordinary selectable reference groups and are labeled by source. The overview
 keeps five evidence-linked findings covering the current eight analyzed groups,
 four imported reference groups and two interim groups. The eight-way native
-outcome intersection has 41 task tuples; each behavioral metric uses its own
+outcome intersection has 42 task tuples; each behavioral metric uses its own
 valid intersection. Selected groups control the statistics, distributions, task tables and
 event evidence below, but never rewrite the conclusions.
 
@@ -34,11 +34,13 @@ event evidence below, but never rewrite the conclusions.
   The two subscription supplements passed original collect validation.
   Their Main calls failed due to transport timeout and workspace routing errors;
   no approval or review counter was changed.
-- O23456 Compact: 41/42 published (38 relay-approved, three subscription
+- O23456 Compact: 42/42 published (38 relay-approved, four subscription
   program-complete). All 42 official source records are now available.
-  `store_tools_in_toolbox` has resumed in its original server subscription
-  session and remains pending analysis, not source-absent.
-- The human explicitly authorized publishing and counting all five
+  `store_tools_in_toolbox` completed in its original subscription session and
+  passed the original validator. Main approved an earlier fingerprint; the
+  current fingerprint differs. Both fingerprints are preserved without
+  claiming current approval.
+- The human explicitly authorized publishing and counting all six
   program-complete supplements together with approved rows. They are not
   marked interim or excluded by the interim toggle. Their actual Main failures
   remain in source metadata; evidence fingerprints are not labeled approval
@@ -47,7 +49,7 @@ event evidence below, but never rewrite the conclusions.
 - Historical Medium: 42 published runs, with 25 Sim5.1 and 17 Sim6 records.
 - Five other published groups are available as separate configuration references.
 - O23 Compact and O23 DepthPro remain explicitly marked interim.
-- 587 run records in total. Matching a task tuple is not proof of an otherwise
+- 588 run records in total. Matching a task tuple is not proof of an otherwise
   controlled experiment. This is not an official submission to the source board.
 
 The O merge uses `tools/merge_o_audits.py` with a private, receipt-bound canonical
@@ -59,6 +61,11 @@ The explicit program-complete publication uses `tools/merge_program_audits.py`;
 and 41 events while preserving all 582 existing public rows exactly.
 It explicitly records that Main approval was not obtained. The existing
 approved-only importer and its validators remain unchanged.
+The final Compact addition uses `tools/merge_final_compact.py`;
+`data-verification-20261030-compact42.json` binds 26 metrics and 16 events,
+preserves all 587 previous public rows and records the approval-fingerprint
+mismatch. All eight analyzed groups now contain 42 results, with 336 total
+analyses and no missing records. Unknown metrics remain null.
 The O1 Standard addition preserves every one of the original 416 records.
 The October 29 addition preserves all 457 prior public records and adds 76
 canonical approved records. `data-verification-20261029-completion.json`

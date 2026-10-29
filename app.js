@@ -81,7 +81,7 @@ function overview(){
   const top=ids?C.pair(D,state,"score",...ids).pairs.sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta)).slice(0,6):[];
   return `<section id="fixed-findings">
     ${section("01","主要结论","全部14组结果 · 8组分析、4组外部参考、2组阶段性结果")}
-    <p class="conclusion-scope">当前587条记录全部纳入范围说明。8组分析共335项，跨组比较采用共同41个task / variant / seed / scene；行为指标各取独立有效交集。5项程序完成补分析统一纳入统计，原复核状态在来源中保留。各组全部记录与共同子集分别列出，不随筛选改变。外部参考保留来源，不与8组混作同一受控实验。</p>
+    <p class="conclusion-scope">当前588条记录全部纳入范围说明。8组分析共336项，跨组比较采用共同42个task / variant / seed / scene；行为指标各取独立有效交集。6项程序完成补分析统一纳入统计，原复核状态在来源中保留。各组全部记录与共同子集分别列出，不随筛选改变。外部参考保留来源，不与8组混作同一受控实验。</p>
     <p class="caption">成功与得分已逐条对照原生结果。视觉事件为原审核覆盖内的确认下界；统计核对不等于重新审核全部视频。以下不是因果或显著性结论。</p>
     ${findings}
     ${currentResultsTable()}
@@ -242,14 +242,14 @@ function methods(){
   const ownNames=own.map(g=>esc(g.name)).join(" · ");
   const partial=own.filter(g=>g.audit==="partial").map(g=>`${esc(g.name)} ${g.completed}/${g.planned}`).join("、");
   return `<div class="methods"><div class="notice green">独立研究预览。没有提交或覆盖原行为看板；用户授权将程序校验通过的补分析统一纳入统计，真实复核状态逐项保留。</div>
-    <h2>01 / 数据范围</h2><p>${esc(counts)}。本轮实际分析包括 ${ownNames}。5项补分析通过程序校验，Main因网络路由失败未批准；这些完成结果统一纳入数值统计，不改变原批准记录。${partial?`原单项批准数量：${partial}。`:""}单项批准与整批最终验收分别记录。O1 Standard为persistent-cap20-o1，与O1 Compact的persistent-cap20-o1-compact是独立配置。历史 Medium、Semantic EEF、Action Horizon、EEF Sequence来自公开行为看板；O23 Compact和O23 DepthPro为阶段性公开数据。</p>
+    <h2>01 / 数据范围</h2><p>${esc(counts)}。本轮实际分析包括 ${ownNames}。6项补分析通过程序校验：5项Main因网络路由失败未批准，Compact最后一项的当前指纹与旧批准记录不一致。这些完成结果统一纳入数值统计，不改变原批准记录。${partial?`原单项批准数量：${partial}。`:""}单项批准与整批最终验收分别记录。O1 Standard为persistent-cap20-o1，与O1 Compact的persistent-cap20-o1-compact是独立配置。历史 Medium、Semantic EEF、Action Horizon、EEF Sequence来自公开行为看板；O23 Compact和O23 DepthPro为阶段性公开数据。</p>
     <p>Low/High来源观察：${esc(D.audit_observed)}；O1 Compact与O456 Clear来源观察：${esc(D.o_audit_observed)}；O1 Standard来源观察：${esc(D.o1_standard_audit_observed)}；补分析快照：${esc(D.completion_observed||"尚未发布")}；网页生成：${esc(D.built_at)}。</p>
     <h3>来源分类</h3><div class="table-wrap"><table><thead><tr><th>来源</th><th>实验组</th><th>说明</th></tr></thead><tbody>
       <tr><td>本次实际分析</td><td>${ownNames}</td><td class="reason">本轮行为分析输出；O配置按单项复核状态标注。固定四组结论暂不包含新增O1 Standard。</td></tr>
       <tr><td>历史公开数据</td><td>历史 Medium · Semantic EEF · Action Horizon · EEF Sequence</td><td class="reason">从公开行为看板导入，未在本轮重新分析。</td></tr>
       <tr><td>阶段性公开数据</td><td>O23 Compact · O23 DepthPro</td><td class="reason">公开看板中的阶段性结果，未在本轮重新分析。</td></tr>
     </tbody></table></div>
-    <h3>缺失分析</h3><div class="table-wrap"><table><thead><tr><th>配置</th><th>任务条件</th><th>原因</th></tr></thead><tbody>${D.missing.map(r=>`<tr><td>${esc(group(r.group).name)}</td><td>${esc(r.task)}<span class="cell-sub">${esc(r.variant)} / seed${r.seed} / scene${r.scene}</span></td><td class="reason">${esc(r.reason)}</td></tr>`).join("")}</tbody></table></div>
+    <h3>缺失分析</h3>${D.missing.length?`<div class="table-wrap"><table><thead><tr><th>配置</th><th>任务条件</th><th>原因</th></tr></thead><tbody>${D.missing.map(r=>`<tr><td>${esc(group(r.group).name)}</td><td>${esc(r.task)}<span class="cell-sub">${esc(r.variant)} / seed${r.seed} / scene${r.scene}</span></td><td class="reason">${esc(r.reason)}</td></tr>`).join("")}</tbody></table></div>`:"<p>8组分析样本均已收录42项，无缺失分析记录。未知指标仍保留为空值。</p>"}
     <h2>02 / 计算口径</h2><ul>
       <li>共同可比样本：同一task、variant、seed、scene在所选每组均存在，且该项指标符合当前证据筛选。每项指标分别求交集。</li>
       <li>成功率 = 原生success之和 / success有效N；平均得分为任务记录的算术平均。未生成五能力等权总分，能力权重映射在本包未核实。</li>
@@ -310,7 +310,8 @@ function runDetail(id,eventId){
     <div class="detail-section"><h3>${eventId?"选中事件":"已导入事件"} · ${events.length}</h3>${events.map(e=>`<article class="finding"><h3>${esc(e.id)} ${statusBadge(e.status)}</h3><span class="event-location">${eventLocation(e)}</span><p>${esc(e.result)}</p>${e.visual?`<p class="evidence-text">${esc(e.visual)}</p>`:""}${e.uncertainty?`<p class="evidence-text">范围限制：${esc(e.uncertainty)}</p>`:""}${e.frames.length?`<details><summary>源帧定位 · ${e.frames.length}</summary><p class="hash">${e.frames.map(esc).join(" · ")}</p></details>`:""}${e.source_url?`<a href="${e.source_url}" target="_blank" rel="noopener">公开原事件记录</a>`:""}</article>`).join("")||`<p>本页未导入事件详情。${g.url?`<a href="${g.url}" target="_blank" rel="noopener">查看原报告</a>`:""}</p>`}</div>
     <details class="detail-section" ${eventId?"":"open"}><summary>26项指标与判定理由</summary><div class="table-wrap"><table><thead><tr><th>指标</th><th>数值 / 状态</th><th>原审核理由</th></tr></thead><tbody>${D.metrics.map(m=>{const v=r.metrics[m.key];return `<tr><td>${m.id} ${m.label}</td><td>${fmt(v.value)} ${statusBadge(v.status)}<span class="cell-sub">原状态 ${esc(v.original_status)}</span></td><td class="reason">${esc(v.reason)||"参见原组报告"}</td></tr>`}).join("")}</tbody></table></div></details>
     <div class="detail-section"><h3>来源指纹</h3>${r.source.analysis_sha256?`<p>原分析 SHA-256</p><p class="hash">${r.source.analysis_sha256}</p><p>审核模型历史：${esc(r.source.models.join(" / "))}</p>`:""}
-      ${r.source.evidence_fingerprint?`<p>程序完成版本证据指纹</p><p class="hash">${esc(r.source.evidence_fingerprint)}</p><p>程序校验通过；Main复核因网络路由失败未批准，原3次失败记录保留。用户授权统一纳入统计。</p>`:""}
+      ${r.source.evidence_fingerprint?`<p>程序完成版本证据指纹</p><p class="hash">${esc(r.source.evidence_fingerprint)}</p><p>程序校验通过；${r.source.review_status==="approval_fingerprint_mismatch"?"Main曾批准旧版本，当前证据指纹与批准记录不一致，不视为当前版本获批。":"Main复核因网络路由失败未批准，原3次失败记录保留。"}用户授权统一纳入统计。</p>`:""}
+      ${r.source.recorded_review_fingerprint?`<p>旧版本批准指纹（不代表当前版本）</p><p class="hash">${esc(r.source.recorded_review_fingerprint)}</p>`:""}
       ${r.source.review_fingerprint?`<p>当前批准版本复核指纹</p><p class="hash">${esc(r.source.review_fingerprint)}</p><p>审核effort：${esc(r.source.review_effort)}；机器人：${esc(r.config.model)} / ${esc(r.config.effort)}</p>`:""}
       ${r.source.access?`<p>分析接入：${r.source.access==="codex_subscription"?"服务器Codex订阅账号":"保留的历史批准分析"}；${esc(r.source.sampling_policy||"策略见原审核记录")}</p>`:""}
       ${r.source.files.map(f=>`<p>${esc(f.kind)}${f.url?` · <a href="${esc(f.url)}" target="_blank" rel="noopener">公开原件</a>`:""}<br><span class="hash">${f.sha256}</span></p>`).join("")}${g.url?`<p><a href="${g.url}" target="_blank" rel="noopener">实验组原报告</a></p>`:""}</div>`);

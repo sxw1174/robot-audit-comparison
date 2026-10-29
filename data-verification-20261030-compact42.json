@@ -1,0 +1,29 @@
+{
+  "previous_revision": "99ba780",
+  "previous_data_sha256": "021398cae6af11c9830430677566923f55737049dfc5b36580207373afe1fc10",
+  "data_sha256": "b4150c44acfc2fb959a4cc5306166e7a8c7da7f9ed5501b6d83df3f5ce93c427",
+  "preserved_runs": 587,
+  "added_runs": 1,
+  "added_metrics_checked": 26,
+  "added_events_checked": 16,
+  "original_public_rows_unchanged": true,
+  "source_metric_mismatches": 0,
+  "source_approval_verified": false,
+  "program_validation_verified": true,
+  "publication_policy": "user_authorized_program_complete",
+  "export_sha256": "0c505c7e8688cda6b19f805d04e752e704b7dd4ba3d6791ae18e88d80531053d",
+  "receipt_sha256": "7700c2d7f7dfb6c9ac4c824757db051e08dbb44bbf6b417f44b953ced7230aaa",
+  "checks": [
+    {
+      "run_id": "o23456-compact-first42-20261028-store_tools_in_toolbox-standard-s0-scene0",
+      "group": "o23456compact",
+      "analysis_sha256": "75b98eb014bb3149e706df9d8e7c26957d5531fca883849293897d113aee8038",
+      "evidence_fingerprint": "1c27f4fa5bf826f7ca8241f42b18c3f19b91528c774d5af60dbae990b6b7c339",
+      "recorded_review_fingerprint": "cfa45eca3210e34d8e71c7e8ba57f26b13b3253eea5f517d7041b2c7cb3acb89",
+      "review_status": "approval_fingerprint_mismatch",
+      "metrics": 26,
+      "events": 16,
+      "audit": "complete"
+    }
+  ]
+}

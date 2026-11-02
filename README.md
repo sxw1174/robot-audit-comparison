@@ -2,15 +2,15 @@
 
 An independent, read-only research preview of first-round behavior audits.
 Low, High, O1 Compact, O456 Clear, O1 Standard, O23456 Clear,
-O23456 Compact and O23456 DepthPro 6fig CUDA are the groups analyzed in
+O23456 Compact, O23456 DepthPro 6fig CUDA and O23 DepthPro + Coding are the groups analyzed in
 this round.
 Historical and interim groups imported from the public behavior board remain
 ordinary selectable reference groups and are labeled by source. The overview
-keeps twelve pair-specific, evidence-linked findings across the eight analyzed
+keeps twelve pair-specific, evidence-linked findings across the nine analyzed
 groups. Each conclusion uses its own two-group valid intersection; metric and
 task links retain those two groups through nested details. The long scope and
 publication preamble is omitted from this section; provenance remains in
-Data and Methods and individual source details. The eight-way native
+Data and Methods and individual source details. The nine-way native
 outcome intersection has 42 task tuples; each behavioral metric uses its own
 valid intersection. Selected groups control the statistics, distributions, task tables and
 event evidence below, but never rewrite the conclusions.
@@ -49,11 +49,33 @@ event evidence below, but never rewrite the conclusions.
   remain in source metadata; evidence fingerprints are not labeled approval
   fingerprints. Combined batch acceptance remains separate. Robot model:
   gpt-6-astra medium; audit/review model: gpt-6.1-sol medium.
+- O23 DepthPro + Coding: 42/42 program-valid, final batch acceptance passed.
+  38 have current fingerprint approvals; four retain earlier approvals with a
+  different current evidence fingerprint after final delivery corrections.
+  All 42 are included under the authorized program-complete policy; the four
+  are not relabeled as currently approved. Source experiment:
+  `f491af77916615632067bbb1fe5a44e934cdfdd043d434afffb1ac44be9aa0d8`.
+  Profile `o23-depthpro-coding-unlimited-v1`: native coding, unlimited decisions,
+  Compact O1/O2 and RGB-predicted DepthPro depth. Robot gpt-6-astra medium;
+  audit/review uses relay gpt-6.1-sol medium. This is separate from interim O23
+  DepthPro. Native success 19/42, episode mean score 0.5214285714.
 - Historical Medium: 42 published runs, with 25 Sim5.1 and 17 Sim6 records.
 - Five other published groups are available as separate configuration references.
 - O23 Compact and O23 DepthPro remain explicitly marked interim.
-- 588 run records in total. Matching a task tuple is not proof of an otherwise
+- 630 run records in total. Matching a task tuple is not proof of an otherwise
   controlled experiment. This is not an official submission to the source board.
+
+The November 2 Coding addition uses `tools/merge_coding_audits.py` and
+`data-verification-20261102-coding42.json`: all 588 previous run objects are
+preserved, with 1,092 additional metric values/statuses and 251 event records
+bound to canonical original output and transport receipts. The read-only export
+checked original package SHA256, official selection, native outcomes and
+current review fingerprints with no active owners. Behavioral totals: empty
+grasps 20/42 (12 affected tasks), drops 37/42 (17 affected tasks), fine placement
+failures 10/39 (five affected tasks; three unknown). These are confirmed lower
+bounds within the declared sampling coverage. Nine-way behavioral intersections
+are recomputed per metric; the twelve fixed pair conclusions and fixed
+four-group report remain unchanged.
 
 The O merge uses `tools/merge_o_audits.py` with a private, receipt-bound canonical
 export, not the aggregate report or filenames as identities. Every approved row
@@ -67,7 +89,7 @@ approved-only importer and its validators remain unchanged.
 The final Compact addition uses `tools/merge_final_compact.py`;
 `data-verification-20261030-compact42.json` binds 26 metrics and 16 events,
 preserves all 587 previous public rows and records the approval-fingerprint
-mismatch. All eight analyzed groups now contain 42 results, with 336 total
+mismatch. All nine analyzed groups now contain 42 results, with 378 total
 analyses and no missing records. Unknown metrics remain null.
 The O1 Standard addition preserves every one of the original 416 records.
 The October 29 addition preserves all 457 prior public records and adds 76

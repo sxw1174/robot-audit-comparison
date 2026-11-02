@@ -7,9 +7,33 @@ const tests=[];
 function test(name,fn){fn();tests.push(name);console.log("PASS",name);}
 const state={groups:["low","persistent","high"],scope:"common",policy:"bounds",task:"",variant:"",includeInterim:false};
 test("receipt-bound unique run identities",()=>{
-  const v=require("./data-verification-20261030-compact42.json");
+  const v=require("./data-verification-20261102-coding42.json");
   assert.equal(D.runs.length,v.preserved_runs+v.added_runs);
   assert.equal(new Set(D.runs.map(r=>r.id)).size,D.runs.length);
+});
+test("Coding official42 preserves all existing rows and truthful review provenance",()=>{
+  const proof=require("./data-verification-20261102-coding42.json");
+  const rows=D.runs.filter(r=>r.group==="o23depthprocoding"),g=D.groups.find(g=>g.id==="o23depthprocoding");
+  assert.equal(proof.preserved_runs,588);assert.equal(proof.added_runs,42);
+  assert.equal(proof.added_metrics_checked,1092);assert.equal(proof.added_events_checked,251);
+  assert.equal(proof.original_public_rows_unchanged,true);assert.equal(proof.source_metric_mismatches,0);
+  assert.equal(g.batch_complete,true);assert.equal(rows.length,42);
+  assert.equal(rows.filter(r=>r.audit==="approved").length,38);
+  assert.equal(rows.filter(r=>r.audit==="complete").length,4);
+  for(const r of rows){
+    assert.equal(r.config.max_decisions,null);assert.equal(r.config.decision_limit,"unlimited");
+    assert.equal(r.config.coding,"native");assert.equal(r.source.access,"relay");assert.equal(r.videos.length,3);
+    if(r.audit==="complete"){
+      assert.equal(r.source.review_fingerprint,undefined);
+      assert.notEqual(r.source.evidence_fingerprint,r.source.recorded_review_fingerprint);
+    } else assert.equal(r.source.review_fingerprint,r.source.recorded_review_fingerprint);
+  }
+  const scope={...state,groups:[g.id],scope:"all"};
+  assert.equal(C.summaries(D,scope,"success")[0].total,19);
+  assert.equal(C.summaries(D,scope,"score")[0].total,21.9);
+  for(const [key,n,total] of [["empty_retry",42,20],["drop",42,37],["fine_placement_fail",39,10]]){
+    const s=C.summaries(D,scope,key)[0];assert.equal(s.n,n);assert.equal(s.total,total);
+  }
 });
 test("26 complete metrics for every run",()=>{for(const r of D.runs)assert.equal(Object.keys(r.metrics).length,26);});
 test("DepthPro first42 includes three approved subscription supplements",()=>{
@@ -248,7 +272,9 @@ test("native scope reconciliation is source-bound and not substituted for audit 
   const v=require("./data-verification-20261026-o1-standard.json");
   const digest=require("node:crypto").createHash("sha256").update(fs.readFileSync("data.json")).digest("hex");
   const completion=require("./data-verification-20261030-compact42.json");
-  assert.equal(completion.data_sha256,digest);
+  const latest=require("./data-verification-20261102-coding42.json");
+  assert.equal(completion.data_sha256,latest.previous_data_sha256);
+  assert.equal(latest.data_sha256,digest);
   assert.equal(v.source_metrics_checked,205*26);
   assert.equal(v.source_metric_mismatches,0);
   const r=v.o456_scope_reconciliation;

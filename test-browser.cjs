@@ -26,7 +26,7 @@ const {chromium} = require("playwright");
       await page.locator("#fixed-findings summary").click();
       await page.locator("#fixed-findings h2").scrollIntoViewIfNeeded();
       await page.screenshot({path:`/tmp/audit-pair-findings-top-${viewport.width}.png`});
-      assert.equal(await page.locator("#fixed-findings tbody tr").count(),14);
+      assert.equal(await page.locator("#fixed-findings tbody tr").count(),require("./data.json").groups.length);
       await page.screenshot({path:`/tmp/audit-current-overview-${viewport.width}.png`,fullPage:true});
       await page.locator("#fixed-findings summary").click();
       for (const checkbox of await page.locator("[data-group]").all()) {
@@ -111,6 +111,18 @@ const {chromium} = require("playwright");
       assert.match(await page.locator("#detail-body").innerText(),/当前证据指纹与批准记录不一致/);
       assert.match(await page.locator("#detail-body").innerText(),/旧版本批准指纹/);
       await page.keyboard.press("Escape");
+      for(const checkbox of await page.locator("[data-group]").all())if(await checkbox.isChecked())await checkbox.uncheck();
+      await page.locator("[data-group=o23depthprocoding]").check();
+      assert.equal(await page.locator("#view tbody tr").count(),42);
+      await page.locator("#view [data-task=store_tools_in_toolbox]").click();
+      await page.locator("#detail-body [data-run]").click();
+      assert.match(await page.locator("#detail-body").innerText(),/原分析 SHA-256/);
+      await page.keyboard.press("Escape");
+      await page.evaluate(()=>{location.hash="overview";});
+      await page.waitForFunction(()=>document.querySelector("#page-title")?.textContent==="实验总览");
+      assert.match(await page.locator("#scope-summary").innerText(),/42/);
+      assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth+1),false);
+      await page.screenshot({path: `/tmp/audit-coding-${viewport.width}.png`,fullPage:true});
       await page.screenshot({path: `/tmp/audit-o-${viewport.width}.png`, fullPage: true});
       await page.close();
     }

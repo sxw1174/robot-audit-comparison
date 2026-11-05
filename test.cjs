@@ -320,9 +320,8 @@ test("pair columns appear only for exactly two selected groups",()=>{
 test("all page headings are direct labels and source groups are classified",()=>{
   const app=fs.readFileSync("app.js","utf8"),html=fs.readFileSync("index.html","utf8");
   for(const old of ["同一基线","把平均值拆回","每个判断","可复算，也保留未知"])assert.ok(!app.includes(old)&&!html.includes(old));
-  assert.match(app,/const defaultGroups = \(\) => D\.groups/);
+  assert.match(app,/const defaultGroups = \(\) => \[\]/);
   assert.doesNotMatch(app,/外部历史参照/);
-  assert.match(app,/const defaultGroups = \(\) => D\.groups\.filter\(g=>g\.source==="本批批准分析"\)/);
   assert.match(app,/本次实际分析/);
 });
 test("overview and group chips show sample counts without temporal labels",()=>{

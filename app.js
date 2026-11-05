@@ -10,7 +10,7 @@ const signed = n => n == null ? "—" : (n > 0 ? "+" : "") + fmt(n, n !== 0 && M
 const group = id => D.groups.find(g => g.id === id);
 const metric = key => D.metrics.find(m => m.key === key);
 const icon = name => `<i data-lucide="${name}"></i>`;
-const defaultGroups = () => D.groups.filter(g=>g.source==="本批批准分析").map(g=>g.id);
+const defaultGroups = () => [];
 const state = {groups:defaultGroups(),scope:"all",task:"",variant:"",policy:"bounds",includeInterim:false};
 const local = {taskSearch:"", taskSort:"task", taskMetric:"score", eventSearch:"", eventStatus:"", eventMetric:"", eventPage:0};
 const titles = {

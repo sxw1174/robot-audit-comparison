@@ -1,0 +1,23 @@
+{
+  "schema_version": "server-program-complete-dashboard-amendment-v1",
+  "previous_runs": 709,
+  "preserved_runs": 709,
+  "added_runs": 1,
+  "current_runs": 710,
+  "amended_group": "server-persistent-cap20-r1-20261104",
+  "added_run_id": "l3-r1-keyframes-precision8-20261019-v1-pour_by_language-standard-s0-scene0",
+  "identity_reconciliation": {
+    "canonical_packet_id": "run-l3-r1-keyframes-precision8-20261019-v1-pour_by_language-standard_5ad4f8",
+    "returned_packet_id_alias": "l3-r1-keyframes-precision8-20261019-v1-pour_by_language-standard_5ad4f8",
+    "run_id_exact_match": true,
+    "raw_result_modified": false,
+    "metrics_modified": false,
+    "main_review_performed": false
+  },
+  "source_analysis_sha256": "f98b8d30c237330002bc63e7d04b4ea6b0797f9cc426c0a1da790727b81423ae",
+  "previous_data_sha256": "7b6c6b035f767943f565cc2c0c278270adfeec4f689460e6b38b7e0fd01efee3",
+  "data_sha256": "be843814c175504665da0c2ba8c6d45f29912dc56b1f77c5bbdea161111f3b9b",
+  "scope": "official first-round seed0 scene0; devset excluded",
+  "program_validated": true,
+  "review_status": "complete"
+}

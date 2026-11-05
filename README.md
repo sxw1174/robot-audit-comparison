@@ -63,10 +63,10 @@ event evidence below, but never rewrite the conclusions.
 - Historical Medium: 42 published runs, with 25 Sim5.1 and 17 Sim6 records.
 - Five other published groups are available as separate configuration references.
 - O23 Compact and O23 DepthPro remain explicitly marked interim.
-- 709 uploaded run records in total. Matching a task tuple is not proof of an otherwise
+- 710 uploaded run records in total. Matching a task tuple is not proof of an otherwise
   controlled experiment. This is not an official submission to the source board.
 
-The server-side supplement contains 40 completed R1 rows and 39 completed R2
+The server-side supplement contains 41 completed R1 rows and 39 completed R2
 rows from the official first-round 42, with devset excluded. The dashboard
 uploads only rows whose program analysis and validation completed successfully;
 the remaining R1/R2 items are held for later completion and are not filled with

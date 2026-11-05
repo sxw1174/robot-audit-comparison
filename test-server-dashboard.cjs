@@ -2,18 +2,18 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const C = require("./core.js");
 const D = JSON.parse(fs.readFileSync("data.json", "utf8"));
-const proof = require("./data-verification-20261105-server79.json");
+const proof = require("./data-verification-20261105-server80.json");
 
 const ids = [
   "server-persistent-cap20-r1-20261104",
   "server-persistent-cap20-r2-20261104",
 ];
-assert.equal(proof.previous_runs, 630);
-assert.equal(proof.added_runs, 79);
-assert.equal(D.runs.length, 709);
+assert.equal(proof.previous_runs, 709);
+assert.equal(proof.added_runs, 1);
+assert.equal(D.runs.length, 710);
 assert.equal(D.missing.length, 0);
 for (const [id, expected] of [
-  [ids[0], {rows: 40, needs_attention: 1, paused: 0, skipped: 1}],
+  [ids[0], {rows: 41, needs_attention: 0, paused: 0, skipped: 1}],
   [ids[1], {rows: 39, needs_attention: 2, paused: 1, skipped: 0}],
 ]) {
   const group = D.groups.find(g => g.id === id);

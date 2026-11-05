@@ -7,7 +7,7 @@ const tests=[];
 function test(name,fn){fn();tests.push(name);console.log("PASS",name);}
 const state={groups:["low","persistent","high"],scope:"common",policy:"bounds",task:"",variant:"",includeInterim:false};
 test("receipt-bound unique run identities",()=>{
-  const v=require("./data-verification-20261105-server81.json");
+  const v=require("./data-verification-20261105-server82.json");
   assert.equal(D.runs.length,v.preserved_runs+v.added_runs);
   assert.equal(new Set(D.runs.map(r=>r.id)).size,D.runs.length);
 });
@@ -275,11 +275,13 @@ test("native scope reconciliation is source-bound and not substituted for audit 
   const coding=require("./data-verification-20261102-coding42.json");
   const priorServer=require("./data-verification-20261105-server79.json");
   const server80=require("./data-verification-20261105-server80.json");
-  const latest=require("./data-verification-20261105-server81.json");
+  const server81=require("./data-verification-20261105-server81.json");
+  const latest=require("./data-verification-20261105-server82.json");
   assert.equal(completion.data_sha256,coding.previous_data_sha256);
   assert.equal(coding.data_sha256,priorServer.previous_data_sha256);
   assert.equal(priorServer.data_sha256,server80.previous_data_sha256);
-  assert.equal(server80.data_sha256,latest.previous_data_sha256);
+  assert.equal(server80.data_sha256,server81.previous_data_sha256);
+  assert.equal(server81.data_sha256,latest.previous_data_sha256);
   assert.equal(latest.data_sha256,digest);
   assert.equal(v.source_metrics_checked,205*26);
   assert.equal(v.source_metric_mismatches,0);

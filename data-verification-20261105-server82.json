@@ -1,0 +1,29 @@
+{
+  "schema_version": "server-program-complete-dashboard-amendment-v2",
+  "previous_runs": 713,
+  "preserved_runs": 713,
+  "added_runs": 1,
+  "current_runs": 714,
+  "amended_group": "server-persistent-cap20-r1-20261104",
+  "added_run_ids": [
+    "l3-r1-keyframes-precision8-20261019-v1-push_T-random-s0-scene0"
+  ],
+  "source_analysis_sha256": {
+    "l3-r1-keyframes-precision8-20261019-v1-push_T-random-s0-scene0": "448a2c0495aa12c92e7647df791bd0deeb4b4a563c86a61c96037185ecf4b3d0"
+  },
+  "state_sha256": "60161ca3e74999812fa59f13f31e08281e089b42e5ae615bb1cd9c1e6779f7a6",
+  "program_validated": true,
+  "main_review_performed": true,
+  "raw_results_modified": false,
+  "metrics_modified": false,
+  "fresh_context_repair": {
+    "reason": "previous 413 Payload Too Large",
+    "old_session_preserved": true,
+    "new_session_used": true,
+    "completed_validation_errors": []
+  },
+  "scope": "official first-round seed0 scene0; devset excluded",
+  "previous_data_sha256": "ee76c6c28852f95828a02e689e45e5192f678ad42a112856dc1e56dd0720eb92",
+  "data_sha256": "256932e2cb6ea27c6b3497c298cadeed9373f2e068308c8a6e87e6f55d7a62ca",
+  "review_status": "complete"
+}

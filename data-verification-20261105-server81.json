@@ -1,0 +1,26 @@
+{
+  "schema_version": "server-program-complete-dashboard-amendment-v2",
+  "previous_runs": 710,
+  "preserved_runs": 710,
+  "added_runs": 3,
+  "current_runs": 713,
+  "amended_group": "server-persistent-cap20-r2-20261104",
+  "added_run_ids": [
+    "l3-r2-precision8-20261019-v1-holdretry1-press_by_number-standard-s0-scene0",
+    "l3-r2-precision8-20261019-v1-play_tic_tac_toe-standard-s0-scene0",
+    "l3-r2-precision8-20261019-v1-sweep_blocks-random-s0-scene0"
+  ],
+  "source_analysis_sha256": {
+    "l3-r2-precision8-20261019-v1-holdretry1-press_by_number-standard-s0-scene0": "3cf3c7c04ace0f65462f6cafc34a1b9249e88676150af252420ac008e4a623ea",
+    "l3-r2-precision8-20261019-v1-play_tic_tac_toe-standard-s0-scene0": "6e2e32f4a46c41555f99ce484f0a06d05812c94f5ab83685c7606a983810847d",
+    "l3-r2-precision8-20261019-v1-sweep_blocks-random-s0-scene0": "5adf9a320ace6bcc5c06e6467ce00eb0ba91ea139f202c4516bf0e59496fbbbd"
+  },
+  "program_validated": true,
+  "main_review_performed": false,
+  "raw_results_modified": false,
+  "metrics_modified": false,
+  "scope": "official first-round seed0 scene0; devset excluded",
+  "previous_data_sha256": "be843814c175504665da0c2ba8c6d45f29912dc56b1f77c5bbdea161111f3b9b",
+  "data_sha256": "ee76c6c28852f95828a02e689e45e5192f678ad42a112856dc1e56dd0720eb92",
+  "review_status": "complete"
+}

@@ -14,6 +14,9 @@ const {chromium} = require("playwright");
       await page.goto(process.env.AUDIT_TEST_URL || pathToFileURL(path.join(__dirname, "index.html")).href);
       assert.doesNotMatch(await page.locator("#group-picker").innerText(),/本次|历史/);
       assert.match(await page.locator("#group-picker").innerText(),/分析样本 42/);
+      assert.equal(await page.locator("#scope").count(),0);
+      assert.equal(await page.locator("#policy").count(),0);
+      assert.equal(await page.locator("#include-interim").count(),0);
       await page.locator("[data-group=persistent]").check();
       assert.doesNotMatch(await page.locator("#view").innerText(),/本次|历史/);
       await page.locator("[data-group=persistent]").uncheck();
@@ -34,11 +37,8 @@ const {chromium} = require("playwright");
       }
       await page.locator("[data-group=o1compact]").check();
       await page.locator("[data-group=o456]").check();
-      await page.locator("#scope").selectOption("common");
-      assert.match(await page.locator("#scope-summary").innerText(), /共同有效 42/);
       assert.equal(await page.locator("#fixed-findings").innerText(),fixedText);
       await page.locator("#task").selectOption("align_blocks");
-      await page.locator("#policy").selectOption("confirmed");
       assert.equal(await page.locator("#fixed-findings").innerText(),fixedText);
       const proofCases=await page.evaluate(()=>window.CurrentFindings.analyze(window.AUDIT_DATA,window.AuditCore).fixed.map(f=>({
         id:f.id,field:f.fields[0],groups:f.scope.groups,
@@ -74,8 +74,6 @@ const {chromium} = require("playwright");
       for(const checkbox of await page.locator("[data-group]").all())if(await checkbox.isChecked())await checkbox.uncheck();
       await page.locator("[data-group=o1standard]").check();
       await page.locator("#task").selectOption("");
-      await page.locator("#policy").selectOption("bounds");
-      await page.locator("#scope").selectOption("all");
       assert.match(await page.locator("#scope-summary").innerText(),/42/);
       assert.equal(await page.locator("#fixed-findings").innerText(),fixedText);
       await page.locator(".sidebar a[href='#tasks']").click();

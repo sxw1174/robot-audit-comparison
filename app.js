@@ -42,8 +42,7 @@ function pairLabel(ids){return ids?`${esc(displayName(group(ids[1])))} − ${esc
 function refreshIcons(){if(window.lucide)window.lucide.createIcons();}
 function renderFilters(){
   $("group-picker").innerHTML=D.groups.map(chip).join("");
-  $("extra-groups").innerHTML=`<label class="inline-check"><input type="checkbox" id="include-interim" ${state.includeInterim?"checked":""}>纳入阶段性结果</label>`;
-  $("scope").value=state.scope;$("task").value=state.task;$("variant").value=state.variant;$("policy").value=state.policy;
+  $("task").value=state.task;$("variant").value=state.variant;
   const raw=C.rowsFor(D,state), sets=C.summaries(D,state,"score"), min=sets.length?Math.min(...sets.map(s=>s.n)):0;
   $("scope-summary").innerHTML=state.groups.length?`<strong>${raw.length}</strong> 条范围内记录 · ${state.scope==="common"?`得分共同有效 <strong>${min}</strong> 组任务条件`:"各组独立分母"} · seed 0 / scene 0 · 行为指标逐项重算有效 N${state.policy==="bounds"?" · † 表示纳入确认下界":""}`:"未选择实验组";
 }
@@ -332,7 +331,7 @@ function exportAll(){
   download("robodojo-all-run-metrics.csv",C.csv(rows),"text/csv;charset=utf-8");
 }
 $("task").innerHTML='<option value="">全部任务</option>'+[...new Set(D.runs.map(r=>r.task))].sort().map(t=>`<option>${esc(t)}</option>`).join("");
-for(const field of ["scope","task","variant","policy"])$(field).addEventListener("change",e=>{state[field]=e.target.value;local.eventPage=0;render();});
+for(const field of ["task","variant"])$(field).addEventListener("change",e=>{state[field]=e.target.value;local.eventPage=0;render();});
 $("reset").onclick=()=>{Object.assign(state,{groups:defaultGroups(),scope:"all",task:"",variant:"",policy:"bounds",includeInterim:false});Object.assign(local,{taskSearch:"",taskSort:"task",taskMetric:"score",eventSearch:"",eventStatus:"",eventMetric:"",eventPage:0});clearTimeout(searchTimer);render();};
 $("export").onclick=exportStats;
 $("close-detail").onclick=()=>$("detail").close();
@@ -343,9 +342,6 @@ document.addEventListener("change",e=>{
     if(e.target.checked){state.groups.push(gid);if(group(gid).audit==="interim")state.includeInterim=true;}
     else state.groups=state.groups.filter(g=>g!==gid);
     state.groups.sort((a,b)=>D.groups.findIndex(g=>g.id===a)-D.groups.findIndex(g=>g.id===b));render();
-  }else if(e.target.id==="include-interim"){
-    state.includeInterim=e.target.checked;if(!state.includeInterim)state.groups=state.groups.filter(g=>group(g).audit!=="interim");
-    render();
   }else{
     const fields={"task-search":"taskSearch","task-metric":"taskMetric","task-sort":"taskSort","event-search":"eventSearch","event-status":"eventStatus","event-metric":"eventMetric"};
     if(fields[e.target.id]){local[fields[e.target.id]]=e.target.value;local.eventPage=0;render();}

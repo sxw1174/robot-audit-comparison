@@ -2,7 +2,8 @@
 
 An independent, read-only research preview of first-round behavior audits.
 Low, High, O1 Compact, O456 Clear, O1 Standard, O23456 Clear,
-O23456 Compact, O23456 DepthPro 6fig CUDA and O23 DepthPro + Coding are the groups analyzed in
+O23456 Compact, O23456 DepthPro 6fig CUDA, O23 DepthPro + Coding, and the
+server-side R1/R2 supplements are the groups available in
 this round.
 Historical and interim groups imported from the public behavior board remain
 ordinary selectable reference groups and are labeled by source. The overview
@@ -62,8 +63,16 @@ event evidence below, but never rewrite the conclusions.
 - Historical Medium: 42 published runs, with 25 Sim5.1 and 17 Sim6 records.
 - Five other published groups are available as separate configuration references.
 - O23 Compact and O23 DepthPro remain explicitly marked interim.
-- 630 run records in total. Matching a task tuple is not proof of an otherwise
+- 709 uploaded run records in total. Matching a task tuple is not proof of an otherwise
   controlled experiment. This is not an official submission to the source board.
+
+The server-side supplement contains 40 completed R1 rows and 39 completed R2
+rows from the official first-round 42, with devset excluded. The dashboard
+uploads only rows whose program analysis and validation completed successfully;
+the remaining R1/R2 items are held for later completion and are not filled with
+zeros. Their source review status is retained on each uploaded row. These
+supplement groups are selectable for statistics and evidence, while the fixed
+main findings continue to use their original nine-group scope.
 
 The November 2 Coding addition uses `tools/merge_coding_audits.py` and
 `data-verification-20261102-coding42.json`: all 588 previous run objects are

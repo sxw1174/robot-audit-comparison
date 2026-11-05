@@ -1,0 +1,60 @@
+{
+  "schema_version": "server-program-complete-dashboard-verification-v1",
+  "previous_runs": 630,
+  "preserved_runs": 630,
+  "added_runs": 79,
+  "current_runs": 709,
+  "added_groups": {
+    "server-persistent-cap20-r1-20261104": {
+      "source_group": "persistent-cap20-r1",
+      "planned": 42,
+      "added_runs": 40,
+      "omitted_from_upload": [
+        {
+          "task": "pour_by_language",
+          "variant": "standard",
+          "seed": 0,
+          "scene": 0,
+          "status": "needs_attention"
+        }
+      ],
+      "explicitly_skipped": 1,
+      "state_status": "incomplete",
+      "state_sha256": "351450ed52e61f480caa833a65e307d6b57e2133cf3a2d7a8aba317705543723"
+    },
+    "server-persistent-cap20-r2-20261104": {
+      "source_group": "persistent-cap20-r2",
+      "planned": 42,
+      "added_runs": 39,
+      "omitted_from_upload": [
+        {
+          "task": "play_tic_tac_toe",
+          "variant": "standard",
+          "seed": 0,
+          "scene": 0,
+          "status": "paused"
+        },
+        {
+          "task": "press_by_number",
+          "variant": "standard",
+          "seed": 0,
+          "scene": 0,
+          "status": "needs_attention"
+        },
+        {
+          "task": "sweep_blocks",
+          "variant": "random",
+          "seed": 0,
+          "scene": 0,
+          "status": "needs_attention"
+        }
+      ],
+      "explicitly_skipped": 0,
+      "state_status": "paused",
+      "state_sha256": "fc516e6b364727161074300321b95d46f4ec7be609be0c9d404f93fba6449e6e"
+    }
+  },
+  "previous_data_sha256": "0a77a01d468be86b5ea60f5e1f993291c3eb0504736e796c37e8f1f7cf87cf4f",
+  "export_sha256": "aa5b194064eb6c7b3ddae2f42480f2468c848e9e7c0ed79efc92fc2fa78a6b41",
+  "data_sha256": "7b6c6b035f767943f565cc2c0c278270adfeec4f689460e6b38b7e0fd01efee3"
+}

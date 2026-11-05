@@ -11,7 +11,7 @@ assert.ok(A.common.empty_retry.every(s => s.n === 40));
 assert.deepEqual(A.common.drop.map(s => s.total), [19, 27, 31, 34, 32, 28, 28, 32, 35]);
 assert.deepEqual(A.common.fine_placement_fail.map(s => s.total), [23, 20, 16, 15, 16, 23, 9, 15, 10]);
 assert.ok(A.common.fine_placement_fail.every(s => s.n === 32));
-assert.equal(A.references.filter(r => r.score.n).length, 6);
+assert.equal(A.references.filter(r => r.score.n).length, 8);
 assert.equal(A.references.filter(r => !r.score.n).length, 2);
 assert.equal(A.fixed.length, 12);
 assert.equal(new Set(A.fixed.map(f => f.id)).size, 12);

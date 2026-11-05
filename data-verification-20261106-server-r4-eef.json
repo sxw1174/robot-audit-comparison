@@ -1,0 +1,48 @@
+{
+  "schema_version": "server-r4-eef-approved-dashboard-verification-v1",
+  "previous_runs": 714,
+  "preserved_runs": 714,
+  "added_runs": 84,
+  "current_runs": 798,
+  "added_groups": {
+    "server-rsi-semantic-eef-20261104": {
+      "source_group": "rsi-semantic-eef",
+      "planned": 42,
+      "added_runs": 42,
+      "omitted_from_upload": [],
+      "state_status": "approved_first_round_complete",
+      "state_sha256": {
+        "rsi-semantic-eef": "556d9c2b28d7ff37d30a90806953d3cdd86440cdc0d22df71dc179c1259b932e"
+      },
+      "rolling_state_sha256": {
+        "rsi-semantic-eef": "fa333bf669ce2eafeb09adadb80fea9b60c7d4c6b8ac9d0b24e43c31a08f2aed"
+      },
+      "observed_at": "2026-11-05T21:36:45.832124+00:00"
+    },
+    "server-eef-relative-medium-20261105": {
+      "source_group": "eef-relative-medium-r1",
+      "planned": 42,
+      "added_runs": 42,
+      "omitted_from_upload": [],
+      "state_status": "approved_first_round_complete",
+      "state_sha256": {
+        "eef-relative-medium": "32405fa9a7a4a4e08e4c28211eee2499074215eca0c1a7a5cee397a53e75d514",
+        "eef-relative-medium-remaining": "3689ef92c2e7c9067f078ced7efd1f97e0ad0d0f03288fa19c49721f9bb04aaf",
+        "eef-relative-medium-push-T-repair": "3174fbb9ad71ec1f20a621c7ff040d52ac8c8baace231c60fc2d9cd000b2b719"
+      },
+      "rolling_state_sha256": {
+        "eef-relative-medium": "7c9599d6eb83c7b344307088a1865798bad7a19b9853022fee1e7ac7297efb32",
+        "eef-relative-medium-remaining": "9862be7761e54574cdb7f25b51ebb9c9b61d991a0d81ce18b62c95f4c62250f7",
+        "eef-relative-medium-push-T-repair": "867e2931acb4aed7d68eb939508ece1c0d4d25f2a85241ba99cbf3b6d3b81ee7"
+      },
+      "observed_at": "2026-11-05T21:37:00.020526+00:00"
+    }
+  },
+  "main_review_performed": true,
+  "raw_results_modified": false,
+  "metrics_modified": false,
+  "scope": "official first-round 42 per configuration; devset excluded",
+  "previous_data_sha256": "256932e2cb6ea27c6b3497c298cadeed9373f2e068308c8a6e87e6f55d7a62ca",
+  "export_sha256": "72ff379537ea1ddb210974ea12ea2912806389d8824a695f9930cdb3967bb053",
+  "data_sha256": "fb4c2c44c32e84c6fb80d26603b322786f65ab2844539b6070b4fac9b7e0d12d"
+}
